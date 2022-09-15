@@ -80,7 +80,9 @@ export default {
         this.user.password
       );
 
-      M.toast({ html: auth_error, classes: "rounded red" });
+      if (auth_error) {
+        M.toast({ html: auth_error, classes: "rounded red" });
+      }
     },
   },
 };
