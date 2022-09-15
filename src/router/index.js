@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import { useAuthStore } from "@/store/auth.store";
+import { useCostCenterStore } from "@/store/cost_center.store";
 
 const routes = [
   {
@@ -14,6 +15,14 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "login" */ "../views/LoginView.vue"),
   },
+  {
+    path: "/cost-center-selection",
+    name: "cost-center-selection",
+    component: () =>
+      import(
+        /* webpackChunkName: "cost-center-selection" */ "../views/CostCenterSelectionView.vue"
+      ),
+  },
 ];
 
 const router = createRouter({
@@ -22,21 +31,35 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const publicPages = ["/login"];
+  // Add background-image for login and cost-center-selection screens
+  const elemBody = document.getElementById("body");
 
+  elemBody.classList.remove("bg-login");
+
+  if (["/login", "/cost-center-selection"].includes(to.path)) {
+    elemBody.classList.add("bg-login");
+  }
+
+  // Validate auth to page access
+  const publicPages = ["/login"];
   const authRequired = !publicPages.includes(to.path);
 
-  const authStore = useAuthStore();
+  const costCenterFreePassPages = ["/login", "/cost-center-selection"];
+  const costCenterRequired = !costCenterFreePassPages.includes(to.path);
 
-  const element = document.getElementById("body");
-  element.classList.remove("bg-login");
-  if (!authRequired) {
-    element.classList.add("bg-login");
-  }
+  const authStore = useAuthStore();
+  const costCenterStore = useCostCenterStore();
 
   if (authRequired && !authStore.isLoggedIn) {
     authStore.returnUrl = to.path;
     next("/login");
+  } else if (
+    costCenterRequired &&
+    authStore.isLoggedIn &&
+    !costCenterStore.isCostCenterSelected
+  ) {
+    authStore.returnUrl = to.path;
+    next("/cost-center-selection");
   } else {
     next();
   }

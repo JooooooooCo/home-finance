@@ -33,7 +33,7 @@ export const useAuthStore = defineStore("auth", {
         localStorage.setItem("email", JSON.stringify(this.email));
         localStorage.setItem("token", JSON.stringify(this.token));
 
-        router.push(this.returnUrl || "/");
+        router.push("/cost-center-selection");
       } catch (err) {
         const error_data = err.response.data;
         const error_first_info = error_data.errors
