@@ -28,6 +28,12 @@ router.beforeEach((to, from, next) => {
 
   const authStore = useAuthStore();
 
+  const element = document.getElementById("body");
+  element.classList.remove("bg-login");
+  if (!authRequired) {
+    element.classList.add("bg-login");
+  }
+
   if (authRequired && !authStore.isLoggedIn) {
     authStore.returnUrl = to.path;
     next("/login");
