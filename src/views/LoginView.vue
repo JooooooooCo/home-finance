@@ -86,11 +86,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.login-card {
-  position: absolute !important;
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) !important;
-}
-</style>
+<style lang="scss" scoped></style>

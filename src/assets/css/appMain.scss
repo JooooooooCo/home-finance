@@ -10,6 +10,13 @@ body {
     background-position: center;
 }
 
+.login-card {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+}
+
 .card-default {
     background-color: #ffffff !important;
     border-radius: 24px;
