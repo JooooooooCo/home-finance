@@ -59,9 +59,6 @@
 
 <script>
 import { useAuthStore } from "@/store/auth.store";
-import M from "materialize-css";
-
-const authStore = useAuthStore();
 
 export default {
   name: "LoginView",
@@ -74,15 +71,10 @@ export default {
     };
   },
   methods: {
-    async login() {
-      const auth_error = await authStore.login(
-        this.user.email,
-        this.user.password
-      );
+    login() {
+      const authStore = useAuthStore();
 
-      if (auth_error) {
-        M.toast({ html: auth_error, classes: "rounded red" });
-      }
+      authStore.login(this.user.email, this.user.password);
     },
   },
 };
