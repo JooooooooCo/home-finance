@@ -1,5 +1,8 @@
 import { useAuthStore } from "@/store/auth.store";
 import { useCostCenterStore } from "@/store/cost_center.store";
+import axios from "axios";
+
+const API_URL = process.env.VUE_APP_ROOT_API;
 
 export const axiosHelper = {
   get: request("GET"),
@@ -10,54 +13,54 @@ export const axiosHelper = {
 
 function request(method) {
   return async (url, body) => {
-    const requestOptions = {
-      method,
-      headers: authHeader(url),
+    const requestConfig = {
+      url: url,
+      method: method,
+      baseURL: API_URL,
+      headers: authHeader(),
     };
+
     if (body) {
-      requestOptions.headers["Content-Type"] = "application/json";
-      requestOptions.body = JSON.stringify(body);
+      requestConfig.headers["Content-Type"] = "application/json";
+      requestConfig.data = JSON.stringify(body);
     }
-    return fetch(url, requestOptions).then(handleResponse);
+
+    return await axios(requestConfig)
+      .then((res) => handleResponse(res))
+      .catch((err) => handleError(err));
   };
 }
 
-function authHeader(url) {
+function authHeader() {
   const authStore = useAuthStore();
   const costCenterStore = useCostCenterStore();
-  const isApiUrl = url.startsWith(process.env.VUE_APP_ROOT_API);
+  let header = {};
 
-  if (
-    authStore.isLoggedIn &&
-    costCenterStore.isCostCenterSelected &&
-    isApiUrl
-  ) {
-    return {
-      Authorization: `Bearer ${authStore.token}`,
-      CostCenter: costCenterStore.cost_center,
-    };
-  } else if (authStore.isLoggedIn && isApiUrl) {
-    return { Authorization: `Bearer ${authStore.token}` };
-  } else {
-    return {};
+  if (authStore.isLoggedIn) {
+    header.Authorization = `Bearer ${authStore.token}`;
+
+    if (costCenterStore.isCostCenterSelected) {
+      header.CostCenter = costCenterStore.cost_center;
+    }
   }
+
+  return header;
 }
 
-function handleResponse(response) {
-  return response.text().then((text) => {
-    const data = text && JSON.parse(text);
+function handleResponse(res) {
+  return res.data;
+}
 
-    if (!response.ok) {
-      const { user, logout } = useAuthStore();
-      if ([401, 403].includes(response.status) && user) {
-        // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
-        logout();
-      }
+function handleError(err) {
+  const { isLoggedIn, logout } = useAuthStore();
+  const status = err.response.status;
 
-      const error = (data && data.message) || response.statusText;
-      return Promise.reject(error);
-    }
+  if ([401, 403].includes(status) && isLoggedIn) {
+    logout();
+  }
 
-    return data;
-  });
+  return {
+    error: true,
+    message: err.response.data.message,
+  };
 }
