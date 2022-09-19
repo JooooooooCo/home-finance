@@ -22,7 +22,9 @@
         </div>
       </li>
       <li>
-        <a class="waves-effect"><i class="material-icons">home</i>Dashboard</a>
+        <a class="waves-effect sidenav-close"
+          ><i class="material-icons">home</i>Dashboard</a
+        >
       </li>
       <li>
         <ul class="collapsible collapsible-accordion menu-padding">
@@ -33,25 +35,25 @@
             <div class="collapsible-body">
               <ul>
                 <li>
-                  <a class="waves-effect">Cash Movement</a>
+                  <a class="waves-effect sidenav-close">Cash Movement</a>
                 </li>
                 <li>
-                  <a class="waves-effect">Payment</a>
+                  <a class="waves-effect sidenav-close">Payment</a>
                 </li>
                 <li>
-                  <a class="waves-effect">Payment Status</a>
+                  <a class="waves-effect sidenav-close">Payment Status</a>
                 </li>
                 <li>
-                  <a class="waves-effect">Group 1</a>
+                  <a class="waves-effect sidenav-close">Group 1</a>
                 </li>
                 <li>
-                  <a class="waves-effect">Group 2</a>
+                  <a class="waves-effect sidenav-close">Group 2</a>
                 </li>
                 <li>
-                  <a class="waves-effect">Group 3</a>
+                  <a class="waves-effect sidenav-close">Group 3</a>
                 </li>
                 <li>
-                  <a class="waves-effect">Cost Center</a>
+                  <a class="waves-effect sidenav-close">Cost Center</a>
                 </li>
               </ul>
             </div>
@@ -60,12 +62,14 @@
       </li>
       <li><div class="divider"></div></li>
       <li>
-        <a class="waves-effect" @click.prevent="changeCostCenter()"
+        <a
+          class="waves-effect sidenav-close"
+          @click.prevent="changeCostCenter()"
           ><i class="material-icons">swap_horiz</i>Change Cost Center</a
         >
       </li>
       <li>
-        <a class="waves-effect" @click.prevent="logout()"
+        <a class="waves-effect sidenav-close" @click.prevent="logout()"
           ><i class="material-icons">arrow_back</i>Logout</a
         >
       </li>
