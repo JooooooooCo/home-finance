@@ -36,8 +36,13 @@
         </div>
       </li>
       <li>
-        <a class="waves-effect sidenav-close"
+        <a class="waves-effect sidenav-close" href="/"
           ><i class="material-icons">home</i>Dashboard</a
+        >
+      </li>
+      <li>
+        <a class="waves-effect sidenav-close" href="/cash-flow"
+          ><i class="material-icons">attach_money</i>Cash Flow</a
         >
       </li>
       <li>

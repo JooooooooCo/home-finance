@@ -1,13 +1,13 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
+import DashboardView from "../views/DashboardView.vue";
 import { useAuthStore } from "@/store/auth.store";
 import { useCostCenterStore } from "@/store/cost_center.store";
 
 const routes = [
   {
     path: "/",
-    name: "home",
-    component: HomeView,
+    name: "dashboard",
+    component: DashboardView,
   },
   {
     path: "/login",
@@ -22,6 +22,12 @@ const routes = [
       import(
         /* webpackChunkName: "cost-center-selection" */ "../views/CostCenterSelectionView.vue"
       ),
+  },
+  {
+    path: "/cash-flow",
+    name: "cash-flow",
+    component: () =>
+      import(/* webpackChunkName: "cash-flow" */ "../views/CashFlowView.vue"),
   },
 ];
 
