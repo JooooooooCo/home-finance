@@ -37,8 +37,6 @@ import { axiosHelper } from "@/helper/axios.helper";
 
 const costCenterStore = useCostCenterStore();
 
-const baseUrl = `${process.env.VUE_APP_ROOT_API}/cost-center`;
-
 export default {
   name: "CostCenterSelectionView",
   data() {
@@ -48,7 +46,9 @@ export default {
   },
   methods: {
     async getAllCostCenter() {
-      this.costCenters = await axiosHelper.get(baseUrl);
+      const url = "/cost-center";
+
+      this.costCenters = await axiosHelper.get(url);
     },
     setCostCenter(cost_center) {
       if (!cost_center) return;
