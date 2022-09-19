@@ -2,10 +2,24 @@
   <div>
     <nav>
       <div class="nav-wrapper teal darken-2">
+        <a data-target="slide-out" class="sidenav-trigger">
+          <i class="material-icons">menu</i>
+        </a>
+
         <a class="brand-logo">Home Finance</a>
-        <a data-target="slide-out" class="sidenav-trigger"
-          ><i class="material-icons">menu</i></a
-        >
+
+        <ul class="right hide-on-small-only">
+          <li>
+            <span class="white-text">
+              <i class="material-icons">account_balance_wallet</i>
+            </span>
+          </li>
+          <li class="margin-navbar-elem">
+            <span class="white-text">
+              {{ getCostCenterName }}
+            </span>
+          </li>
+        </ul>
       </div>
     </nav>
 
@@ -18,7 +32,7 @@
           <a><img class="circle" src="../assets/avatar-default.png" /></a>
           <span class="white-text name">{{ user_name }}</span>
           <span class="white-text email">{{ user_email }}</span>
-          <span class="white-text cost-center">{{ cost_center_name }}</span>
+          <span class="white-text cost-center">{{ getCostCenterName }}</span>
         </div>
       </li>
       <li>
@@ -90,6 +104,11 @@ export default {
       user_email: null,
       cost_center_name: null,
     };
+  },
+  computed: {
+    getCostCenterName() {
+      return this.cost_center_name.substring(0, 20).toUpperCase();
+    },
   },
   methods: {
     logout() {
@@ -164,5 +183,9 @@ export default {
 .email {
   padding-bottom: 0px !important;
   font-weight: 400;
+}
+
+.margin-navbar-elem {
+  margin: 0 18px 0 5px;
 }
 </style>
