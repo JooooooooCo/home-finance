@@ -60,7 +60,7 @@
       </li>
       <li><div class="divider"></div></li>
       <li>
-        <a class="waves-effect"
+        <a class="waves-effect" @click.prevent="changeCostCenter()"
           ><i class="material-icons">swap_horiz</i>Change Cost Center</a
         >
       </li>
@@ -92,6 +92,11 @@ export default {
       const authStore = useAuthStore();
 
       authStore.logout();
+    },
+    changeCostCenter() {
+      const costCenterStore = useCostCenterStore();
+
+      costCenterStore.changeCostCenter();
     },
     initSideNav() {
       var elems = document.querySelectorAll(".sidenav");
