@@ -65,7 +65,7 @@
         >
       </li>
       <li>
-        <a class="waves-effect"
+        <a class="waves-effect" @click.prevent="logout()"
           ><i class="material-icons">arrow_back</i>Logout</a
         >
       </li>
@@ -88,6 +88,11 @@ export default {
     };
   },
   methods: {
+    logout() {
+      const authStore = useAuthStore();
+
+      authStore.logout();
+    },
     initSideNav() {
       var elems = document.querySelectorAll(".sidenav");
       M.Sidenav.init(elems);

@@ -38,5 +38,21 @@ export const useAuthStore = defineStore("auth", {
 
       router.push("/cost-center-selection");
     },
+    async logout() {
+      const url = "/user-logout";
+      const res = await axiosHelper.post(url);
+
+      M.toast({ html: res.message, classes: "rounded red" });
+
+      this.name = null;
+      this.email = null;
+      this.token = null;
+
+      localStorage.setItem("name", JSON.stringify(this.name));
+      localStorage.setItem("email", JSON.stringify(this.email));
+      localStorage.setItem("token", JSON.stringify(this.token));
+
+      router.push("/login");
+    },
   },
 });
