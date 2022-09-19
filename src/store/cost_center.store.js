@@ -4,19 +4,23 @@ import router from "../router";
 export const useCostCenterStore = defineStore("cost_center", {
   state: () => {
     return {
-      cost_center: JSON.parse(localStorage.getItem("cost_center")),
+      id: JSON.parse(localStorage.getItem("cost_center_id")),
+      name: JSON.parse(localStorage.getItem("cost_center_name")),
     };
   },
   getters: {
     isCostCenterSelected: (state) => {
-      return state.cost_center ? true : false;
+      return state.id ? true : false;
     },
   },
   actions: {
-    async setCostCenter(cost_center) {
-      this.cost_center = cost_center;
+    async setCostCenter(costCenter) {
+      this.id = costCenter.id;
+      this.name = costCenter.name;
 
-      localStorage.setItem("cost_center", JSON.stringify(this.cost_center));
+      localStorage.setItem("cost_center_id", JSON.stringify(this.id));
+
+      localStorage.setItem("cost_center_name", JSON.stringify(this.name));
 
       router.push("/");
     },

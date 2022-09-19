@@ -19,7 +19,7 @@
                 class="chip teal lighten-5"
                 v-for="costCenter in costCenters"
                 :key="costCenter.id"
-                @click.prevent="setCostCenter(costCenter.id)"
+                @click.prevent="setCostCenter(costCenter)"
               >
                 {{ costCenter.name }}
               </div>
@@ -50,10 +50,10 @@ export default {
 
       this.costCenters = await axiosHelper.get(url);
     },
-    setCostCenter(cost_center) {
-      if (!cost_center) return;
+    setCostCenter(costCenter) {
+      if (!costCenter) return;
 
-      costCenterStore.setCostCenter(cost_center);
+      costCenterStore.setCostCenter(costCenter);
     },
   },
   mounted() {
