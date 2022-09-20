@@ -59,13 +59,21 @@
             </div>
 
             <div class="row mar-bottom-20">
-              <div class="col s8 offset-s2">
-                <button
-                  class="col s12 btn btn-large rounded waves-effect teal darken-2"
+              <div class="col s6" v-if="hasCostCenters">
+                <input
+                  type="button"
+                  value="Cancel"
+                  class="col s12 btn btn-small rounded waves-effect white teal-text text-darken-2"
+                  @click.prevent="hideAddCostCenter()"
+                />
+              </div>
+              <div :class="hasCostCenters ? 'col s6' : 'col s8 offset-s2'">
+                <input
+                  type="submit"
+                  value="Create"
+                  class="col s12 btn btn-small rounded waves-effect teal darken-2"
                   @click.prevent="createCostCenter()"
-                >
-                  Create
-                </button>
+                />
               </div>
             </div>
           </form>
@@ -119,6 +127,9 @@ export default {
     },
     showAddCostCenter() {
       this.show_add_cost_center = true;
+    },
+    hideAddCostCenter() {
+      this.show_add_cost_center = false;
     },
   },
   mounted() {
