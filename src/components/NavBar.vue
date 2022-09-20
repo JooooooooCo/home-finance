@@ -112,9 +112,13 @@ export default {
   },
   computed: {
     getCostCenterName() {
+      if (!this.cost_center_name) return;
+
       return this.cost_center_name.substring(0, 20).toUpperCase();
     },
     getUserAvatarUrl() {
+      if (!this.user_name) return;
+
       const name = this.user_name.replaceAll(" ", "-");
 
       return `https://ui-avatars.com/api/?size=512&background=00796b&color=fff&name=${name}`;
