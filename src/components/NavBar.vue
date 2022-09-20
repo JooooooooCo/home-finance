@@ -25,7 +25,7 @@
 
     <ul id="slide-out" class="sidenav">
       <li>
-        <div class="user-view">
+        <div class="user-view shadow-layer">
           <div class="background">
             <img src="../assets/bg-avatar-default.png" />
           </div>
@@ -197,5 +197,9 @@ export default {
 
 .margin-navbar-elem {
   margin: 0 18px 0 5px;
+}
+
+.shadow-layer {
+  background-color: rgb(0 0 0 / 45%);
 }
 </style>
