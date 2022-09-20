@@ -1,5 +1,7 @@
 import { defineStore } from "pinia";
+import { axiosHelper } from "@/helper/axios.helper";
 import router from "../router";
+import M from "materialize-css";
 
 export const useCostCenterStore = defineStore("cost_center", {
   state: () => {
@@ -33,6 +35,19 @@ export const useCostCenterStore = defineStore("cost_center", {
       localStorage.setItem("cost_center_name", JSON.stringify(this.name));
 
       router.push("/cost-center-selection");
+    },
+    async createCostCenter(cost_center_name) {
+      const body = { name: cost_center_name };
+      const url = "/cost-center";
+
+      const res = await axiosHelper.post(url, body);
+
+      if (res.error) {
+        M.toast({ html: res.message, classes: "rounded red" });
+        return;
+      }
+
+      this.setCostCenter(res);
     },
   },
 });
