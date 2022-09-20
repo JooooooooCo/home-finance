@@ -11,13 +11,13 @@
         <ul class="right hide-on-small-only">
           <li>
             <span class="white-text">
-              <i class="material-icons">account_balance_wallet</i>
+              <span class="white-text">
+                {{ getCostCenterName }}
+              </span>
             </span>
           </li>
           <li class="margin-navbar-elem">
-            <span class="white-text">
-              {{ getCostCenterName }}
-            </span>
+            <i class="material-icons">account_balance_wallet</i>
           </li>
         </ul>
       </div>
@@ -29,7 +29,7 @@
           <div class="background">
             <img src="../assets/bg-avatar-default.png" />
           </div>
-          <a><img class="circle" src="../assets/avatar-default.png" /></a>
+          <a><img class="circle" :src="getUserAvatarUrl" /></a>
           <span class="white-text name">{{ user_name }}</span>
           <span class="white-text email">{{ user_email }}</span>
           <span class="white-text cost-center">{{ getCostCenterName }}</span>
@@ -113,6 +113,11 @@ export default {
   computed: {
     getCostCenterName() {
       return this.cost_center_name.substring(0, 20).toUpperCase();
+    },
+    getUserAvatarUrl() {
+      const name = this.user_name.replaceAll(" ", "-");
+
+      return `https://ui-avatars.com/api/?size=512&background=00796b&color=fff&name=${name}`;
     },
   },
   methods: {
