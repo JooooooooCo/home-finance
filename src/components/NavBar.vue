@@ -35,16 +35,20 @@
           <span class="white-text cost-center">{{ getCostCenterName }}</span>
         </div>
       </li>
-      <li>
-        <a class="waves-effect sidenav-close" href="/"
-          ><i class="material-icons">home</i>Dashboard</a
-        >
-      </li>
-      <li>
-        <a class="waves-effect sidenav-close" href="/cash-flow"
-          ><i class="material-icons">attach_money</i>Cash Flow</a
-        >
-      </li>
+      <router-link to="/">
+        <li>
+          <a class="waves-effect sidenav-close"
+            ><i class="material-icons">home</i>Dashboard</a
+          >
+        </li>
+      </router-link>
+      <router-link to="/cash-flow">
+        <li>
+          <a class="waves-effect sidenav-close"
+            ><i class="material-icons">attach_money</i>Cash Flow</a
+          >
+        </li>
+      </router-link>
       <li>
         <ul class="collapsible collapsible-accordion menu-padding">
           <li>
@@ -53,27 +57,41 @@
             >
             <div class="collapsible-body">
               <ul>
-                <li>
-                  <a class="waves-effect sidenav-close">Cash Movement</a>
-                </li>
-                <li>
-                  <a class="waves-effect sidenav-close">Cost Center</a>
-                </li>
-                <li>
-                  <a class="waves-effect sidenav-close">Payment</a>
-                </li>
-                <li>
-                  <a class="waves-effect sidenav-close">Payment Status</a>
-                </li>
-                <li>
-                  <a class="waves-effect sidenav-close">Group 1</a>
-                </li>
-                <li>
-                  <a class="waves-effect sidenav-close">Group 2</a>
-                </li>
-                <li>
-                  <a class="waves-effect sidenav-close">Group 3</a>
-                </li>
+                <router-link to="/">
+                  <li>
+                    <a class="waves-effect sidenav-close">Cash Movement</a>
+                  </li>
+                </router-link>
+                <router-link to="/">
+                  <li>
+                    <a class="waves-effect sidenav-close">Cost Center</a>
+                  </li>
+                </router-link>
+                <router-link to="/">
+                  <li>
+                    <a class="waves-effect sidenav-close">Payment</a>
+                  </li>
+                </router-link>
+                <router-link to="/">
+                  <li>
+                    <a class="waves-effect sidenav-close">Payment Status</a>
+                  </li>
+                </router-link>
+                <router-link to="/">
+                  <li>
+                    <a class="waves-effect sidenav-close">Group 1</a>
+                  </li>
+                </router-link>
+                <router-link to="/">
+                  <li>
+                    <a class="waves-effect sidenav-close">Group 2</a>
+                  </li>
+                </router-link>
+                <router-link to="/">
+                  <li>
+                    <a class="waves-effect sidenav-close">Group 3</a>
+                  </li>
+                </router-link>
               </ul>
             </div>
           </li>
