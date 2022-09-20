@@ -57,6 +57,9 @@
                   <a class="waves-effect sidenav-close">Cash Movement</a>
                 </li>
                 <li>
+                  <a class="waves-effect sidenav-close">Cost Center</a>
+                </li>
+                <li>
                   <a class="waves-effect sidenav-close">Payment</a>
                 </li>
                 <li>
@@ -70,9 +73,6 @@
                 </li>
                 <li>
                   <a class="waves-effect sidenav-close">Group 3</a>
-                </li>
-                <li>
-                  <a class="waves-effect sidenav-close">Cost Center</a>
                 </li>
               </ul>
             </div>
