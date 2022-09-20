@@ -42,12 +42,12 @@
 
             <div class="row mar-bottom-20">
               <div class="col s8 offset-s2">
-                <button
+                <input
+                  type="submit"
+                  value="Login"
                   class="col s12 btn btn-large rounded waves-effect teal darken-2"
                   @click.prevent="login()"
-                >
-                  Login
-                </button>
+                />
               </div>
             </div>
           </form>
