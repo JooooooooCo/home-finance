@@ -6,7 +6,9 @@
           <i class="material-icons">menu</i>
         </a>
 
-        <a class="brand-logo">Home Finance</a>
+        <div class="brand-logo valign-wrapper">
+          <img src="../assets/logo-navbar.png" />
+        </div>
 
         <ul class="right hide-on-small-only">
           <li>
@@ -223,5 +225,19 @@ export default {
 
 .shadow-layer {
   background-color: rgb(0 0 0 / 45%);
+}
+
+.brand-logo {
+  position: absolute;
+  color: #fff;
+  font-size: 2.1rem;
+  padding: 0;
+  height: inherit;
+  display: flex;
+}
+
+.brand-logo img {
+  max-height: 80%;
+  max-width: 100%;
 }
 </style>
