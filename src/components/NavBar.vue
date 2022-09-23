@@ -155,10 +155,9 @@ export default {
 
       costCenterStore.changeCostCenter();
     },
-    initSideNav() {
+    initMaterialize() {
       var elems = document.querySelectorAll(".sidenav");
       M.Sidenav.init(elems);
-      document.addEventListener("DOMContentLoaded", function () {});
       var collapsibleElem = document.querySelector(".collapsible");
       M.Collapsible.init(collapsibleElem);
     },
@@ -173,7 +172,7 @@ export default {
   },
   created() {
     this.$nextTick(() => {
-      this.initSideNav();
+      this.initMaterialize();
     });
 
     this.fillUserDetails();
