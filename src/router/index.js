@@ -29,6 +29,14 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "cash-flow" */ "../views/CashFlowView.vue"),
   },
+  {
+    path: "/settings/cost-center",
+    name: "settings-cost-center",
+    component: () =>
+      import(
+        /* webpackChunkName: "settings-cost-center" */ "../views/settings/CostCenterView.vue"
+      ),
+  },
 ];
 
 const router = createRouter({

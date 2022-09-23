@@ -64,7 +64,7 @@
                     <a class="waves-effect sidenav-close">Cash Movement</a>
                   </li>
                 </router-link>
-                <router-link to="/">
+                <router-link to="/settings/cost-center">
                   <li>
                     <a class="waves-effect sidenav-close">Cost Center</a>
                   </li>
