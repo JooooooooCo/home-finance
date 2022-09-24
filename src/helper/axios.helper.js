@@ -37,10 +37,10 @@ function authHeader() {
   let header = {};
 
   if (authStore.isLoggedIn) {
-    header.Authorization = `Bearer ${authStore.token}`;
+    header["Authorization"] = `Bearer ${authStore.token}`;
 
     if (costCenterStore.isCostCenterSelected) {
-      header.CostCenter = costCenterStore.cost_center;
+      header["X-Tenant-ID"] = costCenterStore.id;
     }
   }
 
