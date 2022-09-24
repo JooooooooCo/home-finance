@@ -47,7 +47,7 @@ export const useCostCenterStore = defineStore("cost_center", {
         return;
       }
 
-      this.setCostCenter(res);
+      this.setCostCenter(res.data);
     },
   },
 });

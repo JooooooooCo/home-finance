@@ -86,6 +86,7 @@
 <script>
 import { useCostCenterStore } from "@/store/cost_center.store";
 import { axiosHelper } from "@/helper/axios.helper";
+import M from "materialize-css";
 
 const costCenterStore = useCostCenterStore();
 
@@ -112,7 +113,14 @@ export default {
       this.loading = true;
       const url = "/cost-center";
 
-      this.costCenters = await axiosHelper.get(url);
+      const res = await axiosHelper.get(url);
+
+      if (res.error) {
+        M.toast({ html: res.message, classes: "rounded red" });
+        console.error(res.message);
+      }
+
+      this.costCenters = res.data;
       this.loading = false;
     },
     setCostCenter(costCenter) {
