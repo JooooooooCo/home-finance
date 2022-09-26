@@ -16,13 +16,21 @@ export const useCostCenterStore = defineStore("cost_center", {
     },
   },
   actions: {
-    setCostCenter(costCenter) {
+    async setCostCenter(costCenter) {
       this.id = costCenter.id;
       this.name = costCenter.name;
 
       localStorage.setItem("cost_center_id", JSON.stringify(this.id));
-
       localStorage.setItem("cost_center_name", JSON.stringify(this.name));
+
+      const url = "/user/current-cost-center";
+      const res = await axiosHelper.post(url);
+
+      if (res.error) {
+        M.toast({ html: res.message, classes: "rounded red" });
+        this.cleanCostCenter();
+        return;
+      }
 
       router.push("/");
     },
