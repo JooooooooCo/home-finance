@@ -28,9 +28,9 @@ export const useAuthStore = defineStore("auth", {
         return;
       }
 
-      this.name = res.user.name;
-      this.email = res.user.email;
-      this.token = res.token;
+      this.name = res.data.user.name;
+      this.email = res.data.user.email;
+      this.token = res.data.token;
 
       localStorage.setItem("name", JSON.stringify(this.name));
       localStorage.setItem("email", JSON.stringify(this.email));
