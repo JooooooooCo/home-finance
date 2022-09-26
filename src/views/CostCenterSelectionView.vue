@@ -111,7 +111,7 @@ export default {
   methods: {
     async getAllCostCenter() {
       this.loading = true;
-      const url = "/cost-center";
+      const url = "/settings/cost-center";
 
       const res = await axiosHelper.get(url);
 

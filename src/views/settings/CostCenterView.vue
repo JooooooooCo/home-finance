@@ -104,7 +104,7 @@ export default {
   methods: {
     async getAllCostCenter() {
       this.loading = true;
-      const url = "/cost-center";
+      const url = "/settings/cost-center";
 
       const res = await axiosHelper.get(url);
 
@@ -117,7 +117,7 @@ export default {
       this.loading = false;
     },
     async deleteCostCenter(cost_center_id) {
-      const url = `/cost-center/${cost_center_id}`;
+      const url = `/settings/cost-center/${cost_center_id}`;
 
       const res = await axiosHelper.delete(url);
       const toast_class = res.error ? "rounded red" : "rounded teal darken-2";
@@ -133,8 +133,8 @@ export default {
     async saveCostCenter() {
       const method = this.isEditMode ? "put" : "post";
       const url = this.isEditMode
-        ? `/cost-center/${this.selectedCostCenter.id}`
-        : "/cost-center";
+        ? `/settings/cost-center/${this.selectedCostCenter.id}`
+        : "/settings/cost-center";
       const body = {
         name: this.selectedCostCenter.name,
       };

@@ -19,7 +19,7 @@ export const useAuthStore = defineStore("auth", {
   actions: {
     async login(email, password) {
       const auth = { email: email, password: password };
-      const url = "/user-login";
+      const url = "/user/login";
 
       const res = await axiosHelper.post(url, auth);
 
@@ -39,7 +39,7 @@ export const useAuthStore = defineStore("auth", {
       router.push("/cost-center-selection");
     },
     async logout() {
-      const url = "/user-logout";
+      const url = "/user/logout";
       const res = await axiosHelper.post(url);
 
       M.toast({ html: res.message, classes: "rounded red" });
