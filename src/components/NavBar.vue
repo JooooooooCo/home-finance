@@ -153,7 +153,7 @@ export default {
     changeCostCenter() {
       const costCenterStore = useCostCenterStore();
 
-      costCenterStore.changeCostCenter();
+      costCenterStore.cleanCostCenter();
     },
     initMaterialize() {
       var elems = document.querySelectorAll(".sidenav");

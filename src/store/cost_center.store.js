@@ -26,12 +26,11 @@ export const useCostCenterStore = defineStore("cost_center", {
 
       router.push("/");
     },
-    changeCostCenter() {
+    cleanCostCenter() {
       this.id = null;
       this.name = null;
 
       localStorage.setItem("cost_center_id", JSON.stringify(this.id));
-
       localStorage.setItem("cost_center_name", JSON.stringify(this.name));
 
       router.push("/cost-center-selection");
