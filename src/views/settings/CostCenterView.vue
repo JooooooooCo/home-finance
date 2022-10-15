@@ -15,11 +15,8 @@
       </div>
 
       <ul class="collapsible" v-show="!show_form">
-        <li v-for="(costCenter, index) in costCenters" :key="costCenter.id">
-          <div
-            class="collapsible-header"
-            :class="getClassCollapsibleHeader(costCenters, index)"
-          >
+        <li v-for="costCenter in costCenters" :key="costCenter.id">
+          <div class="collapsible-header">
             <i class="material-icons">chevron_right</i>{{ costCenter.name }}
           </div>
           <div class="collapsible-body">
@@ -173,17 +170,6 @@ export default {
         id: null,
         name: null,
       };
-    },
-    getClassCollapsibleHeader(costCenters, index) {
-      if (index == 0 && index == costCenters.length - 1) {
-        return "single";
-      }
-
-      if (index == 0) {
-        return "first";
-      }
-
-      return index == costCenters.length - 1 ? "last" : "";
     },
   },
   mounted() {
