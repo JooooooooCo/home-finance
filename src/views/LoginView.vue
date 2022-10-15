@@ -45,7 +45,7 @@
                 <input
                   type="submit"
                   value="Login"
-                  class="col s12 btn btn-large rounded waves-effect teal darken-2"
+                  class="col s12 btn btn-large rounded bold waves-effect teal darken-2"
                   @click.prevent="login()"
                 />
               </div>

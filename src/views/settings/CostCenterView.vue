@@ -55,19 +55,19 @@
           </div>
 
           <div class="row mar-bottom-0">
-            <div class="col s6">
+            <div class="col s6 m3 offset-m6">
               <input
                 type="button"
                 value="Cancel"
-                class="col s12 btn btn-small rounded waves-effect white teal-text text-darken-2"
+                class="col s12 btn rounded waves-effect grey lighten-4 grey-text text-darken-4"
                 @click.prevent="hideForm()"
               />
             </div>
-            <div class="col s6">
+            <div class="col s6 m3">
               <input
                 type="submit"
                 value="Save"
-                class="col s12 btn btn-small rounded waves-effect teal darken-2"
+                class="col s12 btn bold rounded waves-effect teal darken-2"
                 @click.prevent="saveCostCenter()"
               />
             </div>

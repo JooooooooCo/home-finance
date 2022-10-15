@@ -27,7 +27,7 @@
 
             <div class="row center-align">
               <a
-                class="waves-effect waves-light btn btn-small white rounded teal-text text-darken-2"
+                class="waves-effect waves-light btn rounded grey lighten-4 grey-text text-darken-4"
                 @click.prevent="showAddCostCenter()"
                 ><i class="material-icons left">add</i>New cost center</a
               >
@@ -63,7 +63,7 @@
                 <input
                   type="button"
                   value="Cancel"
-                  class="col s12 btn btn-small rounded waves-effect white teal-text text-darken-2"
+                  class="col s12 btn rounded waves-effect grey lighten-4 grey-text text-darken-4"
                   @click.prevent="hideAddCostCenter()"
                 />
               </div>
@@ -71,7 +71,7 @@
                 <input
                   type="submit"
                   value="Create"
-                  class="col s12 btn btn-small rounded waves-effect teal darken-2"
+                  class="col s12 btn bold rounded waves-effect teal darken-2"
                   @click.prevent="createCostCenter()"
                 />
               </div>
