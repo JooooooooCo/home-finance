@@ -2,12 +2,23 @@
   <div>
     <nav>
       <div class="nav-wrapper teal darken-2">
-        <a data-target="slide-out" class="sidenav-trigger">
+        <a data-target="slide-out" class="sidenav-trigger" v-if="!showBackBtn">
           <i class="material-icons">menu</i>
         </a>
 
+        <a
+          data-target="slide-out"
+          class="sidenav-btn"
+          v-if="showBackBtn"
+          @click.prevent="callBackFunction()"
+        >
+          <i class="material-icons">arrow_back</i>
+        </a>
+
         <div class="brand-logo valign-wrapper">
-          <img src="../assets/logo-navbar.png" />
+          <img src="../assets/logo-navbar.png" v-show="!hasTitle" />
+
+          <span v-show="hasTitle">{{ title }}</span>
         </div>
 
         <ul class="right hide-on-small-only">
@@ -123,6 +134,20 @@ import M from "materialize-css";
 
 export default {
   name: "NavBar",
+  props: {
+    title: {
+      type: String,
+      default: "Home Finance",
+    },
+    backFunctionName: {
+      type: String,
+      default: null,
+    },
+    showBackBtn: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       user_name: null,
@@ -142,6 +167,9 @@ export default {
       const name = this.user_name.replaceAll(" ", "-");
 
       return `https://ui-avatars.com/api/?size=512&background=00796b&color=fff&name=${name}`;
+    },
+    hasTitle() {
+      return this.title;
     },
   },
   methods: {
@@ -168,6 +196,9 @@ export default {
       this.user_name = authStore.name;
       this.user_email = authStore.email;
       this.cost_center_name = costCenterStore.name;
+    },
+    callBackFunction() {
+      this.$parent[this.backFunctionName]();
     },
   },
   created() {

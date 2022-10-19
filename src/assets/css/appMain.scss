@@ -82,6 +82,19 @@ input[type=text]:not(.browser-default):disabled {
     border-bottom: 1px dotted #9e9e9e !important;
 }
 
+.brand-logo {
+    white-space: nowrap;
+}
+
+nav .sidenav-btn {
+    display: block !important;
+    float: left;
+    position: relative;
+    z-index: 1;
+    height: 56px;
+    margin: 0 18px;
+}
+
 .collapsible {
     background-color: #fff;
     border: 0px;
