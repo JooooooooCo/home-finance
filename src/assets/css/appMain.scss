@@ -19,14 +19,16 @@ body {
 
 .card-default {
     background-color: #ffffff !important;
-    border-radius: 24px;
     padding: 1rem;
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%);
 }
 
+.rounded {
+    border-radius: 24px;
+}
+
 .btn {
     box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 1px 5px 0 rgb(0 0 0 / 12%), 0 3px 1px -2px rgb(0 0 0 / 20%);
-    border-radius: 24px;
 }
 
 .mar-bottom-50 {
@@ -98,7 +100,6 @@ nav .sidenav-btn {
 .collapsible {
     background-color: #fff;
     border: 0px;
-    border-radius: 24px;
     overflow: hidden;
 }
 

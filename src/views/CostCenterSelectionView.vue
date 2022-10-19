@@ -2,7 +2,7 @@
   <div class="row mar-bottom-0">
     <div class="col s12" style="min-height: 100vh">
       <div class="col s10 m6 l4 login-card">
-        <div class="z-depth-1 row card-default" v-if="!loading">
+        <div class="z-depth-1 row card-default rounded" v-if="!loading">
           <form v-if="!enableAddCostCenter">
             <div class="row center-align">
               <i class="material-icons teal-text text-darken-2 large mar-top-20"
