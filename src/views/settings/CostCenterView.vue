@@ -1,78 +1,84 @@
 <template>
-  <div class="row">
-    <div class="col s12">
-      <div class="row mar-top-10 mar-bottom-10 valign-wrapper">
-        <div class="col s6 left-align">
-          <span style="font-weight: 500; font-size: large">Cost Centers</span>
-        </div>
-        <div class="col s6 right-align">
-          <a class="waves-effect waves-light white btn" v-show="!show_form"
-            ><i class="material-icons black-text" @click.prevent="showAddForm()"
-              >add</i
-            ></a
-          >
-        </div>
-      </div>
+  <div>
+    <NavBar
+      title="Cost Centers"
+      :show-back-btn="show_form"
+      back-function-name="hideForm"
+    />
+    <div class="row">
+      <div class="col s12">
+        <div v-show="!show_form">
+          <ul class="collapsible">
+            <li v-for="costCenter in costCenters" :key="costCenter.id">
+              <div class="collapsible-header remove-click-pointer">
+                <div class="col valign-wrapper">
+                  <i class="material-icons first-icon">chevron_right </i>
+                  {{ costCenter.name }}
+                </div>
+                <div class="col s4 right-align valign-wrapper">
+                  <a
+                    class="add-click-pointer"
+                    style="margin-left: auto"
+                    @click.prevent="showEditForm(costCenter)"
+                    ><i class="material-icons grey-text text-darken-3"
+                      >mode_edit</i
+                    ></a
+                  >
+                  <a
+                    class="add-click-pointer"
+                    @click.prevent="deleteCostCenter(costCenter.id)"
+                    ><i class="material-icons red-text">delete</i></a
+                  >
+                </div>
+              </div>
+            </li>
+          </ul>
 
-      <ul class="collapsible" v-show="!show_form">
-        <li v-for="costCenter in costCenters" :key="costCenter.id">
-          <div class="collapsible-header">
-            <i class="material-icons">chevron_right</i>{{ costCenter.name }}
+          <div class="fixed-action-btn">
+            <a class="btn-floating btn-large teal darken-2">
+              <i class="large material-icons" @click.prevent="showAddForm()"
+                >add</i
+              >
+            </a>
           </div>
-          <div class="collapsible-body">
+        </div>
+
+        <div class="card-default" v-if="show_form">
+          <form>
             <div class="row mar-bottom-0">
-              <div class="col s12 right-align">
-                <a
-                  class="waves-effect waves-light white btn mar-right-5"
-                  @click.prevent="showEditForm(costCenter)"
-                  ><i class="material-icons black-text">edit</i></a
-                >
-                <a
-                  class="waves-effect waves-light red btn"
-                  @click.prevent="deleteCostCenter(costCenter.id)"
-                  ><i class="material-icons white-text">delete</i></a
+              <div class="input-field col s12">
+                <input
+                  type="text"
+                  name="cost_center_name"
+                  id="cost_center_name"
+                  v-model="selectedCostCenter.name"
+                />
+                <label for="cost_center_name" class="active mar-top-minus5"
+                  >Name</label
                 >
               </div>
             </div>
-          </div>
-        </li>
-      </ul>
 
-      <div class="card-default" v-if="show_form">
-        <form>
-          <div class="row mar-bottom-0">
-            <div class="input-field col s12">
-              <input
-                type="text"
-                name="cost_center_name"
-                id="cost_center_name"
-                v-model="selectedCostCenter.name"
-              />
-              <label for="cost_center_name" class="active mar-top-minus5"
-                >Name</label
-              >
+            <div class="row mar-bottom-0">
+              <div class="col s6 m3 offset-m6">
+                <input
+                  type="button"
+                  value="Cancel"
+                  class="col s12 btn rounded waves-effect grey lighten-1 grey-text text-darken-4"
+                  @click.prevent="hideForm()"
+                />
+              </div>
+              <div class="col s6 m3">
+                <input
+                  type="submit"
+                  value="Save"
+                  class="col s12 btn bold rounded waves-effect teal darken-2"
+                  @click.prevent="saveCostCenter()"
+                />
+              </div>
             </div>
-          </div>
-
-          <div class="row mar-bottom-0">
-            <div class="col s6 m3 offset-m6">
-              <input
-                type="button"
-                value="Cancel"
-                class="col s12 btn rounded waves-effect grey lighten-4 grey-text text-darken-4"
-                @click.prevent="hideForm()"
-              />
-            </div>
-            <div class="col s6 m3">
-              <input
-                type="submit"
-                value="Save"
-                class="col s12 btn bold rounded waves-effect teal darken-2"
-                @click.prevent="saveCostCenter()"
-              />
-            </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   </div>
@@ -81,6 +87,7 @@
 <script>
 import { axiosHelper } from "@/helper/axios.helper";
 import M from "materialize-css";
+import NavBar from "@/components/NavBar.vue";
 
 export default {
   name: "CostCenterView",
@@ -92,6 +99,9 @@ export default {
       show_form: false,
       selectedCostCenter: null,
     };
+  },
+  components: {
+    NavBar,
   },
   computed: {
     isEditMode() {
@@ -149,10 +159,6 @@ export default {
 
       this.hideForm();
     },
-    initMaterialize() {
-      var collapsibleElem = document.querySelectorAll(".collapsible");
-      M.Collapsible.init(collapsibleElem);
-    },
     showAddForm() {
       this.setEmptySelectedCostCenter();
       this.show_form = true;
@@ -175,7 +181,6 @@ export default {
   mounted() {
     this.setEmptySelectedCostCenter();
     this.getAllCostCenter();
-    this.initMaterialize();
   },
 };
 </script>
