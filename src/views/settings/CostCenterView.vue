@@ -124,6 +124,8 @@ export default {
       this.loading = false;
     },
     async deleteCostCenter(cost_center_id) {
+      // se deletar o cost center da sessão, precisa limpar do store e mandar pra tela de seleção
+
       const url = `/settings/cost-center/${cost_center_id}`;
 
       const res = await axiosHelper.delete(url);
@@ -159,6 +161,10 @@ export default {
 
       this.hideForm();
     },
+    // initMaterialize() {
+    //   var collapsibleElem = document.querySelectorAll(".collapsible");
+    //   M.Collapsible.init(collapsibleElem);
+    // },
     showAddForm() {
       this.setEmptySelectedCostCenter();
       this.show_form = true;
@@ -181,6 +187,7 @@ export default {
   mounted() {
     this.setEmptySelectedCostCenter();
     this.getAllCostCenter();
+    // this.initMaterialize();
   },
 };
 </script>
