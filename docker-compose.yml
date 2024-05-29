@@ -12,8 +12,9 @@ services:
     volumes:
       - ./:/app
     tty: true
+    networks:
+      - home-finance-network
 
 networks:
-  default:
-    external:
-      name: home-finance-network
+  home-finance-network:
+    external: true
