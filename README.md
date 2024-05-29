@@ -3,7 +3,7 @@
 
 ## About
 
-Home finance is an app created for manage family accounts, but it can be used for small business too.
+Home finance is an app created for manage personal finance.
 
 ## APP
 
