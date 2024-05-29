@@ -4,6 +4,6 @@ WORKDIR /app
 
 COPY . .
 
-CMD npm install -g @vue/cli && npm install
+CMD npm install -g @vue/cli @vue/cli-service-global && npm install
 
 EXPOSE 8080
