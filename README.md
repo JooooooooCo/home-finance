@@ -60,14 +60,4 @@ $ docker exec home_finance npm run build
 $ docker exec home_finance npm run test:unit
 ```
 
-### Run your end-to-end tests
-```
-$ docker exec home_finance npm run test:e2e
-```
-
-### Lints and fixes files
-```
-$ docker exec home_finance npm run lint
-```
-
 ## I hope you enjoy it! 8)
