@@ -11,7 +11,7 @@
             </div>
 
             <div class="row mar-top-0 center-align">
-              <h5 class="teal-text text-darken-2">Select the cost center</h5>
+              <h5 class="teal-text text-darken-2">Choose a cost center</h5>
             </div>
 
             <div class="row center-align">
@@ -29,7 +29,7 @@
               <a
                 class="waves-effect waves-light btn rounded grey lighten-1 grey-text text-darken-4"
                 @click.prevent="showAddCostCenter()"
-                ><i class="material-icons left">add</i>New cost center</a
+                ><i class="material-icons left">add</i>ADD NEW</a
               >
             </div>
           </form>
