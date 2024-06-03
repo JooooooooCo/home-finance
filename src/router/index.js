@@ -45,9 +45,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  // Add background-image for login and cost-center-selection screens
   const elemBody = document.getElementById("body");
-
   elemBody.classList.remove("bg-login");
 
   if (["/login", "/cost-center-selection"].includes(to.path)) {
