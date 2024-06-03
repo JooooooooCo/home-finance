@@ -23,14 +23,12 @@
               >
                 <span class="white-text">{{ costCenter.name }}</span>
               </div>
-            </div>
-
-            <div class="row center-align">
-              <a
-                class="waves-effect waves-light btn rounded grey lighten-1 grey-text text-darken-4"
+              <div
+                class="chip grey darken-2"
                 @click.prevent="showAddCostCenter()"
-                ><i class="material-icons left">add</i>ADD NEW</a
               >
+                <span class="white-text">+NEW</span>
+              </div>
             </div>
           </form>
           <form v-else>
