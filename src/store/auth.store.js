@@ -24,7 +24,7 @@ export const useAuthStore = defineStore("auth", {
       const res = await axiosHelper.post(url, auth);
 
       if (res.error) {
-        M.toast({ html: res.message, classes: "rounded red" });
+        M.toast({ html: res.message, classes: "red" });
         return;
       }
 
@@ -42,7 +42,7 @@ export const useAuthStore = defineStore("auth", {
       const url = "/user/logout";
       const res = await axiosHelper.post(url);
 
-      M.toast({ html: res.message, classes: "rounded red" });
+      M.toast({ html: res.message, classes: "red" });
 
       this.name = null;
       this.email = null;

@@ -64,7 +64,7 @@
                 <input
                   type="button"
                   value="Cancel"
-                  class="col s12 btn rounded waves-effect grey lighten-1 grey-text text-darken-4"
+                  class="col s12 btn waves-effect grey lighten-1 grey-text text-darken-4"
                   @click.prevent="hideForm()"
                 />
               </div>
@@ -72,7 +72,7 @@
                 <input
                   type="submit"
                   value="Save"
-                  class="col s12 btn bold rounded waves-effect teal darken-2"
+                  class="col s12 btn bold waves-effect teal darken-2"
                   @click.prevent="saveCostCenter()"
                 />
               </div>
@@ -116,7 +116,7 @@ export default {
       const res = await axiosHelper.get(url);
 
       if (res.error) {
-        M.toast({ html: res.message, classes: "rounded red" });
+        M.toast({ html: res.message, classes: "red" });
         console.error(res.message);
       }
 
@@ -127,7 +127,7 @@ export default {
       const url = `/settings/cost-center/${cost_center_id}`;
 
       const res = await axiosHelper.delete(url);
-      const toast_class = res.error ? "rounded red" : "rounded teal darken-2";
+      const toast_class = res.error ? "red" : "teal darken-2";
 
       M.toast({ html: res.message, classes: toast_class });
 
@@ -147,7 +147,7 @@ export default {
       };
 
       const res = await axiosHelper[method](url, body);
-      const toast_class = res.error ? "rounded red" : "rounded teal darken-2";
+      const toast_class = res.error ? "red" : "teal darken-2";
 
       M.toast({ html: res.message, classes: toast_class });
 

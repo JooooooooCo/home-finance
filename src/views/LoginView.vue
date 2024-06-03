@@ -2,7 +2,7 @@
   <div class="row mar-bottom-0">
     <div class="col s12" style="min-height: 100vh">
       <div class="col s10 m6 l4 login-card">
-        <div class="z-depth-1 row card-default rounded">
+        <div class="z-depth-1 row card-default">
           <form>
             <div class="row mar-bottom-0 center-align">
               <img
@@ -45,7 +45,7 @@
                 <input
                   type="submit"
                   value="Login"
-                  class="col s12 btn btn-large rounded bold waves-effect teal darken-2"
+                  class="col s12 btn btn-large bold waves-effect teal darken-2"
                   @click.prevent="login()"
                 />
               </div>

@@ -2,7 +2,7 @@
   <div class="row mar-bottom-0">
     <div class="col s12" style="min-height: 100vh">
       <div class="col s10 m6 l4 login-card">
-        <div class="z-depth-1 row card-default rounded" v-if="!loading">
+        <div class="z-depth-1 row card-default" v-if="!loading">
           <form v-if="!enableAddCostCenter">
             <div class="row center-align">
               <i class="material-icons teal-text text-darken-2 large mar-top-20"
@@ -61,7 +61,7 @@
                 <input
                   type="button"
                   value="Cancel"
-                  class="col s12 btn rounded waves-effect grey lighten-1 grey-text text-darken-4"
+                  class="col s12 btn waves-effect grey lighten-1 grey-text text-darken-4"
                   @click.prevent="hideAddCostCenter()"
                 />
               </div>
@@ -69,7 +69,7 @@
                 <input
                   type="submit"
                   value="Create"
-                  class="col s12 btn bold rounded waves-effect teal darken-2"
+                  class="col s12 btn bold waves-effect teal darken-2"
                   @click.prevent="createCostCenter()"
                 />
               </div>
@@ -114,7 +114,7 @@ export default {
       const res = await axiosHelper.get(url);
 
       if (res.error) {
-        M.toast({ html: res.message, classes: "rounded red" });
+        M.toast({ html: res.message, classes: "red" });
         console.error(res.message);
       }
 

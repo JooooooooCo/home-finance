@@ -27,7 +27,7 @@ export const useCostCenterStore = defineStore("cost_center", {
       const res = await axiosHelper.post(url);
 
       if (res.error) {
-        M.toast({ html: res.message, classes: "rounded red" });
+        M.toast({ html: res.message, classes: "red" });
         this.cleanCostCenter();
         return;
       }
@@ -50,7 +50,7 @@ export const useCostCenterStore = defineStore("cost_center", {
       const res = await axiosHelper.post(url, body);
 
       if (res.error) {
-        M.toast({ html: res.message, classes: "rounded red" });
+        M.toast({ html: res.message, classes: "red" });
         return;
       }
 
