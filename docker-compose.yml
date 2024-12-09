@@ -10,7 +10,8 @@ services:
     ports:
       - 8085:8080
     volumes:
-      - ./:/app
+      - ./src:/app/src
+      - ./public:/app/public
     tty: true
     networks:
       - home-finance-network
