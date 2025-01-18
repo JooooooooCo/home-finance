@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { axiosHelper } from "@/helper/axios.helper";
-import router from "../router";
+import router from "@/router";
 import M from "materialize-css";
 
 export const useCostCenterStore = defineStore("cost_center", {

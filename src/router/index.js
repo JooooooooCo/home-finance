@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import DashboardView from "../views/DashboardView.vue";
+import DashboardView from "@/views/DashboardView.vue";
 import { useAuthStore } from "@/store/auth.store";
 import { useCostCenterStore } from "@/store/cost_center.store";
 
@@ -13,29 +13,25 @@ const routes = [
     path: "/login",
     name: "login",
     component: () =>
-      import(/* webpackChunkName: "login" */ "../views/LoginView.vue"),
+      import("@/views/LoginView.vue"),
   },
   {
     path: "/cost-center-selection",
     name: "cost-center-selection",
     component: () =>
-      import(
-        /* webpackChunkName: "cost-center-selection" */ "../views/CostCenterSelectionView.vue"
-      ),
+      import("@/views/CostCenterSelectionView.vue"),
   },
   {
     path: "/cash-flow",
     name: "cash-flow",
     component: () =>
-      import(/* webpackChunkName: "cash-flow" */ "../views/CashFlowView.vue"),
+      import("@/views/CashFlowView.vue"),
   },
   {
     path: "/settings/cost-center",
     name: "settings-cost-center",
     component: () =>
-      import(
-        /* webpackChunkName: "settings-cost-center" */ "../views/settings/CostCenterView.vue"
-      ),
+      import("@/views/settings/CostCenterView.vue"),
   },
 ];
 

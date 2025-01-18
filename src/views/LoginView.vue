@@ -6,7 +6,7 @@
           <form>
             <div class="row mar-bottom-0 center-align">
               <img
-                src="../assets/logo.png"
+                src="@/assets/logo.png"
                 class="col s4 offset-s4 mar-top-20"
                 alt="logo"
               />

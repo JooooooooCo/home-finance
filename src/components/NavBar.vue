@@ -16,7 +16,7 @@
         </a>
 
         <div class="brand-logo valign-wrapper">
-          <img src="../assets/logo-navbar.png" v-show="!hasTitle" />
+          <img src="@/assets/logo-navbar.png" v-show="!hasTitle" />
 
           <span v-show="hasTitle">{{ title }}</span>
         </div>
@@ -40,7 +40,7 @@
       <li>
         <div class="user-view shadow-layer">
           <div class="background">
-            <img src="../assets/bg-avatar-default.png" />
+            <img src="@/assets/bg-avatar-default.png" />
           </div>
           <a><img class="circle" :src="getUserAvatarUrl" /></a>
           <span class="white-text name">{{ user_name }}</span>
@@ -208,6 +208,17 @@ export default {
 
     this.fillUserDetails();
   },
+
+// .sidenav {
+//   @media (min-width: 992px) {
+//     transform: translateX(0) !important;
+//     position: fixed !important;
+//     width: 250px !important;
+//     left: 0;
+//     top: 0;
+//     height: 100%;
+//   }
+// }
 };
 </script>
 
