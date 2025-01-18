@@ -3,7 +3,7 @@
     <div class="col s12 height-100vh">
       <div class="col s10 m6 l4 login-card">
         <div class="z-depth-1 row card-default">
-          <form>
+          <form @submit.prevent="login">
             <div class="row mar-bottom-0 center-align">
               <img
                 src="@/assets/logo.png"
@@ -34,9 +34,7 @@
                   autocomplete="current-password"
                   v-model="user.password"
                 />
-                <label for="password" class="active mar-top-minus5"
-                  >Password</label
-                >
+                <label for="password" class="active mar-top-minus5">Password</label>
               </div>
             </div>
 
@@ -46,7 +44,6 @@
                   type="submit"
                   value="Login"
                   class="col s12 btn btn-large bold waves-effect teal darken-2"
-                  @click.prevent="login()"
                 />
               </div>
             </div>
@@ -57,27 +54,20 @@
   </div>
 </template>
 
-<script>
-import { useAuthStore } from "@/store/auth.store";
+<script setup>
+import { ref } from 'vue'
+import { useAuthStore } from '@/store/auth.store'
 
-export default {
-  name: "LoginView",
-  data() {
-    return {
-      user: {
-        email: null,
-        password: null,
-      },
-    };
-  },
-  methods: {
-    login() {
-      const authStore = useAuthStore();
+const authStore = useAuthStore()
 
-      authStore.login(this.user.email, this.user.password);
-    },
-  },
-};
+const user = ref({
+  email: '',
+  password: ''
+})
+
+function login() {
+  authStore.login(user.value.email, user.value.password)
+}
 </script>
 
 <style lang="scss" scoped></style>

@@ -10,7 +10,7 @@
           data-target="slide-out"
           class="sidenav-btn"
           v-if="showBackBtn"
-          @click.prevent="callBackFunction()"
+          @click.prevent="callBackFunction"
         >
           <i class="material-icons">arrow_back</i>
         </a>
@@ -114,12 +114,12 @@
       <li>
         <a
           class="waves-effect sidenav-close"
-          @click.prevent="changeCostCenter()"
+          @click.prevent="changeCostCenter"
           ><i class="material-icons">swap_horiz</i>Change Cost Center</a
         >
       </li>
       <li>
-        <a class="waves-effect sidenav-close" @click.prevent="logout()"
+        <a class="waves-effect sidenav-close" @click.prevent="logout"
           ><i class="material-icons">arrow_back</i>Logout</a
         >
       </li>
@@ -128,6 +128,7 @@
 </template>
 
 <script>
+import { ref, computed, onMounted } from "vue";
 import { useAuthStore } from "@/store/auth.store";
 import { useCostCenterStore } from "@/store/cost_center.store";
 import M from "materialize-css";
@@ -148,65 +149,73 @@ export default {
       default: false,
     },
   },
-  data() {
-    return {
-      user_name: null,
-      user_email: null,
-      cost_center_name: null,
-    };
-  },
-  computed: {
-    getCostCenterName() {
-      if (!this.cost_center_name) return;
+  setup(props) {
+    const user_name = ref(null);
+    const user_email = ref(null);
+    const cost_center_name = ref(null);
 
-      return this.cost_center_name.substring(0, 20).toUpperCase();
-    },
-    getUserAvatarUrl() {
-      if (!this.user_name) return;
+    const getCostCenterName = computed(() => {
+      if (!cost_center_name.value) return;
 
-      const name = this.user_name.replaceAll(" ", "-");
-
-      return `https://ui-avatars.com/api/?size=512&background=00796b&color=fff&name=${name}`;
-    },
-    hasTitle() {
-      return this.title;
-    },
-  },
-  methods: {
-    logout() {
-      const authStore = useAuthStore();
-
-      authStore.logout();
-    },
-    changeCostCenter() {
-      const costCenterStore = useCostCenterStore();
-
-      costCenterStore.cleanCostCenter();
-    },
-    initMaterialize() {
-      var elems = document.querySelectorAll(".sidenav");
-      M.Sidenav.init(elems);
-      var collapsibleElem = document.querySelector(".collapsible");
-      M.Collapsible.init(collapsibleElem);
-    },
-    fillUserDetails() {
-      const authStore = useAuthStore();
-      const costCenterStore = useCostCenterStore();
-
-      this.user_name = authStore.name;
-      this.user_email = authStore.email;
-      this.cost_center_name = costCenterStore.name;
-    },
-    callBackFunction() {
-      this.$parent[this.backFunctionName]();
-    },
-  },
-  created() {
-    this.$nextTick(() => {
-      this.initMaterialize();
+      return cost_center_name.value.substring(0, 20).toUpperCase();
     });
 
-    this.fillUserDetails();
+    const getUserAvatarUrl = computed(() => {
+      if (!user_name.value) return;
+
+      const name = user_name.value.replaceAll(" ", "-");
+
+      return `https://ui-avatars.com/api/?size=512&background=00796b&color=fff&name=${name}`;
+    });
+
+    const hasTitle = computed(() => props.title);
+
+    const logout = () => {
+      const authStore = useAuthStore();
+      authStore.logout();
+    };
+
+    const changeCostCenter = () => {
+      const costCenterStore = useCostCenterStore();
+      costCenterStore.cleanCostCenter();
+    };
+
+    const initMaterialize = () => {
+      const elems = document.querySelectorAll(".sidenav");
+      M.Sidenav.init(elems);
+      const collapsibleElem = document.querySelector(".collapsible");
+      M.Collapsible.init(collapsibleElem);
+    };
+
+    const fillUserDetails = () => {
+      const authStore = useAuthStore();
+      const costCenterStore = useCostCenterStore();
+
+      user_name.value = authStore.name;
+      user_email.value = authStore.email;
+      cost_center_name.value = costCenterStore.name;
+    };
+
+    const callBackFunction = () => {
+      this.$parent[props.backFunctionName]();
+    };
+
+    onMounted(() => {
+      initMaterialize();
+      fillUserDetails();
+    });
+
+    return {
+      user_name,
+      user_email,
+      cost_center_name,
+      getCostCenterName,
+      getUserAvatarUrl,
+      hasTitle,
+      logout,
+      changeCostCenter,
+      callBackFunction,
+    };
   },
 
 // .sidenav {

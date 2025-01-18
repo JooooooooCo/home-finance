@@ -2,7 +2,7 @@
   <div>
     <div class="row">
       <div class="col s12">
-        <div v-show="!show_form">
+        <div v-show="!showForm">
           <ul class="collapsible">
             <li v-for="costCenter in costCenters" :key="costCenter.id">
               <div class="collapsible-header remove-click-pointer">
@@ -38,7 +38,7 @@
           </div>
         </div>
 
-        <div class="card-default" v-if="show_form">
+        <div class="card-default" v-if="showForm">
           <form>
             <div class="row mar-bottom-0">
               <div class="input-field col s12">
@@ -79,101 +79,96 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref, computed, onMounted } from 'vue';
 import { axiosHelper } from "@/helper/axios.helper";
 import M from "materialize-css";
 
-export default {
-  name: "CostCenterView",
-  data() {
-    return {
-      costCenters: [],
-      cost_center_name: null,
-      loading: true,
-      show_form: false,
-      selectedCostCenter: null,
-    };
-  },
-  computed: {
-    isEditMode() {
-      return this.selectedCostCenter?.id ? true : false;
-    },
-  },
-  methods: {
-    async getAllCostCenter() {
-      this.loading = true;
-      const url = "/settings/cost-center";
+const costCenters = ref([]);
+const loading = ref(true);
+const showForm = ref(false);
+const selectedCostCenter = ref({ id: null, name: null });
 
-      const res = await axiosHelper.get(url);
+const isEditMode = computed(() => selectedCostCenter.value?.id ? true : false);
 
-      if (res.error) {
-        M.toast({ html: res.message, classes: "red" });
-        console.error(res.message);
-      }
+const getAllCostCenter = async () => {
+  loading.value = true;
+  const url = "/settings/cost-center";
 
-      this.costCenters = res.data;
-      this.loading = false;
-    },
-    async deleteCostCenter(cost_center_id) {
-      const url = `/settings/cost-center/${cost_center_id}`;
+  const res = await axiosHelper.get(url);
 
-      const res = await axiosHelper.delete(url);
-      const toast_class = res.error ? "red" : "teal darken-2";
+  if (res.error) {
+    M.toast({ html: res.message, classes: "red" });
+    console.error(res.message);
+  }
 
-      M.toast({ html: res.message, classes: toast_class });
-
-      if (res.error) {
-        console.error(res.message);
-      }
-
-      this.getAllCostCenter();
-    },
-    async saveCostCenter() {
-      const method = this.isEditMode ? "put" : "post";
-      const url = this.isEditMode
-        ? `/settings/cost-center/${this.selectedCostCenter.id}`
-        : "/settings/cost-center";
-      const body = {
-        name: this.selectedCostCenter.name,
-      };
-
-      const res = await axiosHelper[method](url, body);
-      const toast_class = res.error ? "red" : "teal darken-2";
-
-      M.toast({ html: res.message, classes: toast_class });
-
-      if (res.error) {
-        console.error(res.message);
-      }
-
-      this.getAllCostCenter();
-
-      this.hideForm();
-    },
-    showAddForm() {
-      this.setEmptySelectedCostCenter();
-      this.show_form = true;
-    },
-    showEditForm(costCenter) {
-      this.selectedCostCenter = costCenter;
-      this.show_form = true;
-    },
-    hideForm() {
-      this.setEmptySelectedCostCenter();
-      this.show_form = false;
-    },
-    setEmptySelectedCostCenter() {
-      this.selectedCostCenter = {
-        id: null,
-        name: null,
-      };
-    },
-  },
-  mounted() {
-    this.setEmptySelectedCostCenter();
-    this.getAllCostCenter();
-  },
+  costCenters.value = res.data;
+  loading.value = false;
 };
+
+const deleteCostCenter = async (costCenterId) => {
+  const url = `/settings/cost-center/${costCenterId}`;
+
+  const res = await axiosHelper.delete(url);
+  const toastClass = res.error ? "red" : "teal darken-2";
+
+  M.toast({ html: res.message, classes: toastClass });
+
+  if (res.error) {
+    console.error(res.message);
+  }
+
+  getAllCostCenter();
+};
+
+const saveCostCenter = async () => {
+  const method = isEditMode.value ? "put" : "post";
+  const url = isEditMode.value
+    ? `/settings/cost-center/${selectedCostCenter.value.id}`
+    : "/settings/cost-center";
+  const body = {
+    name: selectedCostCenter.value.name,
+  };
+
+  const res = await axiosHelper[method](url, body);
+  const toastClass = res.error ? "red" : "teal darken-2";
+
+  M.toast({ html: res.message, classes: toastClass });
+
+  if (res.error) {
+    console.error(res.message);
+  }
+
+  getAllCostCenter();
+  hideForm();
+};
+
+const showAddForm = () => {
+  setEmptySelectedCostCenter();
+  showForm.value = true;
+};
+
+const showEditForm = (costCenter) => {
+  selectedCostCenter.value = costCenter;
+  showForm.value = true;
+};
+
+const hideForm = () => {
+  setEmptySelectedCostCenter();
+  showForm.value = false;
+};
+
+const setEmptySelectedCostCenter = () => {
+  selectedCostCenter.value = {
+    id: null,
+    name: null,
+  };
+};
+
+onMounted(() => {
+  setEmptySelectedCostCenter();
+  getAllCostCenter();
+});
 </script>
 
 <style lang="scss" scoped></style>

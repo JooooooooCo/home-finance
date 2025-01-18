@@ -5,17 +5,9 @@
   </div>
 </template>
 
-<script>
-import NavBar from "@/components/NavBar.vue";
-import MainContentView from "@/views/MainContentView.vue";
-
-export default {
-  name: "MainLayoutView",
-  components: {
-    NavBar,
-    MainContentView,
-  },
-};
+<script setup>
+import NavBar from "@/components/NavBar.vue"
+import MainContentView from "@/views/MainContentView.vue"
 </script>
 
 <style lang="scss" scoped></style>

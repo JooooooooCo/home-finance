@@ -32,7 +32,7 @@ export const useCostCenterStore = defineStore("cost_center", {
         return;
       }
 
-      router.push("/app");
+      router.push("/dashboard");
     },
     cleanCostCenter() {
       this.id = null;

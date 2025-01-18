@@ -6,36 +6,30 @@ import { useCostCenterStore } from "@/store/cost_center.store";
 const routes = [
   {
     path: "/",
-    name: "login",
     component: () =>
       import("@/views/LoginView.vue"),
   },
   {
     path: "/cost-center-selection",
-    name: "cost-center-selection",
     component: () =>
       import("@/views/CostCenterSelectionView.vue"),
   },
   {
     path: "/app",
-    name: "main",
     component: MainLayoutView,
     children: [
       {
         path: "/dashboard",
-        name: "dashboard",
         component: () =>
           import("@/views/DashboardView.vue"),
       },
       {
         path: "/cash-flow",
-        name: "cash-flow",
         component: () =>
           import("@/views/CashFlowView.vue"),
       },
       {
         path: "/settings/cost-center",
-        name: "settings-cost-center",
         component: () =>
           import("@/views/settings/CostCenterView.vue"),
       },
