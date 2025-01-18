@@ -48,7 +48,7 @@
           <span class="white-text cost-center">{{ getCostCenterName }}</span>
         </div>
       </li>
-      <router-link to="/">
+      <router-link to="/dashboard">
         <li>
           <a class="waves-effect sidenav-close"
             ><i class="material-icons">home</i>Dashboard</a

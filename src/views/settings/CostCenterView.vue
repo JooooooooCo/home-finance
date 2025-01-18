@@ -1,10 +1,5 @@
 <template>
   <div>
-    <NavBar
-      title="Cost Centers"
-      :show-back-btn="show_form"
-      back-function-name="hideForm"
-    />
     <div class="row">
       <div class="col s12">
         <div v-show="!show_form">
@@ -87,7 +82,6 @@
 <script>
 import { axiosHelper } from "@/helper/axios.helper";
 import M from "materialize-css";
-import NavBar from "@/components/NavBar.vue";
 
 export default {
   name: "CostCenterView",
@@ -99,9 +93,6 @@ export default {
       show_form: false,
       selectedCostCenter: null,
     };
-  },
-  components: {
-    NavBar,
   },
   computed: {
     isEditMode() {

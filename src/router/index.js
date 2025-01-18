@@ -1,16 +1,11 @@
 import { createRouter, createWebHistory } from "vue-router";
-import DashboardView from "@/views/DashboardView.vue";
+import MainLayoutView from "@/views/MainLayoutView.vue";
 import { useAuthStore } from "@/store/auth.store";
 import { useCostCenterStore } from "@/store/cost_center.store";
 
 const routes = [
   {
     path: "/",
-    name: "dashboard",
-    component: DashboardView,
-  },
-  {
-    path: "/login",
     name: "login",
     component: () =>
       import("@/views/LoginView.vue"),
@@ -22,16 +17,29 @@ const routes = [
       import("@/views/CostCenterSelectionView.vue"),
   },
   {
-    path: "/cash-flow",
-    name: "cash-flow",
-    component: () =>
-      import("@/views/CashFlowView.vue"),
-  },
-  {
-    path: "/settings/cost-center",
-    name: "settings-cost-center",
-    component: () =>
-      import("@/views/settings/CostCenterView.vue"),
+    path: "/app",
+    name: "main",
+    component: MainLayoutView,
+    children: [
+      {
+        path: "/dashboard",
+        name: "dashboard",
+        component: () =>
+          import("@/views/DashboardView.vue"),
+      },
+      {
+        path: "/cash-flow",
+        name: "cash-flow",
+        component: () =>
+          import("@/views/CashFlowView.vue"),
+      },
+      {
+        path: "/settings/cost-center",
+        name: "settings-cost-center",
+        component: () =>
+          import("@/views/settings/CostCenterView.vue"),
+      },
+    ]
   },
 ];
 
@@ -44,15 +52,15 @@ router.beforeEach((to, from, next) => {
   const elemBody = document.getElementById("body");
   elemBody.classList.remove("bg-login");
 
-  if (["/login", "/cost-center-selection"].includes(to.path)) {
+  if (["/", "/cost-center-selection"].includes(to.path)) {
     elemBody.classList.add("bg-login");
   }
 
   // Validate auth to page access
-  const publicPages = ["/login"];
+  const publicPages = ["/"];
   const authRequired = !publicPages.includes(to.path);
 
-  const costCenterFreePassPages = ["/login", "/cost-center-selection"];
+  const costCenterFreePassPages = ["/", "/cost-center-selection"];
   const costCenterRequired = !costCenterFreePassPages.includes(to.path);
 
   const authStore = useAuthStore();
@@ -60,7 +68,7 @@ router.beforeEach((to, from, next) => {
 
   if (authRequired && !authStore.isLoggedIn) {
     authStore.returnUrl = to.path;
-    next("/login");
+    next("/");
   } else if (
     costCenterRequired &&
     authStore.isLoggedIn &&

@@ -52,7 +52,7 @@ export const useAuthStore = defineStore("auth", {
       localStorage.setItem("email", JSON.stringify(this.email));
       localStorage.setItem("token", JSON.stringify(this.token));
 
-      router.push("/login");
+      router.push("/");
     },
   },
 });
