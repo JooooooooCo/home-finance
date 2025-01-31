@@ -16,6 +16,8 @@ It was built with:
 <img src="./src/assets/docs/pinia-logo.png" alt="pinia" height="30"/>
 &nbsp;
 <img src="./src/assets/docs/vuerouter-logo.png" alt="vuerouter" height="30"/>
+&nbsp;
+<img src="./src/assets/docs/vuetify-logo.png" alt="vuetify" height="30"/>
 </div>
 
 
