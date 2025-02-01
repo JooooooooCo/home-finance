@@ -15,13 +15,13 @@
 
                 <v-row>
                   <v-col cols="12">
-                    <v-text-field v-model="user.email" label="Email" name="email" type="text" autocomplete="username" required></v-text-field>
+                    <v-text-field v-model="user.email" label="Email" variant="outlined" name="email" type="text" autocomplete="username" required></v-text-field>
                   </v-col>
                 </v-row>
 
                 <v-row>
                   <v-col cols="12">
-                    <v-text-field v-model="user.password" label="Password" name="password" type="password" autocomplete="current-password" required></v-text-field>
+                    <v-text-field v-model="user.password" label="Password" variant="outlined" name="password" type="password" autocomplete="current-password" required></v-text-field>
                   </v-col>
                 </v-row>
 

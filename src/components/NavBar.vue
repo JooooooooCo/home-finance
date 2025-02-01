@@ -64,7 +64,7 @@ const cost_center_name = ref(null);
 
 const getCostCenterName = computed(() => {
   if (!cost_center_name.value) return;
-  return cost_center_name.value.substring(0, 20).toUpperCase();
+  return cost_center_name.value.substring(0, 20);
 });
 
 const getUserAvatarUrl = computed(() => {

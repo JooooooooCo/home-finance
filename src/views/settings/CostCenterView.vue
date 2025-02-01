@@ -20,25 +20,23 @@
           <v-btn @click.prevent="showAddForm()" position="fixed" location="bottom right" class="ma-4" size="large" icon="mdi-plus" color="teal darken-2"/>
         </div>
 
-        <v-card v-if="showForm" class="mt-4">
-          <v-form @submit.prevent="saveCostCenter">
-            <v-container>
-              <v-row>
-                <v-col cols="12">
-                  <v-text-field v-model="selectedCostCenter.name" label="Name" required></v-text-field>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col cols="6" offset="6" md="3" offset-md="6">
-                  <v-btn @click="hideForm" variant="text" large block>Cancel</v-btn>
-                </v-col>
-                <v-col cols="6" md="3">
-                  <v-btn block color="teal darken-2" type="submit">Save</v-btn>
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-form>
-        </v-card>
+        <v-form @submit.prevent="saveCostCenter" v-if="showForm" >
+          <v-container>
+            <v-row>
+              <v-col cols="12">
+                <v-text-field v-model="selectedCostCenter.name" label="Name" variant="outlined" required></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols="6" offset="6" md="3" offset-md="6">
+                <v-btn @click="hideForm" variant="text" large block>Cancel</v-btn>
+              </v-col>
+              <v-col cols="6" md="3">
+                <v-btn block color="teal darken-2" type="submit">Save</v-btn>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-form>
       </v-col>
     </v-row>
   </v-container>
