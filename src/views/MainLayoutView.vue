@@ -9,5 +9,3 @@
 import NavBar from "@/components/NavBar.vue"
 import MainContentView from "@/views/MainContentView.vue"
 </script>
-
-<style lang="scss" scoped></style>

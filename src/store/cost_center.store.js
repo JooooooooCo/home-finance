@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { axiosHelper } from "@/helper/axios.helper";
 import router from "@/router";
-import M from "materialize-css";
+import { useSnackbarStore } from '@/store/snackbar.store';
 
 export const useCostCenterStore = defineStore("cost_center", {
   state: () => {
@@ -27,7 +27,8 @@ export const useCostCenterStore = defineStore("cost_center", {
       const res = await axiosHelper.post(url);
 
       if (res.error) {
-        M.toast({ html: res.message, classes: "red" });
+        const snackbarStore = useSnackbarStore();
+        snackbarStore.showSnackbar(res.message);
         this.cleanCostCenter();
         return;
       }
@@ -50,7 +51,8 @@ export const useCostCenterStore = defineStore("cost_center", {
       const res = await axiosHelper.post(url, body);
 
       if (res.error) {
-        M.toast({ html: res.message, classes: "red" });
+        const snackbarStore = useSnackbarStore();
+        snackbarStore.showSnackbar(res.message);
         return;
       }
 

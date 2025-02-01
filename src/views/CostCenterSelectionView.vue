@@ -1,85 +1,89 @@
 <template>
-  <div class="row mar-bottom-0">
-    <div class="col s12" style="min-height: 100vh">
-      <div class="col s10 m6 l4 login-card">
-        <div class="z-depth-1 row card-default" v-if="!loading">
-          <form v-if="!enableAddCostCenter">
-            <div class="row center-align">
-              <i class="material-icons teal-text text-darken-2 large mar-top-20">input</i>
-            </div>
+  <v-main>
+    <v-container class="fill-height" fluid>
+      <v-row justify="center" align="center" class="fill-height">
+        <v-col cols="12" sm="8" md="6" lg="4">
+          <v-card class="elevation-12" v-if="!loading">
+            <v-card-text>
+              <v-form v-if="!enableAddCostCenter">
+                <v-row class="text-center">
+                  <v-col cols="12">
+                    <v-icon size="128" color="teal darken-2">mdi-login</v-icon>
+                  </v-col>
+                </v-row>
+                
+                <v-row class="text-center">
+                  <v-col cols="12">
+                    <h4 class="teal--text text--darken-2" >Choose a cost center</h4>
+                  </v-col>
+                </v-row>
+  
+                <v-row justify="center">
+                  <v-col cols="12">
+                    <v-chip
+                      v-for="costCenter in costCenters"
+                      :key="costCenter.id"
+                      class="ma-2"
+                      color="teal darken-2"
+                      text-color="white"
+                      @click="setCostCenter(costCenter)"
+                    >
+                      {{ costCenter.name }}
+                    </v-chip>  
+                  </v-col>
+                </v-row>
 
-            <div class="row mar-top-0 center-align">
-              <h5 class="teal-text text-darken-2">Choose a cost center</h5>
-            </div>
-
-            <div class="row center-align">
-              <div
-                class="chip teal darken-2"
-                v-for="costCenter in costCenters"
-                :key="costCenter.id"
-                @click.prevent="setCostCenter(costCenter)"
-              >
-                <span class="white-text">{{ costCenter.name }}</span>
-              </div>
-              <div class="chip grey darken-2" @click.prevent="toogleAddCostCenter">
-                <span class="white-text">+NEW</span>
-              </div>
-            </div>
-          </form>
-
-          <form v-else>
-            <div class="row center-align">
-              <i class="material-icons teal-text text-darken-2 large mar-top-20">library_add</i>
-            </div>
-
-            <div class="row mar-top-0 center-align">
-              <h5 class="teal-text text-darken-2">Add new cost center</h5>
-            </div>
-
-            <div class="row mar-bottom-0">
-              <div class="input-field col s12">
-                <input
-                  type="text"
-                  name="cost_center_name"
-                  id="cost_center_name"
-                  v-model="costCenterName"
-                />
-                <label for="cost_center_name" class="active mar-top-minus5">Name</label>
-              </div>
-            </div>
-
-            <div class="row mar-bottom-20">
-              <div class="col s6" v-if="hasCostCenters">
-                <input
-                  type="button"
-                  value="Cancel"
-                  class="col s12 btn waves-effect grey lighten-1 grey-text text-darken-4"
-                  @click.prevent="toogleAddCostCenter"
-                />
-              </div>
-              <div :class="hasCostCenters ? 'col s6' : 'col s8 offset-s2'">
-                <input
-                  type="submit"
-                  value="Create"
-                  class="col s12 btn bold waves-effect teal darken-2"
-                  @click.prevent="createCostCenter"
-                />
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+                <v-row>
+                  <v-col cols="12" class="text-center">
+                    <v-btn @click="toogleAddCostCenter" variant="text" border large block>New</v-btn>
+                  </v-col>
+                </v-row>
+              </v-form>
+  
+              <v-form v-else>
+                <v-row class="text-center">
+                  <v-col cols="12">
+                    <v-icon size="128" color="teal darken-2">mdi-plus-box-multiple</v-icon>
+                  </v-col>
+                </v-row>
+                
+                <v-row class="text-center">
+                  <v-col cols="12">
+                    <h4 class="teal--text text--darken-2" >Add new cost center</h4>
+                  </v-col>
+                </v-row>
+  
+                <v-row>
+                  <v-col cols="12">
+                    <v-text-field v-model="costCenterName" label="Name" required></v-text-field>
+                  </v-col>
+                </v-row>
+  
+                <v-row>
+                  <v-col cols="6" v-if="hasCostCenters">
+                    <v-btn @click="toogleAddCostCenter" variant="text" large block>Cancel</v-btn>
+                  </v-col>
+                  <v-col :cols="hasCostCenters ? 6 : 8" :offset="hasCostCenters ? 0 : 2">
+                    <v-btn block color="teal darken-2" class="white--text" @click="createCostCenter">Create</v-btn>
+                  </v-col>
+                </v-row>
+              </v-form>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-main>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useCostCenterStore } from '@/store/cost_center.store'
 import { axiosHelper } from '@/helper/axios.helper'
-import M from 'materialize-css'
+import { useSnackbarStore } from '@/store/snackbar.store';
 
 const costCenterStore = useCostCenterStore()
+const snackbarStore = useSnackbarStore()
 
 const costCenters = ref([])
 const costCenterName = ref('')
@@ -96,7 +100,7 @@ const getAllCostCenter = async () => {
   const res = await axiosHelper.get(url)
 
   if (res.error) {
-    M.toast({ html: res.message, classes: 'red' })
+    snackbarStore.showSnackbar(res.message)
     console.error(res.message)
   } else {
     costCenters.value = res.data
@@ -123,5 +127,3 @@ onMounted(() => {
   getAllCostCenter()
 })
 </script>
-
-<style lang="scss" scoped></style>

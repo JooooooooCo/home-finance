@@ -1,95 +1,62 @@
 <template>
-  <div>
-    <div class="row">
-      <div class="col s12">
+  <v-container>
+    <v-row>
+      <v-col cols="12">
         <div v-show="!showForm">
-          <ul class="collapsible">
-            <li v-for="costCenter in costCenters" :key="costCenter.id">
-              <div class="collapsible-header remove-click-pointer">
-                <div class="col valign-wrapper">
-                  <i class="material-icons first-icon">chevron_right </i>
-                  {{ costCenter.name }}
-                </div>
-                <div class="col s4 right-align valign-wrapper">
-                  <a
-                    class="add-click-pointer"
-                    style="margin-left: auto"
-                    @click.prevent="showEditForm(costCenter)"
-                    ><i class="material-icons grey-text text-darken-3"
-                      >mode_edit</i
-                    ></a
-                  >
-                  <a
-                    class="add-click-pointer"
-                    @click.prevent="deleteCostCenter(costCenter.id)"
-                    ><i class="material-icons red-text">delete</i></a
-                  >
-                </div>
-              </div>
-            </li>
-          </ul>
+          <v-list v-model:selected="selected" select-strategy="leaf">
+            <v-list-item
+              v-for="costCenter in costCenters" :key="costCenter.id"
+              :value="costCenter.id"
+              @click.stop="showEditForm(costCenter)"
+            >
+              <v-list-item-title>{{ costCenter.name }}</v-list-item-title>
 
-          <div class="fixed-action-btn">
-            <a class="btn-floating btn-large teal darken-2">
-              <i class="large material-icons" @click.prevent="showAddForm()"
-                >add</i
-              >
-            </a>
-          </div>
+              <template v-slot:append>
+                <v-btn @click.stop="deleteCostCenter(costCenter.id)" color="red" icon="mdi-delete" variant="text"></v-btn>
+              </template>
+            </v-list-item>
+          </v-list>
+
+          <v-btn @click.prevent="showAddForm()" position="fixed" location="bottom right" class="ma-4" size="large" icon="mdi-plus" color="teal darken-2"/>
         </div>
 
-        <div class="card-default" v-if="showForm">
-          <form>
-            <div class="row mar-bottom-0">
-              <div class="input-field col s12">
-                <input
-                  type="text"
-                  name="cost_center_name"
-                  id="cost_center_name"
-                  v-model="selectedCostCenter.name"
-                />
-                <label for="cost_center_name" class="active mar-top-minus5"
-                  >Name</label
-                >
-              </div>
-            </div>
-
-            <div class="row mar-bottom-0">
-              <div class="col s6 m3 offset-m6">
-                <input
-                  type="button"
-                  value="Cancel"
-                  class="col s12 btn waves-effect grey lighten-1 grey-text text-darken-4"
-                  @click.prevent="hideForm()"
-                />
-              </div>
-              <div class="col s6 m3">
-                <input
-                  type="submit"
-                  value="Save"
-                  class="col s12 btn bold waves-effect teal darken-2"
-                  @click.prevent="saveCostCenter()"
-                />
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+        <v-card v-if="showForm" class="mt-4">
+          <v-form @submit.prevent="saveCostCenter">
+            <v-container>
+              <v-row>
+                <v-col cols="12">
+                  <v-text-field v-model="selectedCostCenter.name" label="Name" required></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col cols="6" offset="6" md="3" offset-md="6">
+                  <v-btn @click="hideForm" variant="text" large block>Cancel</v-btn>
+                </v-col>
+                <v-col cols="6" md="3">
+                  <v-btn block color="teal darken-2" type="submit">Save</v-btn>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-form>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { axiosHelper } from "@/helper/axios.helper";
-import M from "materialize-css";
+import { useSnackbarStore } from '@/store/snackbar.store';
+
+const snackbarStore = useSnackbarStore()
 
 const costCenters = ref([]);
 const loading = ref(true);
 const showForm = ref(false);
 const selectedCostCenter = ref({ id: null, name: null });
 
-const isEditMode = computed(() => selectedCostCenter.value?.id ? true : false);
+const isEditMode = computed(() => !!selectedCostCenter.value?.id);
 
 const getAllCostCenter = async () => {
   loading.value = true;
@@ -98,7 +65,7 @@ const getAllCostCenter = async () => {
   const res = await axiosHelper.get(url);
 
   if (res.error) {
-    M.toast({ html: res.message, classes: "red" });
+    snackbarStore.showSnackbar(res.message);
     console.error(res.message);
   }
 
@@ -110,11 +77,9 @@ const deleteCostCenter = async (costCenterId) => {
   const url = `/settings/cost-center/${costCenterId}`;
 
   const res = await axiosHelper.delete(url);
-  const toastClass = res.error ? "red" : "teal darken-2";
-
-  M.toast({ html: res.message, classes: toastClass });
 
   if (res.error) {
+    snackbarStore.showSnackbar(res.message);
     console.error(res.message);
   }
 
@@ -131,11 +96,9 @@ const saveCostCenter = async () => {
   };
 
   const res = await axiosHelper[method](url, body);
-  const toastClass = res.error ? "red" : "teal darken-2";
-
-  M.toast({ html: res.message, classes: toastClass });
 
   if (res.error) {
+    snackbarStore.showSnackbar(res.message);
     console.error(res.message);
   }
 
@@ -170,5 +133,3 @@ onMounted(() => {
   getAllCostCenter();
 });
 </script>
-
-<style lang="scss" scoped></style>

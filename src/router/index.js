@@ -43,13 +43,6 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  const elemBody = document.getElementById("body");
-  elemBody.classList.remove("bg-login");
-
-  if (["/", "/cost-center-selection"].includes(to.path)) {
-    elemBody.classList.add("bg-login");
-  }
-
   // Validate auth to page access
   const publicPages = ["/"];
   const authRequired = !publicPages.includes(to.path);

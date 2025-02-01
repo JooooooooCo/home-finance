@@ -1,293 +1,109 @@
 <template>
   <div>
-    <nav>
-      <div class="nav-wrapper teal darken-2">
-        <a data-target="slide-out" class="sidenav-trigger" v-if="!showBackBtn">
-          <i class="material-icons">menu</i>
-        </a>
+    <v-app-bar color="teal darken-2" dark>
+      <v-app-bar-nav-icon @click="toogleMenu">
+        <v-icon>mdi-menu</v-icon>
+      </v-app-bar-nav-icon>
 
-        <a
-          data-target="slide-out"
-          class="sidenav-btn"
-          v-if="showBackBtn"
-          @click.prevent="callBackFunction"
-        >
-          <i class="material-icons">arrow_back</i>
-        </a>
+      <v-toolbar-title class="brand-logo">{{ title }}</v-toolbar-title>
 
-        <div class="brand-logo valign-wrapper">
-          <img src="@/assets/logo-navbar.png" v-show="!hasTitle" />
+      <v-spacer></v-spacer>
 
-          <span v-show="hasTitle">{{ title }}</span>
-        </div>
+      <v-toolbar-items class="hide-on-small-only">
+        <v-btn @click="changeCostCenter" prepend-icon="mdi-wallet">{{ getCostCenterName }}</v-btn>
+      </v-toolbar-items>
+    </v-app-bar>
 
-        <ul class="right hide-on-small-only">
-          <li>
-            <span class="white-text">
-              <span class="white-text">
-                {{ getCostCenterName }}
-              </span>
-            </span>
-          </li>
-          <li class="margin-navbar-elem">
-            <i class="material-icons">account_balance_wallet</i>
-          </li>
-        </ul>
-      </div>
-    </nav>
+    <v-navigation-drawer v-model="drawer" app temporary>
+      <v-list>
+        <v-list-item :prepend-avatar="getUserAvatarUrl" :title="user_name" :subtitle="user_email"></v-list-item>
+        <v-list-item prepend-avatar="" title="" :subtitle="getCostCenterName"></v-list-item>
+      </v-list>
 
-    <ul id="slide-out" class="sidenav">
-      <li>
-        <div class="user-view shadow-layer">
-          <div class="background">
-            <img src="@/assets/bg-avatar-default.png" />
-          </div>
-          <a><img class="circle" :src="getUserAvatarUrl" /></a>
-          <span class="white-text name">{{ user_name }}</span>
-          <span class="white-text email">{{ user_email }}</span>
-          <span class="white-text cost-center">{{ getCostCenterName }}</span>
-        </div>
-      </li>
-      <router-link to="/dashboard">
-        <li>
-          <a class="waves-effect sidenav-close"
-            ><i class="material-icons">home</i>Dashboard</a
-          >
-        </li>
-      </router-link>
-      <router-link to="/cash-flow">
-        <li>
-          <a class="waves-effect sidenav-close"
-            ><i class="material-icons">attach_money</i>Cash Flow</a
-          >
-        </li>
-      </router-link>
-      <li>
-        <ul class="collapsible collapsible-accordion menu-padding">
-          <li>
-            <a class="collapsible-header no-padding"
-              >Settings<i class="material-icons">settings</i></a
-            >
-            <div class="collapsible-body">
-              <ul>
-                <router-link to="/">
-                  <li>
-                    <a class="waves-effect sidenav-close">Cash Movement</a>
-                  </li>
-                </router-link>
-                <router-link to="/settings/cost-center">
-                  <li>
-                    <a class="waves-effect sidenav-close">Cost Center</a>
-                  </li>
-                </router-link>
-                <router-link to="/">
-                  <li>
-                    <a class="waves-effect sidenav-close">Payment</a>
-                  </li>
-                </router-link>
-                <router-link to="/">
-                  <li>
-                    <a class="waves-effect sidenav-close">Payment Status</a>
-                  </li>
-                </router-link>
-                <router-link to="/">
-                  <li>
-                    <a class="waves-effect sidenav-close">Group 1</a>
-                  </li>
-                </router-link>
-                <router-link to="/">
-                  <li>
-                    <a class="waves-effect sidenav-close">Group 2</a>
-                  </li>
-                </router-link>
-                <router-link to="/">
-                  <li>
-                    <a class="waves-effect sidenav-close">Group 3</a>
-                  </li>
-                </router-link>
-              </ul>
-            </div>
-          </li>
-        </ul>
-      </li>
-      <li><div class="divider"></div></li>
-      <li>
-        <a
-          class="waves-effect sidenav-close"
-          @click.prevent="changeCostCenter"
-          ><i class="material-icons">swap_horiz</i>Change Cost Center</a
-        >
-      </li>
-      <li>
-        <a class="waves-effect sidenav-close" @click.prevent="logout"
-          ><i class="material-icons">arrow_back</i>Logout</a
-        >
-      </li>
-    </ul>
+      <v-divider></v-divider>
+
+      <v-list density="compact" nav>
+        <v-list-item to="/dashboard" prepend-icon="mdi-home" title="Dashboard"></v-list-item>
+        <v-list-item to="/cash-flow" prepend-icon="mdi-cash" title="Cash Flow"></v-list-item>
+        <v-list-group>
+          <template v-slot:activator="{ props }">
+            <v-list-item v-bind="props" prepend-icon="mdi-cog" title="Settings"></v-list-item>
+          </template>
+          <v-list-item to="/" prepend-icon="mdi-cog" title="Movement"></v-list-item>
+          <v-list-item to="/settings/cost-center" prepend-icon="mdi-cog" title="Cost Center"></v-list-item>
+          <v-list-item to="/" prepend-icon="mdi-cog" title="Payment"></v-list-item>
+          <v-list-item to="/" prepend-icon="mdi-cog" title="Payment Status"></v-list-item>
+          <v-list-item to="/" prepend-icon="mdi-cog" title="Group 1"></v-list-item>
+          <v-list-item to="/" prepend-icon="mdi-cog" title="Group 2"></v-list-item>
+          <v-list-item to="/" prepend-icon="mdi-cog" title="Group 3"></v-list-item>
+        </v-list-group>
+      </v-list>
+
+      <template v-slot:append>
+        <v-divider></v-divider>
+
+        <v-list density="compact" nav>
+          <v-list-item @click="changeCostCenter" prepend-icon="mdi-swap-horizontal" title="Change Cost Center"></v-list-item>
+          <v-list-item @click="logout" prepend-icon="mdi-arrow-left" title="Logout"></v-list-item>
+        </v-list>
+      </template>
+    </v-navigation-drawer>
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref, computed, onMounted } from "vue";
 import { useAuthStore } from "@/store/auth.store";
 import { useCostCenterStore } from "@/store/cost_center.store";
-import M from "materialize-css";
 
-export default {
-  name: "NavBar",
-  props: {
-    title: {
-      type: String,
-      default: "Home Finance",
-    },
-    backFunctionName: {
-      type: String,
-      default: null,
-    },
-    showBackBtn: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  setup(props) {
-    const user_name = ref(null);
-    const user_email = ref(null);
-    const cost_center_name = ref(null);
+const title = ref('Home Finance');
+const drawer = ref(false);
+const user_name = ref(null);
+const user_email = ref(null);
+const cost_center_name = ref(null);
 
-    const getCostCenterName = computed(() => {
-      if (!cost_center_name.value) return;
+const getCostCenterName = computed(() => {
+  if (!cost_center_name.value) return;
+  return cost_center_name.value.substring(0, 20).toUpperCase();
+});
 
-      return cost_center_name.value.substring(0, 20).toUpperCase();
-    });
+const getUserAvatarUrl = computed(() => {
+  if (!user_name.value) return;
+  const name = user_name.value.replaceAll(" ", "-");
+  return `https://ui-avatars.com/api/?size=512&background=00796b&color=fff&name=${name}`;
+});
 
-    const getUserAvatarUrl = computed(() => {
-      if (!user_name.value) return;
-
-      const name = user_name.value.replaceAll(" ", "-");
-
-      return `https://ui-avatars.com/api/?size=512&background=00796b&color=fff&name=${name}`;
-    });
-
-    const hasTitle = computed(() => props.title);
-
-    const logout = () => {
-      const authStore = useAuthStore();
-      authStore.logout();
-    };
-
-    const changeCostCenter = () => {
-      const costCenterStore = useCostCenterStore();
-      costCenterStore.cleanCostCenter();
-    };
-
-    const initMaterialize = () => {
-      const elems = document.querySelectorAll(".sidenav");
-      M.Sidenav.init(elems);
-      const collapsibleElem = document.querySelector(".collapsible");
-      M.Collapsible.init(collapsibleElem);
-    };
-
-    const fillUserDetails = () => {
-      const authStore = useAuthStore();
-      const costCenterStore = useCostCenterStore();
-
-      user_name.value = authStore.name;
-      user_email.value = authStore.email;
-      cost_center_name.value = costCenterStore.name;
-    };
-
-    const callBackFunction = () => {
-      this.$parent[props.backFunctionName]();
-    };
-
-    onMounted(() => {
-      initMaterialize();
-      fillUserDetails();
-    });
-
-    return {
-      user_name,
-      user_email,
-      cost_center_name,
-      getCostCenterName,
-      getUserAvatarUrl,
-      hasTitle,
-      logout,
-      changeCostCenter,
-      callBackFunction,
-    };
-  },
-
-// .sidenav {
-//   @media (min-width: 992px) {
-//     transform: translateX(0) !important;
-//     position: fixed !important;
-//     width: 250px !important;
-//     left: 0;
-//     top: 0;
-//     height: 100%;
-//   }
-// }
+const logout = () => {
+  const authStore = useAuthStore();
+  authStore.logout();
 };
+
+const changeCostCenter = () => {
+  const costCenterStore = useCostCenterStore();
+  costCenterStore.cleanCostCenter();
+};
+
+const fillUserDetails = () => {
+  const authStore = useAuthStore();
+  const costCenterStore = useCostCenterStore();
+  user_name.value = authStore.name;
+  user_email.value = authStore.email;
+  cost_center_name.value = costCenterStore.name;
+};
+
+const toogleMenu = () => {
+  drawer.value = !drawer.value;
+};
+
+onMounted(() => {
+  fillUserDetails();
+});
 </script>
 
 <style lang="scss" scoped>
-.sidenav-trigger {
-  display: block !important;
-}
-
-.brand-logo {
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-}
-
-.sidenav .collapsible-header {
-  background-color: #ffffff;
-}
-
-.sidenav .collapsible-header:hover {
-  background-color: #ffffff;
-}
-
-.collapsible {
-  background-color: #ffffff;
-}
-
-.menu-padding {
-  padding: 0 32px;
-}
-
-.cost-center {
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 10px !important;
-  padding-bottom: 16px;
-}
-
-.email {
-  padding-bottom: 0px !important;
-  font-weight: 400;
-}
-
-.margin-navbar-elem {
-  margin: 0 18px 0 5px;
-}
-
-.shadow-layer {
-  background-color: rgb(0 0 0 / 45%);
-}
-
-.brand-logo {
-  position: absolute;
-  color: #fff;
-  font-size: 2.1rem;
-  padding: 0;
-  height: inherit;
-  display: flex;
-}
-
-.brand-logo img {
-  max-height: 80%;
-  max-width: 100%;
+.hide-on-small-only {
+  @media (max-width: 599px) {
+    display: none;
+  }
 }
 </style>

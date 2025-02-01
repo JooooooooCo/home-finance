@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { axiosHelper } from "@/helper/axios.helper";
 import router from "@/router";
-import M from "materialize-css";
+import { useSnackbarStore } from '@/store/snackbar.store';
 
 export const useAuthStore = defineStore("auth", {
   state: () => {
@@ -24,7 +24,8 @@ export const useAuthStore = defineStore("auth", {
       const res = await axiosHelper.post(url, auth);
 
       if (res.error) {
-        M.toast({ html: res.message, classes: "red" });
+        const snackbarStore = useSnackbarStore();
+        snackbarStore.showSnackbar(res.message);
         return;
       }
 
@@ -40,9 +41,7 @@ export const useAuthStore = defineStore("auth", {
     },
     async logout() {
       const url = "/user/logout";
-      const res = await axiosHelper.post(url);
-
-      M.toast({ html: res.message, classes: "red" });
+      await axiosHelper.post(url);
 
       this.name = null;
       this.email = null;

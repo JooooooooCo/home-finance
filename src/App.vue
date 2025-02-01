@@ -1,14 +1,10 @@
 <template>
-  <router-view />
+  <v-app>
+    <router-view />
+    <SnackBar />
+  </v-app>
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
-import M from 'materialize-css'
-
-onMounted(() => {
-  M.AutoInit()
-})
+import SnackBar from "@/components/SnackBar.vue";
 </script>
-
-<style lang="scss"></style>
