@@ -33,7 +33,7 @@ export const useCostCenterStore = defineStore("cost_center", {
         return;
       }
 
-      router.push("/dashboard");
+      router.push({ name: 'dashboard' });
     },
     cleanCostCenter() {
       this.id = null;
@@ -42,7 +42,7 @@ export const useCostCenterStore = defineStore("cost_center", {
       localStorage.setItem("cost_center_id", JSON.stringify(this.id));
       localStorage.setItem("cost_center_name", JSON.stringify(this.name));
 
-      router.push("/cost-center-selection");
+      router.push({ name: 'cost-center-selection' });
     },
     async createCostCenter(cost_center_name) {
       const body = { name: cost_center_name };

@@ -23,19 +23,19 @@
       <v-divider></v-divider>
 
       <v-list density="compact" nav>
-        <v-list-item to="/dashboard" prepend-icon="mdi-home" title="Dashboard"></v-list-item>
-        <v-list-item to="/cash-flow" prepend-icon="mdi-cash" title="Cash Flow"></v-list-item>
+        <v-list-item :to="{ name: 'dashboard' }" prepend-icon="mdi-home" title="Dashboard"></v-list-item>
+        <v-list-item :to="{ name: 'cash-flow' }" prepend-icon="mdi-cash" title="Cash Flow"></v-list-item>
         <v-list-group>
           <template v-slot:activator="{ props }">
             <v-list-item v-bind="props" prepend-icon="mdi-cog" title="Settings"></v-list-item>
           </template>
-          <v-list-item to="/" prepend-icon="mdi-cog" title="Movement"></v-list-item>
-          <v-list-item to="/settings/cost-center" prepend-icon="mdi-cog" title="Cost Center"></v-list-item>
-          <v-list-item to="/" prepend-icon="mdi-cog" title="Payment"></v-list-item>
-          <v-list-item to="/" prepend-icon="mdi-cog" title="Payment Status"></v-list-item>
-          <v-list-item to="/" prepend-icon="mdi-cog" title="Group 1"></v-list-item>
-          <v-list-item to="/" prepend-icon="mdi-cog" title="Group 2"></v-list-item>
-          <v-list-item to="/" prepend-icon="mdi-cog" title="Group 3"></v-list-item>
+          <v-list-item :to="{ name: 'cost-center-selection' }" prepend-icon="mdi-cog" title="Movement"></v-list-item>
+          <v-list-item :to="{ name: 'settings-cost-center' }" prepend-icon="mdi-cog" title="Cost Center"></v-list-item>
+          <v-list-item :to="{ name: 'cost-center-selection' }" prepend-icon="mdi-cog" title="Payment"></v-list-item>
+          <v-list-item :to="{ name: 'cost-center-selection' }" prepend-icon="mdi-cog" title="Payment Status"></v-list-item>
+          <v-list-item :to="{ name: 'cost-center-selection' }" prepend-icon="mdi-cog" title="Group 1"></v-list-item>
+          <v-list-item :to="{ name: 'cost-center-selection' }" prepend-icon="mdi-cog" title="Group 2"></v-list-item>
+          <v-list-item :to="{ name: 'cost-center-selection' }" prepend-icon="mdi-cog" title="Group 3"></v-list-item>
         </v-list-group>
       </v-list>
 

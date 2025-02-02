@@ -37,7 +37,7 @@ export const useAuthStore = defineStore("auth", {
       localStorage.setItem("email", JSON.stringify(this.email));
       localStorage.setItem("token", JSON.stringify(this.token));
 
-      router.push("/cost-center-selection");
+      router.push({ name: 'cost-center-selection' });
     },
     async logout() {
       const url = "/user/logout";
@@ -51,7 +51,7 @@ export const useAuthStore = defineStore("auth", {
       localStorage.setItem("email", JSON.stringify(this.email));
       localStorage.setItem("token", JSON.stringify(this.token));
 
-      router.push("/");
+      router.push({ name: 'login' });
     },
   },
 });

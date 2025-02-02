@@ -3,37 +3,42 @@ import MainLayoutView from "@/views/MainLayoutView.vue";
 import { useAuthStore } from "@/store/auth.store";
 import { useCostCenterStore } from "@/store/cost_center.store";
 
+const publicRoutes = ["/", "/cost-center-selection"];
+
 const routes = [
   {
     path: "/",
-    component: () =>
-      import("@/views/LoginView.vue"),
+    name: "login",
+    component: () => import("@/views/LoginView.vue"),
+    meta: { isPublic: true },
   },
   {
     path: "/cost-center-selection",
-    component: () =>
-      import("@/views/CostCenterSelectionView.vue"),
+    name: "cost-center-selection",
+    component: () => import("@/views/CostCenterSelectionView.vue"),
+    meta: { isPublic: true },
   },
   {
     path: "/app",
     component: MainLayoutView,
+    meta: { requiresAuth: true, requiresCostCenter: true },
     children: [
       {
         path: "/dashboard",
-        component: () =>
-          import("@/views/DashboardView.vue"),
+        name: "dashboard",
+        component: () => import("@/views/DashboardView.vue"),
       },
       {
         path: "/cash-flow",
-        component: () =>
-          import("@/views/CashFlowView.vue"),
+        name: "cash-flow",
+        component: () => import("@/views/CashFlowView.vue"),
       },
       {
         path: "/settings/cost-center",
-        component: () =>
-          import("@/views/settings/CostCenterView.vue"),
+        name: "settings-cost-center",
+        component: () => import("@/views/settings/CostCenterView.vue"),
       },
-    ]
+    ],
   },
 ];
 
@@ -43,29 +48,27 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  // Validate auth to page access
-  const publicPages = ["/"];
-  const authRequired = !publicPages.includes(to.path);
-
-  const costCenterFreePassPages = ["/", "/cost-center-selection"];
-  const costCenterRequired = !costCenterFreePassPages.includes(to.path);
-
   const authStore = useAuthStore();
   const costCenterStore = useCostCenterStore();
+  const isPublicRoute = to.meta.isPublic || publicRoutes.includes(to.path);
+  const requiresAuth = to.meta.requiresAuth || !isPublicRoute;
+  const requiresCostCenter = to.meta.requiresCostCenter;
 
-  if (authRequired && !authStore.isLoggedIn) {
-    authStore.returnUrl = to.path;
-    next("/");
-  } else if (
-    costCenterRequired &&
-    authStore.isLoggedIn &&
-    !costCenterStore.isCostCenterSelected
-  ) {
-    authStore.returnUrl = to.path;
-    next("/cost-center-selection");
-  } else {
-    next();
+  if (isPublicRoute) {
+    return next();
   }
+
+  if (requiresAuth && !authStore.isLoggedIn) {
+    authStore.returnUrl = to.path;
+    return next({ name: "login" });
+  }
+
+  if (requiresCostCenter && !costCenterStore.isCostCenterSelected) {
+    authStore.returnUrl = to.path;
+    return next({ name: "cost-center-selection" });
+  }
+
+  next();
 });
 
 export default router;
