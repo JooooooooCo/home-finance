@@ -63,7 +63,7 @@
                   <v-col cols="6" v-if="hasCostCenters">
                     <v-btn @click="toogleAddCostCenter" variant="text" large block>Cancel</v-btn>
                   </v-col>
-                  <v-col :cols="hasCostCenters ? 6 : 8" :offset="hasCostCenters ? 0 : 2">
+                  <v-col cols="6" :offset="hasCostCenters ? 0 : 3">
                     <v-btn block color="teal darken-2" class="white--text" @click="createCostCenter">Create</v-btn>
                   </v-col>
                 </v-row>
