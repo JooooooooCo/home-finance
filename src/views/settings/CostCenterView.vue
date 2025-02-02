@@ -38,7 +38,6 @@ const getAllCostCenter = async () => {
 
   if (res.error) {
     snackbarStore.showSnackbar(res.message);
-    console.error(res.message);
   }
 
   costCenters.value = res.data;
@@ -50,7 +49,6 @@ const deleteCostCenter = async (costCenterId) => {
 
   if (res.error) {
     snackbarStore.showSnackbar(res.message);
-    console.error(res.message);
   }
 
   getAllCostCenter();
