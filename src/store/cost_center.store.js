@@ -52,7 +52,7 @@ export const useCostCenterStore = defineStore("cost_center", {
 
       if (res.error) {
         const snackbarStore = useSnackbarStore();
-        snackbarStore.showSnackbar(res.message);
+        snackbarStore.showSnackbar(res.data?.name?.[0] ?? res.message);
         return;
       }
 

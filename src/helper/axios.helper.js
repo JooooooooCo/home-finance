@@ -62,5 +62,6 @@ function handleError(err) {
   return {
     error: true,
     message: err.response.data.message,
+    data: err.response.data.data,
   };
 }

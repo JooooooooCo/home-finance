@@ -114,7 +114,6 @@ const setCostCenter = (costCenter) => {
 }
 
 const createCostCenter = () => {
-  if (!costCenterName.value) return
   costCenterStore.createCostCenter(costCenterName.value)
 }
 
