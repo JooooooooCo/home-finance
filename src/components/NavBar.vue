@@ -30,13 +30,13 @@
             <v-list-item v-bind="props" prepend-icon="mdi-cog" title="Settings"></v-list-item>
           </template>
           <v-list-item :to="{ name: 'cost-center-selection' }" prepend-icon="mdi-cog" title="Movement"></v-list-item>
-          <v-list-item :to="{ name: 'settings-cost-center' }" prepend-icon="mdi-cog" title="Cost Center"></v-list-item>
           <v-list-item :to="{ name: 'cost-center-selection' }" prepend-icon="mdi-cog" title="Payment"></v-list-item>
           <v-list-item :to="{ name: 'cost-center-selection' }" prepend-icon="mdi-cog" title="Payment Status"></v-list-item>
           <v-list-item :to="{ name: 'cost-center-selection' }" prepend-icon="mdi-cog" title="Group 1"></v-list-item>
           <v-list-item :to="{ name: 'cost-center-selection' }" prepend-icon="mdi-cog" title="Group 2"></v-list-item>
           <v-list-item :to="{ name: 'cost-center-selection' }" prepend-icon="mdi-cog" title="Group 3"></v-list-item>
         </v-list-group>
+        <v-list-item :to="{ name: 'cost-center' }" prepend-icon="mdi-wallet" title="Cost Center"></v-list-item>
       </v-list>
 
       <template v-slot:append>

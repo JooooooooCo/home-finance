@@ -33,7 +33,7 @@ const showForm = ref(false);
 const selectedCostCenter = ref({ id: null, name: null });
 
 const getAllCostCenter = async () => {
-  const url = "/settings/cost-center";
+  const url = "/cost-center";
   const res = await axiosHelper.get(url);
 
   if (res.error) {
@@ -44,7 +44,7 @@ const getAllCostCenter = async () => {
 };
 
 const deleteCostCenter = async (costCenterId) => {
-  const url = `/settings/cost-center/${costCenterId}`;
+  const url = `/cost-center/${costCenterId}`;
   const res = await axiosHelper.delete(url);
 
   if (res.error) {

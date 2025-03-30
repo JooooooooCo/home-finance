@@ -46,7 +46,7 @@ export const useCostCenterStore = defineStore("cost_center", {
     },
     async createCostCenter(cost_center_name) {
       const body = { name: cost_center_name };
-      const url = "/settings/cost-center";
+      const url = "/cost-center";
 
       const res = await axiosHelper.post(url, body);
 

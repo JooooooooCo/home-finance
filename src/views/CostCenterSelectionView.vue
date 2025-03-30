@@ -95,7 +95,7 @@ const enableAddCostCenter = computed(() => !hasCostCenters.value || showAddCostC
 
 const getAllCostCenter = async () => {
   loading.value = true
-  const url = '/settings/cost-center'
+  const url = '/cost-center'
 
   const res = await axiosHelper.get(url)
 

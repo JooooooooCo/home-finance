@@ -30,7 +30,7 @@ const emit = defineEmits(['hide-form']);
 
 const saveCostCenter = async (item) => {
   const method = item.id ? "put" : "post";
-  const url = item.id ? `/settings/cost-center/${item.id}` : "/settings/cost-center";
+  const url = item.id ? `/cost-center/${item.id}` : "/cost-center";
   const body = {
     name: item.name,
   };

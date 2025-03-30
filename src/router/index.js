@@ -34,9 +34,9 @@ const routes = [
         component: () => import("@/views/CashFlowView.vue"),
       },
       {
-        path: "/settings/cost-center",
-        name: "settings-cost-center",
-        component: () => import("@/views/settings/CostCenterView.vue"),
+        path: "/cost-center",
+        name: "cost-center",
+        component: () => import("@/views/CostCenterView.vue"),
       },
     ],
   },
