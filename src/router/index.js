@@ -38,6 +38,16 @@ const routes = [
         name: "cost-center",
         component: () => import("@/views/CostCenterView.vue"),
       },
+      {
+        path: "/settings",
+        children: [
+          {
+            path: "/payment-type",
+            name: "settings-payment-type",
+            component: () => import("@/views/settings/PaymentTypeView.vue"),
+          },
+        ],
+      }
     ],
   },
 ];
