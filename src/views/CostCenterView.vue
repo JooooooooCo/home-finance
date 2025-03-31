@@ -25,7 +25,7 @@ import { ref, onMounted } from 'vue';
 import { axiosHelper } from "@/helper/axios.helper";
 import { useSnackbarStore } from '@/store/snackbar.store';
 import GenericList from '@/components/GenericList.vue';
-import CostCenterForm from '@/components/settings/CostCenterForm.vue';
+import CostCenterForm from '@/components/CostCenterForm.vue';
 
 const snackbarStore = useSnackbarStore();
 const costCenters = ref([]);

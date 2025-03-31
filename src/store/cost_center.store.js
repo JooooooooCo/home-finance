@@ -23,16 +23,6 @@ export const useCostCenterStore = defineStore("cost_center", {
       localStorage.setItem("cost_center_id", JSON.stringify(this.id));
       localStorage.setItem("cost_center_name", JSON.stringify(this.name));
 
-      const url = "/user/current-cost-center";
-      const res = await axiosHelper.post(url);
-
-      if (res.error) {
-        const snackbarStore = useSnackbarStore();
-        snackbarStore.showSnackbar(res.message);
-        this.cleanCostCenter();
-        return;
-      }
-
       router.push({ name: 'dashboard' });
     },
     cleanCostCenter() {
