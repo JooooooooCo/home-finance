@@ -46,6 +46,11 @@ const routes = [
             name: "settings-payment-type",
             component: () => import("@/views/settings/PaymentTypeView.vue"),
           },
+          {
+            path: "/payment-status-type",
+            name: "settings-payment-status-type",
+            component: () => import("@/views/settings/PaymentStatusTypeView.vue"),
+          },
         ],
       }
     ],

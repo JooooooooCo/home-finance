@@ -30,7 +30,7 @@
             <v-list-item v-bind="props" prepend-icon="mdi-cog" title="Settings"></v-list-item>
           </template>
           <v-list-item :to="{ name: 'settings-payment-type' }" prepend-icon="mdi-cog" title="Payment Types"></v-list-item>
-          <v-list-item :to="{ name: 'dashboard' }" prepend-icon="mdi-cog" title="Payment Status Types"></v-list-item>
+          <v-list-item :to="{ name: 'settings-payment-status-type' }" prepend-icon="mdi-cog" title="Payment Status Types"></v-list-item>
           <v-list-item :to="{ name: 'dashboard' }" prepend-icon="mdi-cog" title="Categories"></v-list-item>
         </v-list-group>
         <v-list-item :to="{ name: 'cost-center' }" prepend-icon="mdi-wallet" title="Cost Centers"></v-list-item>
