@@ -13,7 +13,7 @@
 
 <script setup>
 import { defineProps } from 'vue';
-import GenericForm from '@/components/GenericForm.vue';
+import GenericForm from '@/components/settings/GenericForm.vue';
 import { axiosHelper } from "@/helper/axios.helper";
 import { useSnackbarStore } from '@/store/snackbar.store';
 

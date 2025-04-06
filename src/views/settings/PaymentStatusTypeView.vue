@@ -24,7 +24,7 @@
 import { ref, onMounted } from 'vue';
 import { axiosHelper } from "@/helper/axios.helper";
 import { useSnackbarStore } from '@/store/snackbar.store';
-import GenericList from '@/components/GenericList.vue';
+import GenericList from '@/components/settings/GenericList.vue';
 import PaymentStatusTypeForm from '@/components/settings/PaymentStatusTypeForm.vue';
 
 const snackbarStore = useSnackbarStore();
