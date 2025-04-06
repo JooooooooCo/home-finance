@@ -19,6 +19,11 @@ const vuetify = createVuetify({
       mdi,
     },
   },
+  date: {
+    locale: {
+      en: 'pt-BR',
+    },
+  },
 });
 
 const pinia = createPinia();
