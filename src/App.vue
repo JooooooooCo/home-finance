@@ -6,5 +6,5 @@
 </template>
 
 <script setup>
-import SnackBar from "@/components/core/SnackBar.vue";
+import SnackBar from "@/components/generics/SnackBar.vue";
 </script>

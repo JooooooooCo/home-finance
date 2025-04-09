@@ -1,9 +1,6 @@
 <template>
   <div>
-    <v-snackbar
-      v-model="snackbar"
-      color="red"
-    >
+    <v-snackbar v-model="snackbar" color="red">
       {{ text }}
     </v-snackbar>
   </div>

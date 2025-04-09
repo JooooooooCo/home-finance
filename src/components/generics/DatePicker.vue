@@ -1,28 +1,15 @@
 <template>
-  <v-dialog
-      v-model="dialogPicker"
-      width="auto"
-    >
+  <v-dialog v-model="dialogPicker" width="auto">
     <template #activator="{ props }">
-      <v-text-field
-        :model-value="formattedDate"
-        :label="label"
-        readonly
-        v-bind="props"
-        variant="outlined"
-      />
+      <v-text-field :model-value="formattedDate" :label="label" readonly v-bind="props" variant="outlined" />
     </template>
 
     <v-card>
-      <v-date-picker
-        v-model="parsedDate"
-        @update:model-value="closeDatePicker"
-        locale="pt-BR"
-      />
+      <v-date-picker v-model="parsedDate" @update:model-value="closeDatePicker" locale="pt-BR" show-adjacent-months />
     </v-card>
   </v-dialog>
 </template>
-  
+
 <script setup>
 import { ref, computed } from 'vue';
 import { useDate } from 'vuetify';
