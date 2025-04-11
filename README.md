@@ -31,7 +31,7 @@ VUE_APP_ROOT_API=http://localhost:8001/api
 Now, you will need `docker` installed. Run this command to build and up the docker container:
 
 ```
-$ docker-compose up -d
+$ docker compose up -d
 ```
 
 With the container up, run the below command to serve the app:
