@@ -13,6 +13,7 @@ services:
       - ./src:/app/src
       - ./public:/app/public
       - /app/node_modules
+    command: ["npm", "run", "serve"]
     networks:
       - home-finance-network
 
