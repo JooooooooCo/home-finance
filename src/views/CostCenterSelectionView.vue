@@ -128,6 +128,6 @@ onMounted(() => {
 
 <style lang="css" scoped>
 .main-container {
-  background-color: #009688;
+  background-image: linear-gradient( 135deg, #009688 10%, #002661 100%);
 }
 </style>
