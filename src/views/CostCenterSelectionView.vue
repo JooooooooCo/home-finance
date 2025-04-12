@@ -1,5 +1,5 @@
 <template>
-  <v-main>
+  <v-main class="main-container">
     <v-container class="fill-height" fluid>
       <v-row justify="center" align="center" class="fill-height">
         <v-col cols="12" sm="8" md="6" lg="4">
@@ -35,7 +35,7 @@
 
                 <v-row>
                   <v-col cols="12" class="text-center">
-                    <v-btn @click="toogleAddCostCenter" variant="text" border large block>New</v-btn>
+                    <v-btn @click="toogleAddCostCenter" variant="tonal" large block>New</v-btn>
                   </v-col>
                 </v-row>
               </v-form>
@@ -125,3 +125,9 @@ onMounted(() => {
   getAllCostCenter()
 })
 </script>
+
+<style lang="css" scoped>
+.main-container {
+  background-color: #009688;
+}
+</style>

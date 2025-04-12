@@ -1,5 +1,5 @@
 <template>
-  <v-main>
+  <v-main class="main-container">
     <v-container class="fill-height" fluid>
       <v-row align="center" justify="center">
         <v-col cols="12" sm="8" md="6" lg="4">
@@ -15,13 +15,13 @@
 
                 <v-row>
                   <v-col cols="12">
-                    <v-text-field v-model="user.email" label="Email" variant="outlined" name="email" type="text" autocomplete="username" required></v-text-field>
+                    <v-text-field v-model="user.email" label="Email" variant="underlined" name="email" type="text" autocomplete="username" required></v-text-field>
                   </v-col>
                 </v-row>
 
                 <v-row>
                   <v-col cols="12">
-                    <v-text-field v-model="user.password" label="Password" variant="outlined" name="password" type="password" autocomplete="current-password" required></v-text-field>
+                    <v-text-field v-model="user.password" label="Password" variant="underlined" name="password" type="password" autocomplete="current-password" required></v-text-field>
                   </v-col>
                 </v-row>
 
@@ -56,3 +56,9 @@ function login() {
   authStore.login(user.value.email, user.value.password)
 }
 </script>
+
+<style lang="css" scoped>
+.main-container {
+  background-color: #009688;
+}
+</style>
