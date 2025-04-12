@@ -43,8 +43,7 @@
         </v-col>
 
         <v-col cols="12">
-          <v-text-field label="Categoria Primária" v-model="form.primary_category_id" type="number"
-            variant="outlined" />
+          <PrimaryCategorySelector v-model="form.primary_category_id" />
         </v-col>
 
         <v-col cols="12">
@@ -58,7 +57,7 @@
         </v-col>
 
         <v-col cols="12">
-          <v-textarea label="Observação Primária" v-model="form.primary_note" rows="2" variant="outlined" />
+          <v-textarea label="Observação Principal" v-model="form.primary_note" rows="2" variant="outlined" />
         </v-col>
 
         <v-col cols="12">
@@ -95,6 +94,7 @@ import NumberStepperInput from '../generics/NumberStepperInput.vue'
 import TransactionTypeSelector from '../core/TransactionTypeSelector.vue'
 import PaymentTypeSelector from '../core/PaymentTypeSelector.vue'
 import PaymentStatusTypeSelector from '../core/PaymentStatusTypeSelector.vue'
+import PrimaryCategorySelector from '../core/PrimaryCategorySelector.vue'
 import { ref, watch } from 'vue'
 
 const props = defineProps({
