@@ -1,10 +1,10 @@
 <template>
-  <v-btn-toggle v-model="selectedTransactionType" @update:modelValue="changeSelection" color="teal darken-2" rounded="0" mandatory group>
-    <v-btn :value="1">
+  <v-btn-toggle v-model="selectedTransactionType" @update:modelValue="changeSelection" mandatory group>
+    <v-btn :value="1" color="red" prepend-icon="mdi-arrow-down">
       Despesa
     </v-btn>
 
-    <v-btn :value="2">
+    <v-btn :value="2" color="teal darken-2" append-icon="mdi-arrow-up">
       Receita
     </v-btn>
   </v-btn-toggle>
