@@ -9,8 +9,8 @@
         <v-divider></v-divider>
         <v-card-text>
           <v-list>
-            <v-list-item v-for="option in items" :key="option.id" @click="selectOption(option)">
-              <v-list-item-title>{{ option.name }}</v-list-item-title>
+            <v-list-item v-for="option in items" :key="option.id">
+              <v-btn variant="tonal" large block @click="selectOption(option)">{{ option.name }}</v-btn>
             </v-list-item>
           </v-list>
         </v-card-text>
