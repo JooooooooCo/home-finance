@@ -7,11 +7,11 @@
         </v-col>
 
         <v-col cols="12">
-          <SelectPicker v-model="form.payment_type_id" :items="paymentTypes" label="Modo de Pagamento" />
+          <PaymentTypeSelector v-model="form.payment_type_id" />
         </v-col>
 
         <v-col cols="12">
-          <SelectPicker v-model="form.payment_status_id" :items="paymentStatusTypes" label="Situação de Pagamento" />
+          <PaymentStatusTypeSelector v-model="form.payment_status_id" />
         </v-col>
 
         <v-col cols="12">
@@ -91,19 +91,15 @@
 
 <script setup>
 import DatePicker from '../generics/DatePicker.vue'
-import { usePaymentTypes } from '@/composables/usePaymentTypes'
-import { usePaymentStatusTypes } from '@/composables/usePaymentStatusTypes'
-import SelectPicker from '../generics/SelectPicker.vue'
 import NumberStepperInput from '../generics/NumberStepperInput.vue'
 import TransactionTypeSelector from '../core/TransactionTypeSelector.vue'
+import PaymentTypeSelector from '../core/PaymentTypeSelector.vue'
+import PaymentStatusTypeSelector from '../core/PaymentStatusTypeSelector.vue'
 import { ref, watch } from 'vue'
 
 const props = defineProps({
   modelValue: Object
 })
-
-const { paymentTypes } = usePaymentTypes();
-const { paymentStatusTypes } = usePaymentStatusTypes();
 
 const emit = defineEmits(['update:modelValue', 'submit', 'cancel'])
 
