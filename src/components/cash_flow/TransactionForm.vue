@@ -66,11 +66,12 @@
         </v-col>
 
         <v-col cols="6">
-          <v-switch label="Real" v-model="form.is_real" />
+          <v-switch label="Real" inset color="teal darken-2" :true-value="1" :false-value="0" v-model="form.is_real" />
         </v-col>
 
         <v-col cols="6">
-          <v-switch label="Conciliado" v-model="form.is_reconciled" />
+          <v-switch label="Conciliado" inset color="teal darken-2" :true-value="1" :false-value="0"
+            v-model="form.is_reconciled" />
         </v-col>
       </v-row>
 
