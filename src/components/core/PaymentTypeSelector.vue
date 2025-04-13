@@ -15,7 +15,7 @@ const availableOptions = ref([]);
 const props = defineProps({
   modelValue: {
     type: Number,
-    default: 1
+    default: null
   },
 })
 
