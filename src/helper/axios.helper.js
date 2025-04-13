@@ -22,7 +22,12 @@ function request(method) {
 
     if (body) {
       requestConfig.headers["Content-Type"] = "application/json";
-      requestConfig.data = JSON.stringify(body);
+
+      if (method === "GET") {
+        requestConfig.params = body;
+      } else {
+        requestConfig.data = JSON.stringify(body);
+      }
     }
 
     return await axios(requestConfig)

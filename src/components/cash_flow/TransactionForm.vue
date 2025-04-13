@@ -47,8 +47,7 @@
         </v-col>
 
         <v-col cols="12">
-          <v-text-field label="Categoria Secundária" v-model="form.secondary_category_id" type="number"
-            variant="outlined" />
+          <SecondaryCategorySelector v-model="form.secondary_category_id" :transactionTypeId="form.transaction_type_id" />
         </v-col>
 
         <v-col cols="12">
@@ -95,6 +94,7 @@ import TransactionTypeSelector from '../core/TransactionTypeSelector.vue'
 import PaymentTypeSelector from '../core/PaymentTypeSelector.vue'
 import PaymentStatusTypeSelector from '../core/PaymentStatusTypeSelector.vue'
 import PrimaryCategorySelector from '../core/PrimaryCategorySelector.vue'
+import SecondaryCategorySelector from '../core/SecondaryCategorySelector.vue'
 import { ref, watch } from 'vue'
 
 const props = defineProps({
