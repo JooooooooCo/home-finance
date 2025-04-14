@@ -51,8 +51,7 @@
         </v-col>
 
         <v-col cols="12">
-          <v-text-field label="Categoria Específica" v-model="form.specific_category_id" type="number"
-            variant="outlined" />
+          <SpecificCategorySelector v-model="form.specific_category_id" :secondaryCategoryId="form.secondary_category_id" />
         </v-col>
 
         <v-col cols="12">
@@ -95,6 +94,7 @@ import PaymentTypeSelector from '../core/PaymentTypeSelector.vue'
 import PaymentStatusTypeSelector from '../core/PaymentStatusTypeSelector.vue'
 import PrimaryCategorySelector from '../core/PrimaryCategorySelector.vue'
 import SecondaryCategorySelector from '../core/SecondaryCategorySelector.vue'
+import SpecificCategorySelector from '../core/SpecificCategorySelector.vue'
 import { ref, watch } from 'vue'
 
 const props = defineProps({
