@@ -1,6 +1,6 @@
 <template>
   <v-card class="pa-4" variant="text">
-    <v-form @submit.prevent="submitForm" ref="formRef">
+    <v-form @submit.prevent="submitForm">
       <v-row dense>
         <v-col cols="12" class="d-flex justify-center mb-3">
           <TransactionTypeSelector v-model="form.transaction_type_id" />
@@ -98,7 +98,7 @@ import SpecificCategorySelector from '../core/SpecificCategorySelector.vue'
 import { ref, watch } from 'vue'
 
 const props = defineProps({
-  modelValue: Object
+  modelValue: Object,
 })
 
 const emit = defineEmits(['update:modelValue', 'submit', 'cancel'])
@@ -108,8 +108,6 @@ const form = ref({ ...props.modelValue })
 watch(() => props.modelValue, (val) => {
   form.value = { ...val }
 })
-
-const formRef = ref(null)
 
 const submitForm = () => {
   emit('submit', form.value)
