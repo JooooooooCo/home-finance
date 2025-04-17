@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-select :label="label" :items="[]" :model-value="selectedName" variant="outlined" required
+    <v-select :label="label" :items="[]" :model-value="selectedName" variant="solo-filled" flat rounded-sm required
       :menu-props="{ openOnClick: false }" @click="dialog = true" readonly />
 
     <v-dialog v-model="dialog" width="400">

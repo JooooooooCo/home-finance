@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialogPicker" width="auto">
     <template #activator="{ props }">
-      <v-text-field :model-value="formattedDate" :label="label" readonly v-bind="props" clearable variant="outlined" />
+      <v-text-field :model-value="formattedDate" :label="label" readonly v-bind="props" clearable variant="solo-filled" flat rounded-sm  />
     </template>
 
     <v-card>

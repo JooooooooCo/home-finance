@@ -1,5 +1,6 @@
 <template>
-  <v-text-field :label="label" :model-value="modelValue" variant="outlined"
+  <label :for="`number-stepper-${label}`" class="v-label">{{label}}</label>
+  <v-text-field :id="`number-stepper-${label}`" :model-value="modelValue" variant="solo-filled" flat rounded-xl 
     @update:model-value="val => emit('update:modelValue', Number(val))">
     <template #prepend-inner>
       <v-btn icon size="small" variant="text" @click="decrement">

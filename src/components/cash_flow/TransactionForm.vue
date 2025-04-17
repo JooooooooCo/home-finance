@@ -27,11 +27,11 @@
         </v-col>
 
         <v-col cols="12">
-          <v-textarea label="Descrição" v-model="form.description" required rows="2" auto-grow variant="outlined" />
+          <v-textarea label="Descrição" v-model="form.description" required rows="2" auto-grow variant="solo-filled" flat rounded-sm />
         </v-col>
 
         <v-col cols="12">
-          <v-text-field label="Valor" v-model="form.amount" prefix="R$" type="number" variant="outlined" required />
+          <v-text-field label="Valor" v-model="form.amount" prefix="R$" type="number" variant="solo-filled" flat rounded-sm required />
         </v-col>
 
         <v-col cols="6">
@@ -55,11 +55,11 @@
         </v-col>
 
         <v-col cols="12">
-          <v-textarea label="Observação Principal" v-model="form.primary_note" rows="2" variant="outlined" />
+          <v-textarea label="Observação Principal" v-model="form.primary_note" rows="2" variant="solo-filled" flat rounded-sm />
         </v-col>
 
         <v-col cols="12">
-          <v-textarea label="Observação Secundária" v-model="form.secondary_note" rows="2" variant="outlined" />
+          <v-textarea label="Observação Secundária" v-model="form.secondary_note" rows="2" variant="solo-filled" flat rounded-sm />
         </v-col>
 
         <v-col cols="6">

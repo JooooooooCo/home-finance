@@ -3,7 +3,7 @@
     <template v-slot="{ item }">
       <v-row>
         <v-col cols="12">
-          <v-text-field v-model="item.name" label="Name" variant="outlined" required></v-text-field>
+          <v-text-field v-model="item.name" label="Name" variant="solo-filled" flat rounded-sm required></v-text-field>
         </v-col>
       </v-row>
     </template>
