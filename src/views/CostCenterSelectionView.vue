@@ -28,7 +28,7 @@
                       text-color="white"
                       @click="setCostCenter(costCenter)"
                     >
-                      {{ costCenter.name }}
+                      <b>{{ costCenter.name }}</b>
                     </v-chip>  
                   </v-col>
                 </v-row>

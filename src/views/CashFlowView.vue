@@ -3,51 +3,153 @@
     <v-row>
       <v-col cols="12">
         <v-list v-if="!showForm">
-          <v-card
-            v-for="transaction in transactions"
-            :key="transaction.id"
-            class="mb-4"
-            variant="tonal"
-          >
-            <v-card-title class="d-flex ">
-              <div>
-                <v-icon v-if="transaction.transaction_type_id == 1" color="error" icon="mdi-arrow-down"></v-icon>
-                <v-icon v-else color="success" icon="mdi-arrow-up"></v-icon>
-              </div>
-              <span class="font-weight-bold">{{ transaction.description }}</span>
+
+          <v-card v-for="transaction in transactions" :key="transaction.id" elevation="0" class="mb-4">
+            <template v-slot:prepend>
+              <v-chip :color="transaction.payment_status.id == 1 ? 'teal darken-2' : 'orange'" class="mr-1">
+                <b>{{ transaction.payment_status.name }}</b>
+              </v-chip>
+              <v-chip v-if="transaction.is_reconciled" color="teal darken-2" class="mr-1">
+                <b>CONCILIADO</b>
+              </v-chip>
+              <v-chip v-else color="orange" class="mr-1">
+                <b>NÃO CONCILIADO</b>
+              </v-chip>
+            </template>
+
+            <v-card-title class="text-subtitle-1">
+              <v-row>
+                <v-col class="text-wrap text-black">
+                  <v-icon icon="mdi-circle" class="mr-1" :color="transaction.transaction_type_id == 1 ? 'red' : 'teal darken-2'" />
+                  <b>{{  transaction.description }}</b>
+                </v-col>
+              </v-row>
             </v-card-title>
 
-            <v-card-text>
-              <v-row dense>
-                <v-col cols="6"><strong>ID:</strong> {{ transaction.id }}</v-col>
-                <v-col cols="6"><strong>Tipo Transação:</strong> {{ transaction.transaction_type_id }}</v-col>
-                <v-col cols="6"><strong>Tipo Pagamento:</strong> {{ transaction.payment_type_id }}</v-col>
-                <v-col cols="6"><strong>Status Pagamento:</strong> {{ transaction.payment_status_id }}</v-col>
-                <v-col cols="6"><strong>Data Compra:</strong> {{ transaction.purchase_date }}</v-col>
-                <v-col cols="6"><strong>Data Vencimento:</strong> {{ transaction.due_date }}</v-col>
-                <v-col cols="6"><strong>Data Pagamento:</strong> {{ transaction.payment_date }}</v-col>
-                <v-col cols="6"><strong>Valor:</strong> R$ {{ transaction.amount }}</v-col>
-                <v-col cols="6"><strong>Parcela:</strong> {{ transaction.current_installment }}/{{ transaction.total_installments }}</v-col>
-                <v-col cols="6"><strong>Categoria Primária:</strong> {{ transaction.primary_category_id }}</v-col>
-                <v-col cols="6"><strong>Categoria Secundária:</strong> {{ transaction.secondary_category_id }}</v-col>
-                <v-col cols="6"><strong>Categoria Específica:</strong> {{ transaction.specific_category_id }}</v-col>
-                <v-col cols="6"><strong>Observação Primária:</strong> {{ transaction.primary_note ?? '—' }}</v-col>
-                <v-col cols="6"><strong>Observação Secundária:</strong> {{ transaction.secondary_note ?? '—' }}</v-col>
-                <v-col cols="6"><strong>Média Gasto:</strong> {{ transaction.spending_average ?? '—' }}</v-col>
-                <v-col cols="6"><strong>É Real?</strong> {{ transaction.is_real ? 'Sim' : 'Não' }}</v-col>
-                <v-col cols="6"><strong>Conciliado?</strong> {{ transaction.is_reconciled ? 'Sim' : 'Não' }}</v-col>
-                <v-col cols="6"><strong>Centro de Custo:</strong> {{ transaction.cost_center_id }}</v-col>
-                <v-col cols="6"><strong>Criado em:</strong> {{ transaction.created_at }}</v-col>
-                <v-col cols="6"><strong>Atualizado em:</strong> {{ transaction.updated_at }}</v-col>
+            <v-card-subtitle>
+              <v-row class="mt-2">
+                <v-col class="pb-0 pt-0" cols="8">
+                  <v-icon icon="mdi-wallet-bifold-outline" class="mr-1" />
+                  {{ transaction.payment_type.name }}
+                </v-col>
+                <v-col class="pb-0 pt-0 text-right" cols="4">
+                  <v-icon icon="mdi-currency-usd" class="mr-1" />
+                  <b>{{ transaction.amount }}</b>
+                </v-col>
               </v-row>
-            </v-card-text>
+              <v-row>
+                <v-col cols="8">
+                  <v-icon icon="mdi-calendar-alert" class="mr-1" />
+                  VENCIMENTO EM
+                </v-col>
+                <v-col class="text-right" cols="4">
+                  <b>{{ transaction.due_date }}</b>
+                </v-col>
+              </v-row>
+            </v-card-subtitle>
 
             <v-card-actions>
+              <v-btn variant="text" color="red" @click.stop="deleteTransaction(transaction.id)">Excluir</v-btn>
+              <v-btn variant="text" @click.stop="showEditForm(transaction)">Editar</v-btn>
               <v-spacer />
-              <v-btn color="black" @click.stop="showEditForm(transaction)">Editar</v-btn>
-              <v-btn color="red" @click.stop="deleteTransaction(transaction.id)">Excluir</v-btn>
+              <v-btn
+                :icon="showCardsDetail[transaction.id] ? 'mdi-chevron-up' : 'mdi-chevron-down'"
+                @click="showCardsDetail[transaction.id] = !showCardsDetail[transaction.id]"
+              />
             </v-card-actions>
+
+            <v-expand-transition>
+              <div v-show="showCardsDetail[transaction.id]">
+                <v-divider />
+
+                <v-card-subtitle class="mb-2 mt-4">
+                  <v-row class="mt-0">
+                    <v-col cols="8">
+                      <v-icon icon="mdi-information-outline" class="mr-1" />
+                      PARCELA {{ transaction.current_installment }}/{{ transaction.total_installments }}
+                    </v-col>
+                    <v-col class="text-right" cols="4">
+                      <v-icon icon="mdi-key-outline" class="mr-1" />
+                      <b>{{ transaction.id }}</b>
+                    </v-col>
+                  </v-row>
+                  <v-row class="mt-0">
+                    <v-col cols="8">
+                      <v-icon icon="mdi-calendar-blank-outline" class="mr-1" />
+                      COMPRA EM
+                    </v-col>
+                    <v-col class="text-right" cols="4">
+                      {{ transaction.purchase_date }}
+                    </v-col>
+                  </v-row>
+                  <v-row class="mt-0 mb-1">
+                    <v-col cols="8">
+                      <v-icon icon="mdi-calendar-blank-outline" class="mr-1" />
+                      PAGAMENTO EM
+                    </v-col>
+                    <v-col class="text-right" cols="4">
+                      {{ transaction.payment_date }}
+                    </v-col>
+                  </v-row>
+
+                  <v-divider />
+
+                  <v-row class="mt-0">
+                    <v-col class="text-wrap" cols="8">
+                      <v-chip class="mr-1">
+                        <b>{{ transaction.primary_category.name }}</b>
+                      </v-chip>
+                    </v-col>
+                    <v-col class="text-right" cols="4">
+                      <v-chip class="mr-1">
+                        <b>{{ transaction.is_real ? 'REAL' : 'FAKE'}}</b>
+                      </v-chip>
+                    </v-col>
+                  </v-row>
+                  <v-row class="mt-0">
+                    <v-col class="text-wrap">
+                      <v-chip class="mr-1">
+                        <b>{{ transaction.secondary_category.name }}</b>
+                      </v-chip>
+                    </v-col>
+                  </v-row>
+                  <v-row class="mt-0 mb-1">
+                    <v-col class="text-wrap">
+                      <v-chip class="mr-1">
+                        <b>{{ transaction.specific_category.name }}</b>
+                      </v-chip>
+                    </v-col>
+                  </v-row>
+
+                  <div v-if="transaction.primary_note || transaction.secondary_note  || transaction.spending_average">
+                    <v-divider />
+  
+                    <v-row class="mt-0" v-if="transaction.primary_note">
+                      <v-col class="text-wrap">
+                        <v-icon icon="mdi-note-edit-outline" class="mr-1" />
+                        {{ transaction.primary_note }}
+                      </v-col>
+                    </v-row>
+                    <v-row class="mt-0" v-if="transaction.secondary_note">
+                      <v-col class="text-wrap">
+                        <v-icon icon="mdi-note-edit-outline" class="mr-1" />
+                        {{ transaction.secondary_note }}
+                      </v-col>
+                    </v-row>
+                    <v-row class="mt-0" v-if="transaction.spending_average">
+                      <v-col class="text-wrap">
+                        <v-icon icon="mdi-note-edit-outline" class="mr-1" />
+                        {{ transaction.spending_average }}
+                      </v-col>
+                    </v-row>
+                  </div>
+                </v-card-subtitle>
+              </div>
+            </v-expand-transition>
+            
+            <v-divider />
           </v-card>
+
         </v-list>
 
         <TransactionForm
@@ -73,6 +175,7 @@ import TransactionForm from '@/components/cash_flow/TransactionForm.vue';
 const snackbarStore = useSnackbarStore();
 const transactions = ref([]);
 const showForm = ref(false);
+const showCardsDetail = ref([]);
 const selectedTransaction = ref({ id: null, name: null });
 
 const getAllTransactions = async () => {
