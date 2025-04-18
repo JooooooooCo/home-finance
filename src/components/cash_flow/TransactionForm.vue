@@ -62,6 +62,10 @@
           <v-textarea label="Observação Secundária" v-model="form.secondary_note" rows="2" variant="solo-filled" flat rounded-sm />
         </v-col>
 
+        <v-col cols="12">
+          <v-textarea label="Média de gasto" v-model="form.spending_average" rows="2" variant="solo-filled" flat rounded-sm />
+        </v-col>
+
         <v-col cols="6">
           <v-switch label="Real" inset color="teal darken-2" :true-value="1" :false-value="0" v-model="form.is_real" />
         </v-col>
