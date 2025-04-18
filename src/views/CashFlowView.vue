@@ -20,8 +20,9 @@
             <v-card-title class="text-subtitle-1">
               <v-row>
                 <v-col class="text-wrap text-black">
-                  <v-icon icon="mdi-circle" class="mr-1" :color="transaction.transaction_type_id == 1 ? 'red' : 'teal darken-2'" />
-                  <b>{{  transaction.description }}</b>
+                  <v-icon icon="mdi-circle" class="mr-1"
+                    :color="transaction.transaction_type_id == 1 ? 'red' : 'teal darken-2'" />
+                  <b>{{ transaction.description }}</b>
                 </v-col>
               </v-row>
             </v-card-title>
@@ -49,13 +50,11 @@
             </v-card-subtitle>
 
             <v-card-actions>
-              <v-btn variant="text" color="red" @click.stop="deleteTransaction(transaction.id)">Excluir</v-btn>
+              <v-btn variant="text" color="red" @click.stop="openDeleteConfirmation(transaction.id)">Excluir</v-btn>
               <v-btn variant="text" @click.stop="showEditForm(transaction)">Editar</v-btn>
               <v-spacer />
-              <v-btn
-                :icon="showCardsDetail[transaction.id] ? 'mdi-chevron-up' : 'mdi-chevron-down'"
-                @click="showCardsDetail[transaction.id] = !showCardsDetail[transaction.id]"
-              />
+              <v-btn :icon="showCardsDetail[transaction.id] ? 'mdi-chevron-up' : 'mdi-chevron-down'"
+                @click="showCardsDetail[transaction.id] = !showCardsDetail[transaction.id]" />
             </v-card-actions>
 
             <v-expand-transition>
@@ -102,7 +101,7 @@
                     </v-col>
                     <v-col class="text-right" cols="4">
                       <v-chip class="mr-1">
-                        <b>{{ transaction.is_real ? 'REAL' : 'FAKE'}}</b>
+                        <b>{{ transaction.is_real ? 'REAL' : 'FAKE' }}</b>
                       </v-chip>
                     </v-col>
                   </v-row>
@@ -121,9 +120,9 @@
                     </v-col>
                   </v-row>
 
-                  <div v-if="transaction.primary_note || transaction.secondary_note  || transaction.spending_average">
+                  <div v-if="transaction.primary_note || transaction.secondary_note || transaction.spending_average">
                     <v-divider />
-  
+
                     <v-row class="mt-0" v-if="transaction.primary_note">
                       <v-col class="text-wrap">
                         <v-icon icon="mdi-note-edit-outline" class="mr-1" />
@@ -146,23 +145,24 @@
                 </v-card-subtitle>
               </div>
             </v-expand-transition>
-            
+
             <v-divider />
           </v-card>
 
         </v-list>
 
-        <TransactionForm
-          v-if="showForm"
-          :model-value="selectedTransaction"
-          @submit="saveTransaction"
-          @cancel="hideForm"
-        />
+        <TransactionForm v-if="showForm" :model-value="selectedTransaction" @submit="saveTransaction"
+          @cancel="hideForm" />
       </v-col>
     </v-row>
 
-    <v-btn v-if="!showForm" @click.prevent="showAddForm()" position="fixed" location="bottom right" class="ma-4" size="large"
-      icon="mdi-plus" color="teal darken-2" />
+    <LoaderDialog :model-value="loading" />
+
+    <ConfirmationDialog :model-value="showConfirmation" :persistent="false" @confirm="deleteTransaction"
+      @cancel="resetDeleteConfirmation" />
+
+    <v-btn v-if="!showForm" @click.prevent="showAddForm()" position="fixed" location="bottom right" class="ma-4"
+      size="large" icon="mdi-plus" color="teal darken-2" />
   </v-container>
 </template>
 
@@ -170,17 +170,24 @@
 import { ref, onMounted } from 'vue';
 import { axiosHelper } from "@/helper/axios.helper";
 import { useSnackbarStore } from '@/store/snackbar.store';
+import LoaderDialog from '@/components/generics/LoaderDialog.vue';
+import ConfirmationDialog from '@/components/generics/ConfirmationDialog.vue';
 import TransactionForm from '@/components/cash_flow/TransactionForm.vue';
 
 const snackbarStore = useSnackbarStore();
 const transactions = ref([]);
 const showForm = ref(false);
+const loading = ref(false);
 const showCardsDetail = ref([]);
 const selectedTransaction = ref({ id: null, name: null });
+const showConfirmation = ref(false);
+const deletedTransactionId = ref(null);
 
 const getAllTransactions = async () => {
+  loading.value = true;
   const url = "/cashflow/transaction";
   const res = await axiosHelper.get(url);
+  loading.value = false;
 
   if (res.error) {
     snackbarStore.showSnackbar(res.message);
@@ -190,11 +197,13 @@ const getAllTransactions = async () => {
 };
 
 const saveTransaction = async (item) => {
+  loading.value = true;
   const method = item.id ? "put" : "post";
   const url = item.id ? `/cashflow/transaction/${item.id}` : "/cashflow/transaction";
   const body = item;
 
   const res = await axiosHelper[method](url, body);
+  loading.value = false;
 
   if (res.error) {
     snackbarStore.showSnackbar(res.message);
@@ -203,9 +212,23 @@ const saveTransaction = async (item) => {
   hideForm();
 };
 
-const deleteTransaction = async (id) => {
-  const url = `/cashflow/transaction/${id}`;
+const openDeleteConfirmation = (id) => {
+  deletedTransactionId.value = id;
+  showConfirmation.value = true;
+};
+
+const resetDeleteConfirmation = () => {
+  deletedTransactionId.value = null;
+  showConfirmation.value = false;
+}
+
+const deleteTransaction = async () => {
+  showConfirmation.value = false;
+  loading.value = true;
+  const url = `/cashflow/transaction/${deletedTransactionId.value}`;
   const res = await axiosHelper.delete(url);
+  resetDeleteConfirmation();
+  loading.value = false;
 
   if (res.error) {
     snackbarStore.showSnackbar(res.message);
