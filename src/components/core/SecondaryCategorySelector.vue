@@ -37,11 +37,11 @@ const getAllOptions = async () => {
   if (!props.transactionTypeId) return;
   loading.value = true;
 
-  const body = {
+  const params = {
     'transaction-type-id': props.transactionTypeId
   };
   const url = "/settings/secondary-category";
-  const res = await axiosHelper.get(url, body);
+  const res = await axiosHelper.get(url, params);
 
   if (res.error) {
     snackbarStore.showSnackbar(res.message);

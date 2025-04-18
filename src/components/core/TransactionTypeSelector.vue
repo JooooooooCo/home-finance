@@ -1,5 +1,11 @@
 <template>
-  <v-btn-toggle v-model="selectedTransactionType" @update:modelValue="changeSelection" mandatory group>
+  <v-btn-toggle 
+    v-model="selectedTransactionType" 
+    @update:modelValue="changeSelection" 
+    :multiple="multipleChoice"
+    :mandatory="!multipleChoice"
+    :group="!multipleChoice"
+  >
     <v-btn :value="1" color="red" prepend-icon="mdi-arrow-down">
       Despesa
     </v-btn>
@@ -15,12 +21,17 @@ import { ref } from 'vue';
 
 const props = defineProps({
   modelValue: {
-    type: Number,
-    default: 1
+    type: [Number, Array],
+    required: true
   },
+  multipleChoice: {
+    type: Boolean,
+    default: false
+  }
+
 })
 
-const selectedTransactionType = ref(props.modelValue);
+const selectedTransactionType = ref(!props.multipleChoice ? props.modelValue : []);
 
 const emit = defineEmits(['update:modelValue']);
 

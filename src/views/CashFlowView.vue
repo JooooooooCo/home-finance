@@ -3,6 +3,24 @@
     <v-row>
       <v-col cols="12">
         <v-list v-if="!showForm">
+          <v-card elevation="0">
+            <v-card-actions>
+              <v-row>
+                <v-col class="mb-2 d-flex justify-space-between">
+                  <h3>Transações</h3>
+                  <v-btn
+                    :disabled="showFilter"
+                    variant="text"
+                    text="Filtros"
+                    color="teal darken-2"
+                    prepend-icon="mdi-filter-menu-outline"
+                    rounded
+                    @click="showFilter = !showFilter"
+                  />
+                </v-col>
+              </v-row>
+            </v-card-actions>
+          </v-card>
 
           <v-card v-for="transaction in transactions" :key="transaction.id" elevation="0" class="mb-4">
             <template v-slot:prepend>
@@ -21,7 +39,7 @@
               <v-row>
                 <v-col class="text-wrap text-black">
                   <v-icon icon="mdi-circle" class="mr-1"
-                    :color="transaction.transaction_type_id == 1 ? 'red' : 'teal darken-2'" />
+                    :color="transaction.transaction_type_id == 1 ? 'red-lighten-2' : 'teal-lighten-2'" />
                   <b>{{ transaction.description }}</b>
                 </v-col>
               </v-row>
@@ -156,6 +174,8 @@
       </v-col>
     </v-row>
 
+    <CashFlowFilter :model-value="showFilter" @applyFilters="applyFilters" @cancel="resetFilters" />
+
     <LoaderDialog :model-value="loading" />
 
     <ConfirmationDialog :model-value="showConfirmation" :persistent="false" @confirm="deleteTransaction"
@@ -172,21 +192,35 @@ import { axiosHelper } from "@/helper/axios.helper";
 import { useSnackbarStore } from '@/store/snackbar.store';
 import LoaderDialog from '@/components/generics/LoaderDialog.vue';
 import ConfirmationDialog from '@/components/generics/ConfirmationDialog.vue';
+import CashFlowFilter from '@/components/cash_flow/CashFlowFilter.vue';
 import TransactionForm from '@/components/cash_flow/TransactionForm.vue';
 
 const snackbarStore = useSnackbarStore();
 const transactions = ref([]);
+const filters = ref(null);
 const showForm = ref(false);
+const showFilter = ref(false);
 const loading = ref(false);
 const showCardsDetail = ref([]);
 const selectedTransaction = ref({ id: null, name: null });
 const showConfirmation = ref(false);
 const deletedTransactionId = ref(null);
 
+const applyFilters = (newFilters) => {
+  filters.value = newFilters;
+  showFilter.value = false;
+  getAllTransactions();
+}
+
+const resetFilters = () => {
+  showFilter.value = false;
+  filters.value = null
+}
+
 const getAllTransactions = async () => {
   loading.value = true;
   const url = "/cashflow/transaction";
-  const res = await axiosHelper.get(url);
+  const res = await axiosHelper.get(url, filters.value);
   loading.value = false;
 
   if (res.error) {
