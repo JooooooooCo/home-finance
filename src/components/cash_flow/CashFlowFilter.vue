@@ -8,7 +8,7 @@
                     <v-spacer />
 
                     <v-toolbar-items>
-                        <v-btn prepend-icon="mdi-check" text="Aplicar filtros" variant="text"
+                        <v-btn prepend-icon="mdi-check" text="Apply filters" variant="text"
                             @click="applyFilters" />
                     </v-toolbar-items>
                 </v-toolbar>

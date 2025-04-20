@@ -7,11 +7,11 @@
             <v-card-actions>
               <v-row>
                 <v-col class="mb-2 d-flex justify-space-between">
-                  <h3>Transações</h3>
+                  <h3>Transactions</h3>
                   <v-btn
                     :disabled="showFilter"
                     variant="text"
-                    text="Filtros"
+                    text="Filters"
                     color="teal darken-2"
                     prepend-icon="mdi-filter-menu-outline"
                     rounded
