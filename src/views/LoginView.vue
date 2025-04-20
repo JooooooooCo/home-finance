@@ -14,13 +14,13 @@
                 </v-row>
 
                 <v-row>
-                  <v-col cols="12">
+                  <v-col cols="12" class="pb-0">
                     <v-text-field v-model="user.email" label="Email" variant="solo-filled" flat rounded-sm name="email" type="text" autocomplete="username" required></v-text-field>
                   </v-col>
                 </v-row>
 
                 <v-row>
-                  <v-col cols="12">
+                  <v-col cols="12" class="pt-0">
                     <v-text-field v-model="user.password" label="Password" variant="solo-filled" flat rounded-sm name="password" type="password" autocomplete="current-password" required></v-text-field>
                   </v-col>
                 </v-row>
