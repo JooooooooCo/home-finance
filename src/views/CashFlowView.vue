@@ -169,8 +169,7 @@
 
         </v-list>
 
-        <TransactionForm v-if="showForm" :model-value="selectedTransaction" @submit="saveTransaction"
-          @cancel="hideForm" />
+        <TransactionForm v-if="showForm" :model-value="selectedTransaction" @close="hideForm" />
       </v-col>
     </v-row>
 
@@ -202,7 +201,7 @@ const showForm = ref(false);
 const showFilter = ref(false);
 const loading = ref(false);
 const showCardsDetail = ref([]);
-const selectedTransaction = ref({ id: null, name: null });
+const selectedTransaction = ref(null);
 const showConfirmation = ref(false);
 const deletedTransactionId = ref(null);
 
@@ -228,22 +227,6 @@ const getAllTransactions = async () => {
   }
 
   transactions.value = res.data;
-};
-
-const saveTransaction = async (item) => {
-  loading.value = true;
-  const method = item.id ? "put" : "post";
-  const url = item.id ? `/cashflow/transaction/${item.id}` : "/cashflow/transaction";
-  const body = item;
-
-  const res = await axiosHelper[method](url, body);
-  loading.value = false;
-
-  if (res.error) {
-    snackbarStore.showSnackbar(res.message);
-  }
-
-  hideForm();
 };
 
 const openDeleteConfirmation = (id) => {
@@ -272,7 +255,7 @@ const deleteTransaction = async () => {
 };
 
 const showAddForm = () => {
-  selectedTransaction.value = { id: null, name: null };
+  selectedTransaction.value = null;
   showForm.value = true;
 };
 
