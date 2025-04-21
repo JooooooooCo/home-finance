@@ -17,6 +17,7 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue'
 const props = defineProps({
   modelValue: {
     type: Number,
@@ -39,4 +40,8 @@ const decrement = () => {
     emit('update:modelValue', props.modelValue - 1)
   }
 }
+
+onMounted(() => {
+  emit('update:modelValue', props.modelValue)
+});
 </script>
