@@ -1,18 +1,18 @@
 <template>
   <v-dialog v-model="dialogPicker" width="auto">
     <template #activator="{ props }">
-      <v-text-field :model-value="formattedDate" :label="label" readonly v-bind="props" clearable variant="solo-filled" flat rounded-sm  />
+      <v-text-field :model-value="userFormattedDate" :label="label" readonly v-bind="props" clearable variant="solo-filled" flat rounded-sm  />
     </template>
 
     <v-card>
-      <v-date-picker v-model="parsedDate" @update:model-value="closeDatePicker" locale="pt-BR" show-adjacent-months />
+      <v-date-picker v-if="dialogPicker" v-model="datePickerInicialValue" @update:model-value="selectDate" locale="pt-BR" show-adjacent-months />
     </v-card>
   </v-dialog>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
-import { useDate } from 'vuetify';
+import { ref, computed, onMounted } from 'vue';
+import { useDateHandler } from '@/composables/useDateHandler'
 
 const props = defineProps({
   modelValue: {
@@ -25,17 +25,34 @@ const props = defineProps({
   },
 });
 
-const dateAdapter = useDate();
-const parsedDate = ref(dateAdapter.parseISO(props.modelValue));
-const formattedDate = computed(() => {
-  if (!parsedDate.value) return '';
-  return dateAdapter.format(parsedDate.value, 'keyboardDate');
-})
+const emit = defineEmits(['update:modelValue'])
+const { userDateFormatter, apiDateFormatter, convertStringToDate } = useDateHandler();
+
+const datePickerInicialValue = computed(() => {
+  return selectedDate.value ? new Date(selectedDate.value) : new Date();
+});
+
+const userFormattedDate = computed(() => {
+  return userDateFormatter(selectedDate.value);
+});
+
+const apiFormattedDate = computed(() => {
+  return apiDateFormatter(selectedDate.value);
+});
 
 const label = ref(props.inputLabel);
 const dialogPicker = ref(false);
+const selectedDate = ref('');
 
-const closeDatePicker = () => {
+const selectDate = (date) => {
+  selectedDate.value = date;
+  emit('update:modelValue', apiFormattedDate.value);
   dialogPicker.value = false;
 }
+
+onMounted(() => {
+  if (props.modelValue) {
+    selectedDate.value = convertStringToDate(props.modelValue);
+  }
+});
 </script>
