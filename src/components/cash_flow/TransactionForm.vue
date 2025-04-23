@@ -123,65 +123,26 @@ const defaultEmptyForm = {
   due_date: '',
   payment_date: '',
 }
-const form = ref(props.modelValue? { ...props.modelValue } : defaultEmptyForm)
+const form = ref(props.modelValue ? { ...props.modelValue } : defaultEmptyForm)
 
 watch(() => props.modelValue, (val) => {
   form.value = { ...val }
 })
 
 const validateForm = () => {
-  if (!form.value.transaction_type_id) {
-    snackbarStore.showSnackbar('Informe o tipo de transação (receita ou despesa)');
-    return false;
-  }
-  if (!form.value.payment_type_id) {
-    snackbarStore.showSnackbar('Informe o modo de pagamento');
-    return false;
-  }
-  if (!form.value.payment_status_id) {
-    snackbarStore.showSnackbar('Informe a situação de pagamento');
-    return false;
-  }
-  if (!form.value.purchase_date) {
-    snackbarStore.showSnackbar('Informe a data de compra');
-    return false;
-  }
-  if (!form.value.due_date) {
-    snackbarStore.showSnackbar('Informe a data de vencimento');
-    return false;
-  }
-  if (!form.value.payment_date && form.value.payment_status_id == 1) {
-    snackbarStore.showSnackbar('Informe a data de pagamento');
-    return false;
-  }
-  if (!form.value.description) {
-    snackbarStore.showSnackbar('Informe a descrição');
-    return false;
-  }
-  if (!form.value.amount && form.value.amount != 0) {
-    snackbarStore.showSnackbar('Informe o valor');
-    return false;
-  }
-  if (!form.value.current_installment) {
-    snackbarStore.showSnackbar('Informe a parcela atual');
-    return false;
-  }
-  if (!form.value.total_installments) {
-    snackbarStore.showSnackbar('Informe o total de parcelas');
-    return false;
-  }
-  if (!form.value.primary_category_id) {
-    snackbarStore.showSnackbar('Informe a categoria principal');
-    return false;
-  }
-  if (!form.value.secondary_category_id) {
-    snackbarStore.showSnackbar('Informe a categoria secundária');
-    return false;
-  }
-  if (!form.value.specific_category_id) {
-    snackbarStore.showSnackbar('Informe a categoria específica');
-    return false;
-  }
+  if (!form.value.transaction_type_id) return snackbarStore.showSnackbar('Informe o tipo de transação (receita ou despesa)');
+  if (!form.value.payment_type_id) return snackbarStore.showSnackbar('Informe o modo de pagamento');
+  if (!form.value.payment_status_id) return snackbarStore.showSnackbar('Informe a situação de pagamento');
+  if (!form.value.purchase_date) return snackbarStore.showSnackbar('Informe a data de compra');
+  if (!form.value.due_date) return snackbarStore.showSnackbar('Informe a data de vencimento');
+  if (!form.value.payment_date && form.value.payment_status_id == 1) return snackbarStore.showSnackbar('Informe a data de pagamento');
+  if (!form.value.description) return snackbarStore.showSnackbar('Informe a descrição');
+  if (!form.value.amount && form.value.amount != 0) return snackbarStore.showSnackbar('Informe o valor');
+  if (!form.value.current_installment) return snackbarStore.showSnackbar('Informe a parcela atual');
+  if (!form.value.total_installments) return snackbarStore.showSnackbar('Informe o total de parcelas');
+  if (!form.value.primary_category_id) return snackbarStore.showSnackbar('Informe a categoria principal');
+  if (!form.value.secondary_category_id) return snackbarStore.showSnackbar('Informe a categoria secundária');
+  if (!form.value.specific_category_id) return snackbarStore.showSnackbar('Informe a categoria específica');
   return true;
 }
 
