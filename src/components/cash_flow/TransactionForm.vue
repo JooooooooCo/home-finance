@@ -42,6 +42,15 @@
           <NumberStepperInput v-model="form.total_installments" label="Total de Parcelas" />
         </v-col>
 
+        <v-col cols="12" class="mt-0">
+          <v-checkbox
+            v-model="generateBatchTransactionsConfirmation"
+            color="teal darken-2"
+            v-show="form.total_installments > 1"
+            :label="getGenerateBatchTransactionsConfirmationLabel"
+          />
+        </v-col>
+
         <v-col cols="12">
           <PrimaryCategorySelector v-model="form.primary_category_id" />
         </v-col>
@@ -93,7 +102,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, computed, watch } from 'vue'
 import dayjs from 'dayjs';
 import { axiosHelper } from "@/helper/axios.helper";
 import { useSnackbarStore } from '@/store/snackbar.store';
@@ -114,6 +123,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'submit', 'close'])
 
 const loading = ref(false);
+const generateBatchTransactionsConfirmation = ref(false);
 const snackbarStore = useSnackbarStore();
 
 const currentDate = dayjs();
@@ -146,6 +156,39 @@ const validateForm = () => {
   return true;
 }
 
+const getGenerateBatchTransactionsConfirmationLabel = computed(() => {
+  if (form.value.amount) {
+    const [baseInstallment] = calculateInstallments(form.value.amount, form.value.total_installments);
+    return `Gerar ${form.value.total_installments} parcelas de ${baseInstallment} cada?`
+  }
+
+  return `Gerar ${form.value.total_installments} parcelas?`;
+});
+
+
+function calculateInstallments(amount, totalInstallments) {
+  const baseInstallment = (amount / totalInstallments).toFixed(2);
+  const lastInstallment = (amount - (baseInstallment * (totalInstallments - 1))).toFixed(2);
+  return [baseInstallment, lastInstallment];
+}
+
+function generateBatchTransactions() {
+  const installments = [];
+  const [baseInstallment, lastInstallment] = calculateInstallments(form.value.amount, form.value.total_installments);
+  const baseDate = dayjs(form.value.due_date, 'YYYY-MM-DD');
+
+  for (let i = 1; i <= form.value.total_installments; i++) {
+    const installmentDueDate = baseDate.add(i - 1, 'month');
+    installments.push({
+      ...form.value,
+      current_installment: i,
+      due_date: installmentDueDate.format('YYYY-MM-DD'),
+      amount: i === form.value.total_installments ? lastInstallment : baseInstallment,
+    });
+  }
+  return installments;
+}
+
 const saveTransaction = async () => {
   if (!validateForm()) return;
   loading.value = true;
@@ -161,16 +204,20 @@ const saveTransaction = async () => {
 };
 
 const createTransaction = async () => {
+  if (generateBatchTransactionsConfirmation.value) {
+    const url = "/cashflow/transaction/batch";
+    const body = generateBatchTransactions();
+    return await axiosHelper.post(url, body);
+  }
+
   const url = "/cashflow/transaction";
   const body = form.value;
-
   return await axiosHelper.post(url, body);
 };
 
 const editTransaction = async () => {
   const url = `/cashflow/transaction/${form.value.id}`;
   const body = form.value;
-
   return await axiosHelper.put(url, body);
 };
 
