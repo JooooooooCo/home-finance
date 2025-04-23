@@ -10,7 +10,9 @@
         <v-card-text>
           <v-list>
             <v-list-item v-for="option in items" :key="option.id">
-              <v-btn variant="tonal" large block @click="selectOption(option)">{{ option.name }}</v-btn>
+              <v-btn variant="tonal" large block @click="selectOption(option)">
+                <v-col class="text-wrap">{{ option.name }}</v-col>
+              </v-btn>
             </v-list-item>
           </v-list>
         </v-card-text>

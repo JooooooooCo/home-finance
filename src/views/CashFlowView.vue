@@ -254,6 +254,7 @@ const deleteTransaction = async () => {
   getAllTransactions();
 };
 
+// TODO UNIFICAR METODOS
 const showAddForm = () => {
   selectedTransaction.value = null;
   showForm.value = true;
