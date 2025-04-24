@@ -186,7 +186,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import { axiosHelper } from "@/helper/axios.helper";
 import { useSnackbarStore } from '@/store/snackbar.store';
 import LoaderDialog from '@/components/generics/LoaderDialog.vue';
@@ -269,8 +269,4 @@ const hideForm = () => {
   getAllTransactions();
   showForm.value = false;
 };
-
-onMounted(() => {
-  getAllTransactions();
-});
 </script>

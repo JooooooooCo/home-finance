@@ -88,7 +88,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import TransactionTypeSelector from '@/components/core/TransactionTypeSelector.vue';
 import PaymentTypeSelectorMultiple from '@/components/core/PaymentTypeSelectorMultiple.vue';
 import PaymentStatusTypeSelectorMultiple from '@/components/core/PaymentStatusTypeSelectorMultiple.vue';
@@ -103,13 +103,14 @@ const props = defineProps({
 });
 const emptyFilterObject = {
     transactionTypeIds: [],
-    paymentTypeIds: [],Ids: [],
+    paymentTypeIds: [],
+    paymentStatusIds: [],
     primaryCategoryId: null,
     secondaryCategoryId: null,
     specificCategoryId: null,
     description: '',
-    reconciled: false,
-    notReconciled: false,
+    reconciled: 1,
+    notReconciled: 1,
 }
 const filters = ref(emptyFilterObject);
 
@@ -121,6 +122,12 @@ const isOpen = computed({
 })
 
 const applyFilters = () => {
+    const selectedFilters = {
+        ... filters.value,
+        reconciled: filters.value.reconciled ? 1 : 0,
+        notReconciled: filters.value.notReconciled ? 1 : 0,
+    }
+    emit('applyFilters', selectedFilters)
     isOpen.value = false
 }
 
@@ -128,4 +135,8 @@ const cancel = () => {
     emit('cancel')
     isOpen.value = false
 }
+
+onMounted(() => {
+    applyFilters();
+});
 </script>
