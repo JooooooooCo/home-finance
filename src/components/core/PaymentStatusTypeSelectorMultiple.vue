@@ -1,6 +1,6 @@
 <template>
-  <SelectPicker
-    v-model="selectedItem"
+  <SelectPickerMultiple
+    v-model="selectedItems"
     :items="availableOptions"
     :label="label"
     @update:modelValue="changeSelection"
@@ -8,26 +8,29 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { axiosHelper } from "@/helper/axios.helper";
 import { useSnackbarStore } from '@/store/snackbar.store';
-import SelectPicker from '../generics/SelectPicker.vue';
+import SelectPickerMultiple from '../generics/SelectPickerMultiple.vue';
 
 const snackbarStore = useSnackbarStore();
 const availableOptions = ref([]);
 
 const props = defineProps({
   modelValue: {
-    type: Number,
-    default: null
+    type: Array,
+    default: () => []
   },
 });
 
 const emit = defineEmits(['update:modelValue']);
 
 const label = "Situação de Pagamento";
-const selectedItem = ref(props.modelValue);
+const selectedItems = ref([...props.modelValue]);
 
+watch(() => props.modelValue, (val) => {
+  selectedItems.value = [...val];
+});
 
 const changeSelection = (value) => {
   emit('update:modelValue', value);
