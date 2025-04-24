@@ -25,7 +25,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import TransactionTypeSelector from '../core/TransactionTypeSelector.vue';
+import TransactionTypeSelector from '@/components/core/TransactionTypeSelector.vue';
 const props = defineProps({
     modelValue: {
         type: Boolean,

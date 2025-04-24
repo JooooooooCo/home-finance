@@ -11,7 +11,7 @@
 import { ref, onMounted, watch } from 'vue';
 import { axiosHelper } from '@/helper/axios.helper';
 import { useSnackbarStore } from '@/store/snackbar.store';
-import SelectPickerMultiple from '../generics/SelectPickerMultiple.vue';
+import SelectPickerMultiple from '@/components/generics/SelectPickerMultiple.vue';
 
 const snackbarStore = useSnackbarStore();
 const availableOptions = ref([]);
