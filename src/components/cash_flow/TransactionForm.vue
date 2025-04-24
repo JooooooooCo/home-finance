@@ -166,13 +166,13 @@ const getGenerateBatchTransactionsConfirmationLabel = computed(() => {
 });
 
 
-function calculateInstallments(amount, totalInstallments) {
+const calculateInstallments = (amount, totalInstallments) => {
   const baseInstallment = (amount / totalInstallments).toFixed(2);
   const lastInstallment = (amount - (baseInstallment * (totalInstallments - 1))).toFixed(2);
   return [baseInstallment, lastInstallment];
 }
 
-function generateBatchTransactions() {
+const generateBatchTransactions = () => {
   const installments = [];
   const [baseInstallment, lastInstallment] = calculateInstallments(form.value.amount, form.value.total_installments);
   const baseDate = dayjs(form.value.due_date, 'YYYY-MM-DD');

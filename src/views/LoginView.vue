@@ -52,7 +52,7 @@ const user = ref({
   password: ''
 })
 
-function login() {
+const login = () => {
   authStore.login(user.value.email, user.value.password)
 }
 </script>

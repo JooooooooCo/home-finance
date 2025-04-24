@@ -56,12 +56,12 @@ const isOpen = computed({
   set: val => emit('update:modelValue', val),
 })
 
-function confirm() {
+const confirm = () => {
   emit('confirm')
   isOpen.value = false
 }
 
-function cancel() {
+const cancel = () => {
   emit('cancel')
   isOpen.value = false
 }

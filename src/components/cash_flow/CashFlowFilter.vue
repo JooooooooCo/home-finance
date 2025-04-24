@@ -120,12 +120,11 @@ const isOpen = computed({
     set: val => emit('update:modelValue', val),
 })
 
-function applyFilters() {
-    emit('applyFilters', filters.value)
+const applyFilters = () => {
     isOpen.value = false
 }
 
-function cancel() {
+const cancel = () => {
     emit('cancel')
     isOpen.value = false
 }
