@@ -21,10 +21,12 @@
           <v-list>
             <v-list-item v-for="option in items" :key="option.id">
               <v-btn
-                variant="tonal"
+                :variant="isSelected(option.id) ? 'flat' : 'tonal'"
                 large
                 block
-                @click="selectOption(option)"
+                :color="isSelected(option.id) ? 'teal darken-2' : ''"
+                class="pa-2"
+                @click="toggleSelection(option.id)"
               >
                 <v-col class="text-wrap">{{ option.name }}</v-col>
               </v-btn>
@@ -34,6 +36,7 @@
         <v-card-actions>
           <v-spacer />
           <v-btn text @click="dialog = false">Cancelar</v-btn>
+          <v-btn text @click="emitSelection">OK</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -41,7 +44,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 
 const props = defineProps({
   items: {
@@ -49,8 +52,8 @@ const props = defineProps({
     required: true,
   },
   modelValue: {
-    type: Number,
-    default: null,
+    type: Array,
+    default: () => [],
   },
   label: {
     type: String,
@@ -61,14 +64,32 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const dialog = ref(false)
+const selectedIds = ref([...props.modelValue])
 
-const selectedLabel = computed(() => {
-  const found = props.items.find(item => item.id === props.modelValue)
-  return found ? found.name : ''
+watch(() => props.modelValue, (val) => {
+  selectedIds.value = [...(val || [])]
 })
 
-const selectOption = (option) => {
-  emit('update:modelValue', option.id)
+const selectedLabel = computed(() => {
+  const selectedItems = props.items.filter(i => selectedIds.value.includes(i.id))
+  return selectedItems.map(i => i.name).join(', ')
+})
+
+const isSelected = (id) => {
+  return selectedIds.value.includes(id)
+}
+
+const toggleSelection = (id) => {
+  const index = selectedIds.value.indexOf(id)
+  if (index === -1) {
+    selectedIds.value.push(id)
+  } else {
+    selectedIds.value.splice(index, 1)
+  }
+}
+
+const emitSelection = () => {
+  emit('update:modelValue', [...selectedIds.value])
   dialog.value = false
 }
 </script>
