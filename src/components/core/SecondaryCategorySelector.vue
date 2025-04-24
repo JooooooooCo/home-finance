@@ -1,6 +1,6 @@
 <template>
   <SelectPicker v-if="!loading" v-model="selectedItem" :items="availableOptions" @update:modelValue="changeSelection"
-    :label="label" :disabled="!transactionTypeId"/>
+    :label="label" :disabled="!transactionTypeId && requireTransactionType" />
 </template>
 
 <script setup>
@@ -20,6 +20,10 @@ const props = defineProps({
   transactionTypeId: {
     type: Number,
     default: null
+  },
+  requireTransactionType: {
+    type: Boolean,
+    default: true
   }
 })
 
@@ -34,7 +38,6 @@ const changeSelection = (value) => {
 }
 
 const getAllOptions = async () => {
-  if (!props.transactionTypeId) return;
   loading.value = true;
 
   const params = {
