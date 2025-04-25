@@ -27,11 +27,13 @@
               <v-chip :color="transaction.payment_status.id == 1 ? 'teal darken-2' : 'orange'" class="mr-1">
                 <b>{{ transaction.payment_status.name }}</b>
               </v-chip>
-              <v-chip v-if="transaction.is_reconciled" color="teal darken-2" class="mr-1">
+              <v-chip v-if="transaction.is_reconciled" @click="toogleReconciled(transaction.id)" color="teal darken-2" class="mr-1">
                 <b>CONCILIADO</b>
+                <LoaderCircular v-if="loadingToogleReconciled[transaction.id]" />
               </v-chip>
-              <v-chip v-else color="orange" class="mr-1">
+              <v-chip v-else @click="toogleReconciled(transaction.id)" color="orange" class="mr-1">
                 <b>NÃO CONCILIADO</b>
+                <LoaderCircular v-if="loadingToogleReconciled[transaction.id]" />
               </v-chip>
             </template>
 
@@ -191,6 +193,7 @@ import { useDateHandler } from '@/composables/useDateHandler'
 import { useMonetaryValueHandler } from '@/composables/useMonetaryValueHandler'
 import { useSnackbarStore } from '@/store/snackbar.store';
 import LoaderDialog from '@/components/generics/LoaderDialog.vue';
+import LoaderCircular from '@/components/generics/LoaderCircular.vue';
 import ConfirmationDialog from '@/components/generics/ConfirmationDialog.vue';
 import CashFlowFilter from '@/components/cash_flow/CashFlowFilter.vue';
 import TransactionForm from '@/components/cash_flow/TransactionForm.vue';
@@ -203,6 +206,7 @@ const filters = ref(null);
 const showForm = ref(false);
 const showFilter = ref(false);
 const loading = ref(false);
+const loadingToogleReconciled = ref([]);
 const showCardsDetail = ref([]);
 const selectedTransaction = ref(null);
 const showConfirmation = ref(false);
@@ -255,6 +259,25 @@ const deleteTransaction = async () => {
   }
 
   getAllTransactions();
+};
+
+const toogleReconciled = async (id) => {
+  const index = transactions.value.findIndex(item => item.id === id);
+  const isReconciled = transactions.value[index].is_reconciled;
+  loadingToogleReconciled.value[id] = true;
+  const url = `/cashflow/transaction/${id}`;
+  const payload = {
+    is_reconciled: !isReconciled
+  }
+  const res = await axiosHelper.put(url, payload);
+  loadingToogleReconciled.value[id] = false;
+
+  if (res.error) {
+    snackbarStore.showSnackbar(res.message);
+    return;
+  }
+
+  transactions.value[index].is_reconciled = !isReconciled;
 };
 
 // TODO UNIFICAR METODOS

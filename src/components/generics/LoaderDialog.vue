@@ -1,7 +1,7 @@
 <template>
   <v-dialog :model-value="modelValue" max-width="80%" width="300" :persistent="persistent">
     <div class="w-auto d-flex justify-center">
-      <LoaderCircular />
+      <LoaderCircular size="128" marSize="12" />
     </div>
   </v-dialog>
 </template>
