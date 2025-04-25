@@ -1,0 +1,10 @@
+const USER_CURRENCY_PREFIX = 'R$';
+
+export function useMonetaryValueHandler() {
+
+  const userMonetaryValueFormatter = (value) => {
+    return `${USER_CURRENCY_PREFIX} ${value}`;
+  };
+
+  return { userMonetaryValueFormatter };
+}
