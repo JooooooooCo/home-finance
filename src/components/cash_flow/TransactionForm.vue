@@ -132,6 +132,7 @@ const defaultEmptyForm = {
   purchase_date: currentDate.format('YYYY-MM-DD'),
   due_date: '',
   payment_date: '',
+  is_real: 1,
 }
 const form = ref(props.modelValue ? { ...props.modelValue } : defaultEmptyForm)
 
