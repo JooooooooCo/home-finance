@@ -27,7 +27,7 @@
         </v-col>
 
         <v-col cols="12">
-          <v-textarea label="Descrição" v-model="form.description" required rows="2" auto-grow variant="solo-filled" flat rounded-sm />
+          <v-textarea label="Descrição" v-model="form.description" @input="form.description = form.description.toUpperCase()" required rows="2" auto-grow variant="solo-filled" flat rounded-sm />
         </v-col>
 
         <v-col cols="12">
@@ -64,15 +64,15 @@
         </v-col>
 
         <v-col cols="12">
-          <v-textarea label="Observação Principal" v-model="form.primary_note" rows="2" variant="solo-filled" flat rounded-sm />
+          <v-textarea label="Observação Principal" v-model="form.primary_note" @input="form.primary_note = form.primary_note.toUpperCase()" rows="2" variant="solo-filled" flat rounded-sm />
         </v-col>
 
         <v-col cols="12">
-          <v-textarea label="Observação Secundária" v-model="form.secondary_note" rows="2" variant="solo-filled" flat rounded-sm />
+          <v-textarea label="Observação Secundária" v-model="form.secondary_note" @input="form.secondary_note = form.secondary_note.toUpperCase()" rows="2" variant="solo-filled" flat rounded-sm />
         </v-col>
 
         <v-col cols="12">
-          <v-textarea label="Média de gasto" v-model="form.spending_average" rows="2" variant="solo-filled" flat rounded-sm />
+          <v-textarea label="Média de gasto" v-model="form.spending_average" @input="form.spending_average = form.spending_average.toUpperCase()" rows="2" variant="solo-filled" flat rounded-sm />
         </v-col>
 
         <v-col cols="6">
