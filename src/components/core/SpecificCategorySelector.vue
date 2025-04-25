@@ -1,6 +1,6 @@
 <template>
   <SelectPicker v-if="!loading" v-model="selectedItem" :items="availableOptions" @update:modelValue="changeSelection"
-    :label="label" :disabled="!secondaryCategoryId"/>
+    :label="label" :disabled="!secondaryCategoryId" :hideDetails="hideDetails"/>
 </template>
 
 <script setup>
@@ -20,6 +20,10 @@ const props = defineProps({
   secondaryCategoryId: {
     type: Number,
     default: null
+  },
+  hideDetails: {
+    type: Boolean,
+    default: false,
   }
 })
 

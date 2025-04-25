@@ -12,6 +12,7 @@
       @click="dialog = true"
       readonly
       :disabled="disabled"
+      :hide-details="hideDetails"
     />
 
     <v-dialog v-model="dialog" width="400">
@@ -60,6 +61,10 @@ const props = defineProps({
   disabled: {
     type: Boolean,
     default: false
+  },
+  hideDetails: {
+    type: Boolean,
+    default: false,
   }
 })
 

@@ -1,6 +1,6 @@
 <template>
   <SelectPicker v-model="selectedItem" :items="availableOptions" @update:modelValue="changeSelection"
-    :label="label" />
+    :label="label" :hideDetails="hideDetails"/>
 </template>
 
 <script setup>
@@ -17,6 +17,10 @@ const props = defineProps({
     type: Number,
     default: null
   },
+  hideDetails: {
+    type: Boolean,
+    default: false,
+  }
 })
 
 const label = "Categoria Principal";

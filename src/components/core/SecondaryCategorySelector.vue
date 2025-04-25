@@ -1,6 +1,6 @@
 <template>
   <SelectPicker v-if="!loading" v-model="selectedItem" :items="availableOptions" @update:modelValue="changeSelection"
-    :label="label" :disabled="!transactionTypeId && requireTransactionType" />
+    :label="label" :disabled="!transactionTypeId && requireTransactionType" :hideDetails="hideDetails"/>
 </template>
 
 <script setup>
@@ -24,6 +24,10 @@ const props = defineProps({
   requireTransactionType: {
     type: Boolean,
     default: true
+  },
+  hideDetails: {
+    type: Boolean,
+    default: false,
   }
 })
 

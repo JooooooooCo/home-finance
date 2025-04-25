@@ -11,6 +11,7 @@
       :menu-props="{ openOnClick: false }"
       @click="dialog = true"
       readonly
+      :hide-details="hideDetails"
     />
 
     <v-dialog v-model="dialog" width="400">
@@ -58,6 +59,10 @@ const props = defineProps({
   label: {
     type: String,
     default: 'Selecionar',
+  },
+  hideDetails: {
+    type: Boolean,
+    default: true,
   }
 })
 
