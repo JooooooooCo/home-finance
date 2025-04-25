@@ -17,7 +17,15 @@ export function useDateHandler() {
   const convertStringToDate = (stringDate) => {
     const parsed = dayjs(stringDate);
     return parsed.toDate();
-  }
+  };
 
-  return { userDateFormatter, apiDateFormatter, convertStringToDate };
+  const getMonthInitialEndDate = (baseDate) => {
+    const year = baseDate.getFullYear();
+    const month = baseDate.getMonth();
+    const startDate = new Date(year, month, 1);
+    const endDate = new Date(year, month + 1, 0);
+    return [startDate, endDate];
+  }  
+
+  return { userDateFormatter, apiDateFormatter, convertStringToDate, getMonthInitialEndDate };
 }
