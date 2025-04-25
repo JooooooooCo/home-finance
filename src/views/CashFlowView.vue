@@ -24,8 +24,12 @@
 
           <v-card v-for="transaction in transactions" :key="transaction.id" elevation="0" class="mb-4">
             <template v-slot:prepend>
-              <v-chip :color="transaction.payment_status.id == 1 ? 'teal darken-2' : 'orange'" class="mr-1">
+              <v-chip v-if="transaction.payment_status.id == 1" color="teal darken-2" class="mr-1">
                 <b>{{ transaction.payment_status.name }}</b>
+              </v-chip>
+              <v-chip v-else @click="markAsPaid(transaction.id)" color="orange" class="mr-1">
+                <b>{{ transaction.payment_status.name }}</b>
+                <LoaderCircular v-if="loadingMarkAsPaid[transaction.id]" />
               </v-chip>
               <v-chip v-if="transaction.is_reconciled" @click="toogleReconciled(transaction.id)" color="teal darken-2" class="mr-1">
                 <b>CONCILIADO</b>
@@ -198,7 +202,7 @@ import ConfirmationDialog from '@/components/generics/ConfirmationDialog.vue';
 import CashFlowFilter from '@/components/cash_flow/CashFlowFilter.vue';
 import TransactionForm from '@/components/cash_flow/TransactionForm.vue';
 
-const { userDateFormatter } = useDateHandler();
+const { userDateFormatter, apiDateFormatter } = useDateHandler();
 const { userMonetaryValueFormatter } = useMonetaryValueHandler();
 const snackbarStore = useSnackbarStore();
 const transactions = ref([]);
@@ -207,6 +211,7 @@ const showForm = ref(false);
 const showFilter = ref(false);
 const loading = ref(false);
 const loadingToogleReconciled = ref([]);
+const loadingMarkAsPaid = ref([]);
 const showCardsDetail = ref([]);
 const selectedTransaction = ref(null);
 const showConfirmation = ref(false);
@@ -278,6 +283,29 @@ const toogleReconciled = async (id) => {
   }
 
   transactions.value[index].is_reconciled = !isReconciled;
+};
+
+const markAsPaid = async (id) => {
+  const index = transactions.value.findIndex(item => item.id === id);
+  const paidStatusId = 1;
+  const paymentDate = apiDateFormatter(new Date());
+
+  loadingMarkAsPaid.value[id] = true;
+  const url = `/cashflow/transaction/${id}`;
+  const payload = {
+    payment_status_id: paidStatusId,
+    payment_date: paymentDate,
+  }
+  const res = await axiosHelper.put(url, payload);
+  loadingMarkAsPaid.value[id] = false;
+
+  if (res.error) {
+    snackbarStore.showSnackbar(res.message);
+    return;
+  }
+
+  transactions.value[index].payment_status.id = paidStatusId;
+  transactions.value[index].payment_date = paymentDate;
 };
 
 // TODO UNIFICAR METODOS
