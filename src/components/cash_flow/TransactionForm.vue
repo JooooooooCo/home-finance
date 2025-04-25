@@ -1,5 +1,9 @@
 <template>
-  <v-card class="pa-4" variant="text">
+  <v-card class="pl-4 pr-4" variant="text" title="Transaction">
+    <template v-slot:prepend>
+      <v-btn size="small" variant="text" icon="mdi-arrow-left" @click="close"></v-btn>
+    </template>
+    
     <v-form @submit.prevent="saveTransaction">
       <v-row dense>
         <v-col cols="12" class="d-flex justify-center mb-3">
