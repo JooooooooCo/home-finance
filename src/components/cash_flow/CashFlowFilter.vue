@@ -13,75 +13,83 @@
                     </v-toolbar-items>
                 </v-toolbar>
 
-                <v-row class="mt-2">
-                    <v-col cols="12" class="d-flex justify-center mb-3">
-                        <TransactionTypeSelector :multiple="true" v-model="filters.transactionTypeIds" />
-                    </v-col>
-                </v-row>
+                <v-col cols="12">
+                    <v-row>
+                        <v-col cols="12" class="d-flex justify-center mb-3">
+                            <TransactionTypeSelector :multiple="true" v-model="filters.transactionTypeIds" />
+                        </v-col>
+                    </v-row>
+    
+                    <v-row>
+                        <v-col cols="12">
+                            <PaymentTypeSelectorMultiple v-model="filters.paymentTypeIds" />
+                        </v-col>
+                    </v-row>
+    
+                    <v-row>
+                        <v-col cols="12">
+                            <PaymentStatusTypeSelectorMultiple v-model="filters.paymentStatusIds" />
+                        </v-col>
+                    </v-row>
+    
+                    <v-row>
+                        <v-col cols="6">
+                            <v-text-field label="Valor Min" v-model="filters.amountMin" prefix="R$" type="number" variant="solo-filled" flat rounded-sm required hideDetails />
+                        </v-col>
+                        <v-col cols="6">
+                            <v-text-field label="Valor Max" v-model="filters.amountMax" prefix="R$" type="number" variant="solo-filled" flat rounded-sm required hideDetails />
+                        </v-col>
+                    </v-row>
+    
+                    <v-row>
+                        <v-col cols="12">
+                            <PrimaryCategorySelector v-model="filters.primaryCategoryId" hideDetails />
+                        </v-col>
+                    </v-row>
+    
+                    <v-row>
+                        <v-col cols="12">
+                            <SecondaryCategorySelector v-model="filters.secondaryCategoryId" :requireTransactionType="false" hideDetails />
+                        </v-col>
+                    </v-row>
+    
+                    <v-row>
+                        <v-col cols="12">
+                            <SpecificCategorySelector v-model="filters.specificCategoryId" :secondaryCategoryId="filters.secondaryCategoryId" hideDetails />
+                        </v-col>
+                    </v-row>
+    
+                    <v-row>
+                        <v-col cols="12">
+                            <v-textarea label="Descrição" v-model="filters.description" required rows="2" auto-grow variant="solo-filled" flat rounded-sm hide-details />
+                        </v-col>
+                    </v-row>
+    
+                    <v-row>
+                        <v-col cols="6" class="mt-0">
+                            <v-checkbox
+                                v-model="filters.reconciled"
+                                color="teal darken-2"
+                                label="Conciliado"
+                            />
+                        </v-col>
+                        <v-col cols="6" class="mt-0">
+                            <v-checkbox
+                                v-model="filters.notReconciled"
+                                color="teal darken-2"
+                                label="Não conciliado"
+                            />
+                        </v-col>
+                    </v-row>
+    
+                    filters: {{ filters }}
+                </v-col>
 
-                <v-row class="mt-2">
-                    <v-col cols="12">
-                        <PaymentTypeSelectorMultiple v-model="filters.paymentTypeIds" />
-                    </v-col>
-                </v-row>
-
-                <v-row class="mt-2">
-                    <v-col cols="12">
-                        <PaymentStatusTypeSelectorMultiple v-model="filters.paymentStatusIds" />
-                    </v-col>
-                </v-row>
-
-                <v-row class="mt-2">
-                    <v-col cols="12">
-                        FILTROS DE DATA E VALOR
-                    </v-col>
-                </v-row>
-
-                <v-row class="mt-2">
-                    <v-col cols="12">
-                        <PrimaryCategorySelector v-model="filters.primaryCategoryId" />
-                    </v-col>
-                </v-row>
-
-                <v-row class="mt-2">
-                    <v-col cols="12">
-                        <SecondaryCategorySelector v-model="filters.secondaryCategoryId" :requireTransactionType="false" />
-                    </v-col>
-                </v-row>
-
-                <v-row class="mt-2">
-                    <v-col cols="12">
-                        <SpecificCategorySelector v-model="filters.specificCategoryId" :secondaryCategoryId="filters.secondaryCategoryId" />
-                    </v-col>
-                </v-row>
-
-                <v-row class="mt-2">
-                    <v-col cols="12">
-                        <v-textarea label="Descrição" v-model="filters.description" required rows="2" auto-grow variant="solo-filled" flat rounded-sm />
-                    </v-col>
-                </v-row>
-
-                <v-row class="mt-2">
-                    <v-col cols="12" class="mt-0">
-                        <v-checkbox
-                            v-model="filters.reconciled"
-                            color="teal darken-2"
-                            label="Conciliado"
-                        />
-                    </v-col>
-                </v-row>
-
-                <v-row class="mt-2">
-                    <v-col cols="12" class="mt-0">
-                        <v-checkbox
-                            v-model="filters.notReconciled"
-                            color="teal darken-2"
-                            label="Não conciliado"
-                        />
-                    </v-col>
-                </v-row>
-
-                filters: {{ filters }}
+                <v-footer color="teal darken-2">
+                    <v-btn icon="mdi-close" variant="text" @click="cancel"></v-btn>
+                    <v-spacer />
+                    <v-btn prepend-icon="mdi-check" text="Apply filters" variant="text" @click="applyFilters" />
+                </v-footer>
             </v-card>
         </v-dialog>
     </div>
@@ -102,9 +110,11 @@ const props = defineProps({
     },
 });
 const emptyFilterObject = {
-    transactionTypeIds: [],
+    transactionTypeIds: [1,2],
     paymentTypeIds: [],
     paymentStatusIds: [],
+    amountMin: '',
+    amountMax: '',
     primaryCategoryId: null,
     secondaryCategoryId: null,
     specificCategoryId: null,
