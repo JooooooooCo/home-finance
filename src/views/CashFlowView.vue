@@ -52,8 +52,7 @@
                   {{ transaction.payment_type.name }}
                 </v-col>
                 <v-col class="pb-0 pt-0 text-right" cols="4">
-                  <v-icon icon="mdi-currency-usd" class="mr-1" />
-                  <b>{{ transaction.amount }}</b>
+                  <b>{{ userMonetaryValueFormatter(transaction.amount) }}</b>
                 </v-col>
               </v-row>
               <v-row>
@@ -62,7 +61,7 @@
                   VENCIMENTO EM
                 </v-col>
                 <v-col class="text-right" cols="4">
-                  <b>{{ transaction.due_date }}</b>
+                  <b>{{ userDateFormatter(transaction.due_date) }}</b>
                 </v-col>
               </v-row>
             </v-card-subtitle>
@@ -96,7 +95,7 @@
                       COMPRA EM
                     </v-col>
                     <v-col class="text-right" cols="4">
-                      {{ transaction.purchase_date }}
+                      {{ userDateFormatter(transaction.purchase_date) }}
                     </v-col>
                   </v-row>
                   <v-row class="mt-0 mb-1">
@@ -105,7 +104,7 @@
                       PAGAMENTO EM
                     </v-col>
                     <v-col class="text-right" cols="4">
-                      {{ transaction.payment_date }}
+                      {{ userDateFormatter(transaction.payment_date) }}
                     </v-col>
                   </v-row>
 
@@ -188,12 +187,16 @@
 <script setup>
 import { ref } from 'vue';
 import { axiosHelper } from "@/helper/axios.helper";
+import { useDateHandler } from '@/composables/useDateHandler'
+import { useMonetaryValueHandler } from '@/composables/useMonetaryValueHandler'
 import { useSnackbarStore } from '@/store/snackbar.store';
 import LoaderDialog from '@/components/generics/LoaderDialog.vue';
 import ConfirmationDialog from '@/components/generics/ConfirmationDialog.vue';
 import CashFlowFilter from '@/components/cash_flow/CashFlowFilter.vue';
 import TransactionForm from '@/components/cash_flow/TransactionForm.vue';
 
+const { userDateFormatter } = useDateHandler();
+const { userMonetaryValueFormatter } = useMonetaryValueHandler();
 const snackbarStore = useSnackbarStore();
 const transactions = ref([]);
 const filters = ref(null);
