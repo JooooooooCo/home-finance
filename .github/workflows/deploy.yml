@@ -1,0 +1,87 @@
+name: Deploy on VM Oracle
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - name: Create .env file
+        run: |
+          echo "VUE_APP_ROOT_API=${{ secrets.VUE_APP_ROOT_API }}" > .env
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      - name: Prepare Server Environment
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            sudo mkdir -p /var/www/html/home-finance/
+            sudo chown -R $USER:www-data /var/www/html/home-finance
+            sudo chmod -R 775 /var/www/html/home-finance
+            sudo find /var/www/html/home-finance -type d -exec chmod 2775 {} \;
+
+      - name: Clean Remote Directory
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            sudo rm -rf /var/www/html/home-finance/*
+            sudo rm -rf /var/www/html/home-finance/.[!.]*
+
+      - name: Deploy with SCP
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "dist/*"
+          target: "/var/www/html/home-finance/"
+          strip_components: 1
+          overwrite: true
+          rm: false
+          tar_tmp_path: "/tmp/"
+
+      - name: Fix Permissions
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            sudo find /var/www/html/home-finance -type d -exec chmod 755 {} \;
+            sudo find /var/www/html/home-finance -type f -exec chmod 644 {} \;
+            sudo chown -R www-data:www-data /var/www/html/home-finance
+            sudo chmod g+s /var/www/html/home-finance
+
+      - name: Verify Deployment
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            ls -la /var/www/html/home-finance
+            du -sh /var/www/html/home-finance
+            curl -Is http://localhost/home-finance/ | grep "HTTP/1.1"
