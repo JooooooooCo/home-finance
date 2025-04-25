@@ -19,11 +19,11 @@
         </v-col>
 
         <v-col cols="12">
-          <DatePicker inputLabel="Data da Vencimento" v-model="form.due_date" />
+          <DatePicker inputLabel="Data de Vencimento" v-model="form.due_date" />
         </v-col>
 
         <v-col cols="12">
-          <DatePicker inputLabel="Data da Pagamento" v-model="form.payment_date" />
+          <DatePicker inputLabel="Data de Pagamento" v-model="form.payment_date" />
         </v-col>
 
         <v-col cols="12">
