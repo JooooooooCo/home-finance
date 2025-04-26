@@ -24,20 +24,24 @@
 
           <v-card v-for="transaction in transactions" :key="transaction.id" elevation="0" class="mb-4">
             <template v-slot:prepend>
-              <v-chip v-if="transaction.payment_status.id == 1" color="teal darken-2" class="mr-1">
+              <v-chip v-if="transaction.payment_status.id == paidStatus.id" color="teal darken-2" class="mr-1">
+                <v-icon icon="mdi-check" class="mr-1" color="teal-lighten-2" />
                 <b>{{ transaction.payment_status.name }}</b>
               </v-chip>
               <v-chip v-else @click="markAsPaid(transaction.id)" color="orange" class="mr-1">
+                <v-icon icon="mdi-alert" class="mr-1" color="orange" />
                 <b>{{ transaction.payment_status.name }}</b>
-                <LoaderCircular v-if="loadingMarkAsPaid[transaction.id]" />
+                <LoaderCircular v-if="loadingMarkAsPaid[transaction.id]" class="ml-1" />
               </v-chip>
               <v-chip v-if="transaction.is_reconciled" @click="toogleReconciled(transaction.id)" color="teal darken-2" class="mr-1">
+                <v-icon icon="mdi-check" class="mr-1" color="teal-lighten-2" />
                 <b>CONCILIADO</b>
-                <LoaderCircular v-if="loadingToogleReconciled[transaction.id]" />
+                <LoaderCircular v-if="loadingToogleReconciled[transaction.id]" class="ml-1" />
               </v-chip>
               <v-chip v-else @click="toogleReconciled(transaction.id)" color="orange" class="mr-1">
+                <v-icon icon="mdi-alert" class="mr-1" color="orange" />
                 <b>NÃO CONCILIADO</b>
-                <LoaderCircular v-if="loadingToogleReconciled[transaction.id]" />
+                <LoaderCircular v-if="loadingToogleReconciled[transaction.id]" class="ml-1" />
               </v-chip>
             </template>
 
@@ -202,6 +206,7 @@ import ConfirmationDialog from '@/components/generics/ConfirmationDialog.vue';
 import CashFlowFilter from '@/components/cash_flow/CashFlowFilter.vue';
 import TransactionForm from '@/components/cash_flow/TransactionForm.vue';
 
+const paidStatus = {id: 1, name: 'PAGO'};
 const { userDateFormatter, apiDateFormatter } = useDateHandler();
 const { userMonetaryValueFormatter } = useMonetaryValueHandler();
 const snackbarStore = useSnackbarStore();
@@ -287,13 +292,12 @@ const toogleReconciled = async (id) => {
 
 const markAsPaid = async (id) => {
   const index = transactions.value.findIndex(item => item.id === id);
-  const paidStatusId = 1;
   const paymentDate = apiDateFormatter(new Date());
 
   loadingMarkAsPaid.value[id] = true;
   const url = `/cashflow/transaction/${id}`;
   const payload = {
-    payment_status_id: paidStatusId,
+    payment_status_id: paidStatus.id,
     payment_date: paymentDate,
   }
   const res = await axiosHelper.put(url, payload);
@@ -304,7 +308,8 @@ const markAsPaid = async (id) => {
     return;
   }
 
-  transactions.value[index].payment_status.id = paidStatusId;
+  transactions.value[index].payment_status.id = paidStatus.id;
+  transactions.value[index].payment_status.name = paidStatus.name;
   transactions.value[index].payment_date = paymentDate;
 };
 
