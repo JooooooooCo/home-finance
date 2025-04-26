@@ -37,7 +37,7 @@
                         <v-col cols="12">
                             <v-date-input label="Data de Vencimento" v-model="filters.dueDateRange" @click:clear="filters.dueDateRange = []"
                                 prepend-icon="" prepend-inner-icon="mdi-calendar" multiple="range" variant="solo-filled"
-                                flat clearable show-adjacent-months hide-details />
+                                flat clearable readonly show-adjacent-months hide-details />
                         </v-col>
                     </v-row>
 
@@ -45,7 +45,7 @@
                         <v-col cols="12">
                             <v-date-input label="Data de Pagamento" v-model="filters.paymentDateRange" @click:clear="filters.paymentDateRange = []"
                                 prepend-icon="" prepend-inner-icon="mdi-calendar" multiple="range" variant="solo-filled"
-                                flat clearable show-adjacent-months hide-details />
+                                flat clearable readonly show-adjacent-months hide-details />
                         </v-col>
                     </v-row>
 
@@ -53,7 +53,7 @@
                         <v-col cols="12">
                             <v-date-input label="Data da Compra" v-model="filters.purchaseDateRange" @click:clear="filters.purchaseDateRange = []"
                                 prepend-icon="" prepend-inner-icon="mdi-calendar" multiple="range" variant="solo-filled"
-                                flat clearable show-adjacent-months hide-details />
+                                flat clearable readonly show-adjacent-months hide-details />
                         </v-col>
                     </v-row>
 
