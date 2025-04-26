@@ -325,7 +325,7 @@ const showEditForm = (item) => {
 };
 
 const hideForm = () => {
-  getAllTransactions();
   showForm.value = false;
+  getAllTransactions();
 };
 </script>
