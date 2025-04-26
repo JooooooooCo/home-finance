@@ -24,6 +24,7 @@
             <v-list-item v-for="option in items" :key="option.id">
               <v-btn
                 variant="tonal"
+                color="blue-grey darken-4"
                 large
                 block
                 @click="selectOption(option)"
@@ -34,8 +35,8 @@
           </v-list>
         </v-card-text>
         <v-card-actions>
+          <v-btn text @click="dialog = false">CANCELAR</v-btn>
           <v-spacer />
-          <v-btn text @click="dialog = false">Cancelar</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

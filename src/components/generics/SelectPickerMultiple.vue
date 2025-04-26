@@ -25,7 +25,7 @@
                 :variant="isSelected(option.id) ? 'flat' : 'tonal'"
                 large
                 block
-                :color="isSelected(option.id) ? 'teal darken-2' : ''"
+                :color="isSelected(option.id) ? 'teal darken-2' : 'blue-grey darken-4'"
                 class="pa-2"
                 @click="toggleSelection(option.id)"
               >
@@ -35,9 +35,12 @@
           </v-list>
         </v-card-text>
         <v-card-actions>
-          <v-spacer />
-          <v-btn text @click="dialog = false">Cancelar</v-btn>
-          <v-btn text @click="emitSelection">OK</v-btn>
+          <v-col cols="6">
+            <v-btn block text @click="dialog = false">CANCELAR</v-btn>
+          </v-col>
+          <v-col cols="6">
+            <v-btn block variant="flat" color="teal darken-2" @click="emitSelection">APLICAR</v-btn>
+          </v-col>
         </v-card-actions>
       </v-card>
     </v-dialog>
