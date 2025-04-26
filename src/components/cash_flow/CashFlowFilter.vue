@@ -35,25 +35,19 @@
 
                     <v-row>
                         <v-col cols="12">
-                            <v-date-input label="Data de Vencimento" v-model="filters.dueDateRange" @click:clear="filters.dueDateRange = []"
-                                prepend-icon="" prepend-inner-icon="mdi-calendar" multiple="range" variant="solo-filled"
-                                flat clearable readonly show-adjacent-months hide-details />
+                            <DateRangePicker inputLabel="Data de Vencimento" v-model="filters.dueDateRange" />
                         </v-col>
                     </v-row>
 
                     <v-row>
                         <v-col cols="12">
-                            <v-date-input label="Data de Pagamento" v-model="filters.paymentDateRange" @click:clear="filters.paymentDateRange = []"
-                                prepend-icon="" prepend-inner-icon="mdi-calendar" multiple="range" variant="solo-filled"
-                                flat clearable readonly show-adjacent-months hide-details />
+                            <DateRangePicker inputLabel="Data de Pagamento" v-model="filters.paymentDateRange" />
                         </v-col>
                     </v-row>
 
                     <v-row>
                         <v-col cols="12">
-                            <v-date-input label="Data da Compra" v-model="filters.purchaseDateRange" @click:clear="filters.purchaseDateRange = []"
-                                prepend-icon="" prepend-inner-icon="mdi-calendar" multiple="range" variant="solo-filled"
-                                flat clearable readonly show-adjacent-months hide-details />
+                            <DateRangePicker inputLabel="Data da Compra" v-model="filters.purchaseDateRange" />
                         </v-col>
                     </v-row>
 
@@ -126,6 +120,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useDateHandler } from '@/composables/useDateHandler'
 import TransactionTypeSelector from '@/components/core/TransactionTypeSelector.vue';
+import DateRangePicker from '@/components/generics/DateRangePicker.vue';
 import PaymentTypeSelectorMultiple from '@/components/core/PaymentTypeSelectorMultiple.vue';
 import PaymentStatusTypeSelectorMultiple from '@/components/core/PaymentStatusTypeSelectorMultiple.vue';
 import PrimaryCategorySelector from '@/components/core/PrimaryCategorySelector.vue'
