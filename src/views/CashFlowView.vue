@@ -1,25 +1,69 @@
 <template>
   <v-container>
     <v-row>
-      <v-col cols="12">
+      <v-col cols="12" class="pt-0">
         <v-list v-if="!showForm">
           <v-card elevation="0">
             <v-card-actions>
               <v-row>
-                <v-col class="mb-2 d-flex justify-space-between">
-                  <h3>Transactions</h3>
-                  <v-btn
-                    :disabled="showFilter"
-                    variant="text"
-                    text="Filters"
-                    color="teal darken-2"
-                    prepend-icon="mdi-filter-menu-outline"
-                    rounded
-                    @click="showFilter = !showFilter"
-                  />
+                <v-col class="pt-0 d-flex justify-space-between">
+                <v-btn variant="text" :text="showSummaryTotals ? 'OCULTAR TOTAIS' : 'EXIBIR TOTAIS'" color="teal darken-2"
+                    :prepend-icon="showSummaryTotals ? 'mdi-eye-off-outline' : 'mdi-eye-outline'" rounded @click="showSummaryTotals = !showSummaryTotals" />
+                  <v-btn variant="text" text="FILTROS" color="teal darken-2"
+                    prepend-icon="mdi-filter-menu-outline" rounded @click="showFilter = !showFilter" />
                 </v-col>
               </v-row>
             </v-card-actions>
+          </v-card>
+
+          <v-card elevation="0" v-if="!loading && showSummaryTotals" class="pb-2">
+            <v-row>
+              <v-col cols="6" class="pt-0 pb-0">
+                <v-card elevation="0">
+                  <v-card-title class="text-subtitle-1">Saldo Inicial</v-card-title>
+                  <v-card-subtitle class="text-h6">{{ userMonetaryValueFormatter(summaryTotals.executed_history_balance_amount) }}</v-card-subtitle>
+                </v-card>
+              </v-col>
+
+              <v-col cols="6" class="pt-0 pb-0">
+                <v-card elevation="0">
+                  <v-card-title class="text-subtitle-1">Saldo Final</v-card-title>
+                  <v-card-subtitle class="text-h6">{{ userMonetaryValueFormatter(summaryTotals.forecast_balance_amount) }}</v-card-subtitle>
+                </v-card>
+              </v-col>
+
+              <v-col cols="6" class="pt-0 pb-0">
+                <v-card elevation="0">
+                  <v-card-title class="text-subtitle-1">Saldo Atual</v-card-title>
+                  <v-card-subtitle class="text-h6">{{ userMonetaryValueFormatter(summaryTotals.executed_balance_amount) }}</v-card-subtitle>
+                </v-card>
+              </v-col>
+
+              <v-col cols="6" class="pt-0 pb-0">
+                <v-row>
+                  <v-col>
+                    <v-card elevation="0">
+
+                      <v-card-subtitle>
+                        <v-row class="mt-0">
+                          <v-col cols="12">
+                            <v-icon icon="mdi-arrow-up-circle-outline" class="mr-1" color="teal darken-2" />
+                            {{ userMonetaryValueFormatter(summaryTotals.forecast_revenue_amount) }}
+                          </v-col>
+                        </v-row>
+                        <v-row class="mt-0">
+                          <v-col>
+                            <v-icon icon="mdi-arrow-down-circle-outline" class="mr-1" color="red" />
+                            {{ userMonetaryValueFormatter(summaryTotals.forecast_expense_amount) }}
+                          </v-col>
+                        </v-row>
+                      </v-card-subtitle>
+                    </v-card>
+                  </v-col>
+                </v-row>
+              </v-col>
+            </v-row>
+            <v-divider class="mt-4" />
           </v-card>
 
           <v-card v-for="transaction in transactions" :key="transaction.id" elevation="0" class="mb-4">
@@ -48,8 +92,8 @@
             <v-card-title class="text-subtitle-1">
               <v-row>
                 <v-col class="text-wrap text-black">
-                  <v-icon icon="mdi-circle" class="mr-1"
-                    :color="transaction.transaction_type_id == 1 ? 'red-lighten-2' : 'teal-lighten-2'" />
+                  <v-icon :icon="transaction.transaction_type_id == 1 ? 'mdi-arrow-down-circle-outline' : 'mdi-arrow-up-circle-outline'" class="mr-1"
+                    :color="transaction.transaction_type_id == 1 ? 'red' : 'teal darken-2'" />
                   <b>{{ transaction.description }}</b>
                 </v-col>
               </v-row>
@@ -206,14 +250,16 @@ import ConfirmationDialog from '@/components/generics/ConfirmationDialog.vue';
 import CashFlowFilter from '@/components/cash_flow/CashFlowFilter.vue';
 import TransactionForm from '@/components/cash_flow/TransactionForm.vue';
 
-const paidStatus = {id: 1, name: 'PAGO'};
+const paidStatus = { id: 1, name: 'PAGO' };
 const { userDateFormatter, apiDateFormatter } = useDateHandler();
 const { userMonetaryValueFormatter } = useMonetaryValueHandler();
 const snackbarStore = useSnackbarStore();
 const transactions = ref([]);
+const summaryTotals = ref({});
 const filters = ref(null);
 const showForm = ref(false);
 const showFilter = ref(false);
+const showSummaryTotals = ref(true);
 const loading = ref(false);
 const loadingToogleReconciled = ref([]);
 const loadingMarkAsPaid = ref([]);
@@ -243,7 +289,8 @@ const getAllTransactions = async () => {
     snackbarStore.showSnackbar(res.message);
   }
 
-  transactions.value = res.data;
+  transactions.value = res.data.transactions;
+  summaryTotals.value = res.data.totals;
 };
 
 const openDeleteConfirmation = (id) => {
