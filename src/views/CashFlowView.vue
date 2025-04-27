@@ -20,22 +20,28 @@
             <v-row>
               <v-col cols="6" class="pt-0 pb-0">
                 <v-card elevation="0">
-                  <v-card-title class="text-subtitle-1">Saldo Inicial</v-card-title>
-                  <v-card-subtitle class="text-h6">{{ userMonetaryValueFormatter(summaryTotals.executed_history_balance_amount) }}</v-card-subtitle>
+                  <v-card-title class="text-subtitle-2 text-medium-emphasis font-weight-regular">Saldo Inicial</v-card-title>
+                  <v-card-text class="text-h6 font-weight-bold" :class="summaryTotals.executed_history_balance_amount < 0 ? 'text-red' : ''">
+                    {{ userMonetaryValueFormatter(summaryTotals.executed_history_balance_amount) }}
+                  </v-card-text>
                 </v-card>
               </v-col>
 
               <v-col cols="6" class="pt-0 pb-0">
                 <v-card elevation="0">
-                  <v-card-title class="text-subtitle-1">Saldo Final</v-card-title>
-                  <v-card-subtitle class="text-h6">{{ userMonetaryValueFormatter(summaryTotals.forecast_balance_amount) }}</v-card-subtitle>
+                  <v-card-title class="text-subtitle-2 text-medium-emphasis font-weight-regular">Saldo Final</v-card-title>
+                  <v-card-text class="text-h6 font-weight-bold" :class="summaryTotals.forecast_balance_amount < 0 ? 'text-red' : ''">
+                    {{ userMonetaryValueFormatter(summaryTotals.forecast_balance_amount) }}
+                  </v-card-text>
                 </v-card>
               </v-col>
 
               <v-col cols="6" class="pt-0 pb-0">
                 <v-card elevation="0">
-                  <v-card-title class="text-subtitle-1">Saldo Atual</v-card-title>
-                  <v-card-subtitle class="text-h6">{{ userMonetaryValueFormatter(summaryTotals.executed_balance_amount) }}</v-card-subtitle>
+                  <v-card-title class="text-subtitle-2 text-medium-emphasis font-weight-regular">Saldo Atual</v-card-title>
+                  <v-card-text class="text-h6 font-weight-bold" :class="summaryTotals.executed_balance_amount < 0 ? 'text-red' : ''">
+                    {{ userMonetaryValueFormatter(summaryTotals.executed_balance_amount) }}
+                  </v-card-text>
                 </v-card>
               </v-col>
 
@@ -44,7 +50,7 @@
                   <v-col>
                     <v-card elevation="0">
 
-                      <v-card-subtitle>
+                      <v-card-text class="pt-0 pb-0">
                         <v-row class="mt-0">
                           <v-col cols="12">
                             <v-icon icon="mdi-arrow-up-circle-outline" class="mr-1" color="teal darken-2" />
@@ -57,7 +63,7 @@
                             {{ userMonetaryValueFormatter(summaryTotals.forecast_expense_amount) }}
                           </v-col>
                         </v-row>
-                      </v-card-subtitle>
+                      </v-card-text>
                     </v-card>
                   </v-col>
                 </v-row>
