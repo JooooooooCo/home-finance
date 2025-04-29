@@ -34,16 +34,15 @@ Now, you will need `docker` installed. Run this command to build and up the dock
 $ docker compose up -d
 ```
 
-With the container up, run the below command to serve the app:
-
-```
-$ docker exec home_finance npm run serve
-```
-
 Great, now the APP is available at `127.0.0.1:8085`
 
 ## Aditional commands
 
+
+### Add new packages with container running
+```
+$ docker compose exec home_finance npm install <package>
+```
 
 ### Compiles and hot-reloads for development
 ```
