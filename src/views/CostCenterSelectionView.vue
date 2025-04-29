@@ -101,6 +101,7 @@ const getAllCostCenter = async () => {
 
   if (res.error) {
     snackbarStore.showSnackbar(res.message)
+    return;
   } else {
     costCenters.value = res.data
   }

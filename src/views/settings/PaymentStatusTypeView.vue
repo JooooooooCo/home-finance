@@ -38,6 +38,7 @@ const getAllPaymentStatusTypes = async () => {
 
   if (res.error) {
     snackbarStore.showSnackbar(res.message);
+    return;
   }
 
   paymentStatusTypes.value = res.data;
@@ -49,6 +50,7 @@ const deletePaymentStatusType = async (id) => {
 
   if (res.error) {
     snackbarStore.showSnackbar(res.message);
+    return;
   }
 
   getAllPaymentStatusTypes();

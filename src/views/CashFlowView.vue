@@ -293,6 +293,8 @@ const getAllTransactions = async () => {
 
   if (res.error) {
     snackbarStore.showSnackbar(res.message);
+    showSummaryTotals.value = false;
+    return;
   }
 
   transactions.value = res.data.transactions;
@@ -319,6 +321,7 @@ const deleteTransaction = async () => {
 
   if (res.error) {
     snackbarStore.showSnackbar(res.message);
+    return;
   }
 
   getAllTransactions();

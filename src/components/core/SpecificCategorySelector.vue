@@ -49,6 +49,7 @@ const getAllOptions = async () => {
 
   if (res.error) {
     snackbarStore.showSnackbar(res.message);
+    return;
   }
 
   availableOptions.value = res.data;

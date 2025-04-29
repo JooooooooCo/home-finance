@@ -39,6 +39,7 @@ const savePaymentType = async (item) => {
 
   if (res.error) {
     snackbarStore.showSnackbar(res.message);
+    return;
   }
 
   emitHideForm();
