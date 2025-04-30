@@ -34,6 +34,11 @@ const routes = [
         component: () => import("@/views/CashFlowView.vue"),
       },
       {
+        path: "/pivot-table",
+        name: "pivot-table",
+        component: () => import("@/views/PivotTableView.vue"),
+      },
+      {
         path: "/cost-center",
         name: "cost-center",
         component: () => import("@/views/CostCenterView.vue"),

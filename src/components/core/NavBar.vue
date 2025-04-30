@@ -25,6 +25,7 @@
       <v-list density="compact" nav>
         <v-list-item :to="{ name: 'dashboard' }" prepend-icon="mdi-home" title="Dashboard"></v-list-item>
         <v-list-item :to="{ name: 'cash-flow' }" prepend-icon="mdi-cash" title="Cash Flow"></v-list-item>
+        <v-list-item :to="{ name: 'pivot-table' }" prepend-icon="mdi-table-pivot" title="Pivot Table"></v-list-item>
         <v-list-group>
           <template v-slot:activator="{ props }">
             <v-list-item v-bind="props" prepend-icon="mdi-cog" title="Settings"></v-list-item>
