@@ -16,10 +16,10 @@
     />
 
     <v-dialog v-model="dialog" width="400">
-      <v-card>
+      <v-card class="d-flex flex-column">
         <v-card-title>{{ label }}</v-card-title>
         <v-divider />
-        <v-card-text>
+        <v-card-text class="flex-grow-1 overflow-y-auto">
           <v-list>
             <v-list-item v-for="option in items" :key="option.id">
               <v-btn
@@ -34,6 +34,7 @@
             </v-list-item>
           </v-list>
         </v-card-text>
+        <v-divider />
         <v-card-actions>
           <v-btn text @click="dialog = false">CANCELAR</v-btn>
           <v-spacer />
