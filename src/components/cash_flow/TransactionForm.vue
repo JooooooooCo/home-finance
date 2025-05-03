@@ -1,96 +1,116 @@
 <template>
-  <v-card class="pl-4 pr-4" variant="text" title="Transaction">
-    <template v-slot:prepend>
-      <v-btn size="small" variant="text" icon="mdi-arrow-left" @click="close"></v-btn>
-    </template>
-    
+  <v-card class="pt-4" variant="text">    
     <v-form @submit.prevent="saveTransaction">
-      <v-row dense>
-        <v-col cols="12" class="d-flex justify-center mb-3">
-          <TransactionTypeSelector v-model="form.transaction_type_id" />
-        </v-col>
+      <v-card-text class="pb-16">
+        <v-row dense>
+          <v-col cols="12" class="d-flex justify-center mb-3">
+            <TransactionTypeSelector v-model="form.transaction_type_id" />
+          </v-col>
+        </v-row>
+  
+        <v-row dense>
+          <v-col :cols="mdAndUp ? 4 : 12">
+            <PaymentTypeSelector v-model="form.payment_type_id" />
+          </v-col>
+  
+          <v-col :cols="mdAndUp ? 3 : 12">
+            <PaymentStatusTypeSelector v-model="form.payment_status_id" />
+          </v-col>
+  
+          <v-col v-if="mdAndUp" cols="2" offset="1">
+            <v-switch label="Real" color="teal darken-2" :true-value="1" :false-value="0" v-model="form.is_real"/>
+          </v-col>
+  
+          <v-col v-if="mdAndUp" cols="2">
+            <v-switch label="Conciliado" color="teal darken-2" :true-value="1" :false-value="0"
+              v-model="form.is_reconciled" />
+          </v-col>
+        </v-row>
+  
+        <v-row dense>
+          <v-col cols="12" md="4">
+            <DatePicker inputLabel="Data da Compra" v-model="form.purchase_date" />
+          </v-col>
+  
+          <v-col cols="12" md="4">
+            <DatePicker inputLabel="Data de Vencimento" v-model="form.due_date" />
+          </v-col>
+  
+          <v-col cols="12" md="4">
+            <DatePicker inputLabel="Data de Pagamento" v-model="form.payment_date" />
+          </v-col>
+        </v-row>
+  
+        <v-row dense>
+          <v-col cols="12" md="4" class="d-flex align-end">
+            <v-text-field label="Valor" v-model="form.amount" prefix="R$" prepend-inner-icon="mdi-currency-usd" type="number" variant="solo-filled" flat rounded-sm required />
+          </v-col>
+  
+          <v-col cols="6" md="2">
+            <NumberStepperInput v-model="form.current_installment" label="Parcela Atual" />
+          </v-col>
+  
+          <v-col cols="6" md="2">
+            <NumberStepperInput v-model="form.total_installments" label="Total de Parcelas" />
+          </v-col>
+          <v-col cols="12" md="4" class="d-flex align-end mt-0" v-if="form.total_installments > 1">
+            <v-checkbox
+              v-model="generateBatchTransactionsConfirmation"
+              color="teal darken-2"            
+              :label="getGenerateBatchTransactionsConfirmationLabel"
+            />
+          </v-col>
+        </v-row>
+  
+        <v-row dense>
+          <v-col cols="12">
+            <v-textarea label="Descrição" v-model="form.description" @input="form.description = form.description.toUpperCase()" prepend-inner-icon="mdi-note" required rows="2" auto-grow variant="solo-filled" flat rounded-sm />
+          </v-col>
+        </v-row>
+  
+        <v-row dense>
+          <v-col cols="12" md="4">
+            <PrimaryCategorySelector v-model="form.primary_category_id" />
+          </v-col>
+  
+          <v-col cols="12" md="4">
+            <SecondaryCategorySelector v-model="form.secondary_category_id" :transactionTypeId="form.transaction_type_id" />
+          </v-col>
+  
+          <v-col cols="12" md="4">
+            <SpecificCategorySelector v-model="form.specific_category_id" :secondaryCategoryId="form.secondary_category_id" />
+          </v-col>
+        </v-row>
+  
+        <v-row dense>
+          <v-col cols="12" md="4">
+            <v-textarea label="Observação Principal" v-model="form.primary_note" @input="form.primary_note = form.primary_note.toUpperCase()" rows="2" variant="solo-filled" flat rounded-sm :hideDetails="mdAndUp"/>
+          </v-col>
+  
+          <v-col cols="12" md="4">
+            <v-textarea label="Observação Secundária" v-model="form.secondary_note" @input="form.secondary_note = form.secondary_note.toUpperCase()" rows="2" variant="solo-filled" flat rounded-sm :hideDetails="mdAndUp"/>
+          </v-col>
+  
+          <v-col cols="12" md="4">
+            <v-textarea label="Média de gasto" v-model="form.spending_average" @input="form.spending_average = form.spending_average.toUpperCase()" rows="2" variant="solo-filled" flat rounded-sm :hideDetails="mdAndUp"/>
+          </v-col>
+        </v-row>
+  
+        <v-row dense v-if="!mdAndUp">
+          <v-col cols="6">
+            <v-switch label="Real" inset color="teal darken-2" :true-value="1" :false-value="0" v-model="form.is_real"/>
+          </v-col>
+  
+          <v-col cols="6">
+            <v-switch label="Conciliado" inset color="teal darken-2" :true-value="1" :false-value="0"
+              v-model="form.is_reconciled" />
+          </v-col>
+        </v-row>
+      </v-card-text>
 
-        <v-col cols="12">
-          <PaymentTypeSelector v-model="form.payment_type_id" />
-        </v-col>
-
-        <v-col cols="12">
-          <PaymentStatusTypeSelector v-model="form.payment_status_id" />
-        </v-col>
-
-        <v-col cols="12">
-          <DatePicker inputLabel="Data da Compra" v-model="form.purchase_date" />
-        </v-col>
-
-        <v-col cols="12">
-          <DatePicker inputLabel="Data de Vencimento" v-model="form.due_date" />
-        </v-col>
-
-        <v-col cols="12">
-          <DatePicker inputLabel="Data de Pagamento" v-model="form.payment_date" />
-        </v-col>
-
-        <v-col cols="12">
-          <v-textarea label="Descrição" v-model="form.description" @input="form.description = form.description.toUpperCase()" required rows="2" auto-grow variant="solo-filled" flat rounded-sm />
-        </v-col>
-
-        <v-col cols="12">
-          <v-text-field label="Valor" v-model="form.amount" prefix="R$" type="number" variant="solo-filled" flat rounded-sm required />
-        </v-col>
-
-        <v-col cols="6">
-          <NumberStepperInput v-model="form.current_installment" label="Parcela Atual" />
-        </v-col>
-
-        <v-col cols="6">
-          <NumberStepperInput v-model="form.total_installments" label="Total de Parcelas" />
-        </v-col>
-
-        <v-col cols="12" class="mt-0">
-          <v-checkbox
-            v-model="generateBatchTransactionsConfirmation"
-            color="teal darken-2"
-            v-show="form.total_installments > 1"
-            :label="getGenerateBatchTransactionsConfirmationLabel"
-          />
-        </v-col>
-
-        <v-col cols="12">
-          <PrimaryCategorySelector v-model="form.primary_category_id" />
-        </v-col>
-
-        <v-col cols="12">
-          <SecondaryCategorySelector v-model="form.secondary_category_id" :transactionTypeId="form.transaction_type_id" />
-        </v-col>
-
-        <v-col cols="12">
-          <SpecificCategorySelector v-model="form.specific_category_id" :secondaryCategoryId="form.secondary_category_id" />
-        </v-col>
-
-        <v-col cols="12">
-          <v-textarea label="Observação Principal" v-model="form.primary_note" @input="form.primary_note = form.primary_note.toUpperCase()" rows="2" variant="solo-filled" flat rounded-sm />
-        </v-col>
-
-        <v-col cols="12">
-          <v-textarea label="Observação Secundária" v-model="form.secondary_note" @input="form.secondary_note = form.secondary_note.toUpperCase()" rows="2" variant="solo-filled" flat rounded-sm />
-        </v-col>
-
-        <v-col cols="12">
-          <v-textarea label="Média de gasto" v-model="form.spending_average" @input="form.spending_average = form.spending_average.toUpperCase()" rows="2" variant="solo-filled" flat rounded-sm />
-        </v-col>
-
-        <v-col cols="6">
-          <v-switch label="Real" inset color="teal darken-2" :true-value="1" :false-value="0" v-model="form.is_real" />
-        </v-col>
-
-        <v-col cols="6">
-          <v-switch label="Conciliado" inset color="teal darken-2" :true-value="1" :false-value="0"
-            v-model="form.is_reconciled" />
-        </v-col>
-      </v-row>
-
-      <v-card-actions>
-        <v-row>
+      <v-card-actions class="position-fixed bottom-0 left-0 w-100">
+        <v-row class="bg-white">
+          <v-divider />
           <v-col cols="6">
             <v-btn block color="grey" @click="close">Cancelar</v-btn>
           </v-col>
@@ -106,7 +126,8 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch } from 'vue';
+import { useDisplay } from 'vuetify';
 import dayjs from 'dayjs';
 import { axiosHelper } from "@/helper/axios.helper";
 import { useSnackbarStore } from '@/store/snackbar.store';
@@ -129,6 +150,7 @@ const emit = defineEmits(['update:modelValue', 'submit', 'close'])
 const loading = ref(false);
 const generateBatchTransactionsConfirmation = ref(false);
 const snackbarStore = useSnackbarStore();
+const { mdAndUp } = useDisplay();
 
 const currentDate = dayjs();
 const defaultEmptyForm = {

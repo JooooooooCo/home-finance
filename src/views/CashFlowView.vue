@@ -227,10 +227,10 @@
           </v-card>
 
         </v-list>
-
-        <TransactionForm v-if="showForm" :model-value="selectedTransaction" @close="hideForm" />
       </v-col>
     </v-row>
+
+    <TransactionForm v-if="showForm" :model-value="selectedTransaction" @close="hideForm" />
 
     <CashFlowFilter :model-value="showFilter" @applyFilters="applyFilters" @cancel="resetFilters" />
 
