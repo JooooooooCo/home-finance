@@ -29,18 +29,18 @@
 
               <v-col cols="6" class="pt-0 pb-0">
                 <v-card elevation="0">
-                  <v-card-title class="text-subtitle-2 text-medium-emphasis font-weight-regular">Saldo Final</v-card-title>
-                  <v-card-text class="text-h6 font-weight-bold" :class="summaryTotals.forecast_balance_amount < 0 ? 'text-red' : ''">
-                    {{ userMonetaryValueFormatter(summaryTotals.forecast_balance_amount) }}
+                  <v-card-title class="text-subtitle-2 text-medium-emphasis font-weight-regular">Saldo Atual</v-card-title>
+                  <v-card-text class="text-h6 font-weight-bold" :class="summaryTotals.executed_balance_amount < 0 ? 'text-red' : ''">
+                    {{ userMonetaryValueFormatter(summaryTotals.executed_balance_amount) }}
                   </v-card-text>
                 </v-card>
               </v-col>
 
               <v-col cols="6" class="pt-0 pb-0">
                 <v-card elevation="0">
-                  <v-card-title class="text-subtitle-2 text-medium-emphasis font-weight-regular">Saldo Atual</v-card-title>
-                  <v-card-text class="text-h6 font-weight-bold" :class="summaryTotals.executed_balance_amount < 0 ? 'text-red' : ''">
-                    {{ userMonetaryValueFormatter(summaryTotals.executed_balance_amount) }}
+                  <v-card-title class="text-subtitle-2 text-medium-emphasis font-weight-regular">Saldo Final</v-card-title>
+                  <v-card-text class="text-h6 font-weight-bold" :class="summaryTotals.forecast_balance_amount < 0 ? 'text-red' : ''">
+                    {{ userMonetaryValueFormatter(summaryTotals.forecast_balance_amount) }}
                   </v-card-text>
                 </v-card>
               </v-col>
