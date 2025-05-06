@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-snackbar v-model="snackbar" color="red">
+    <v-snackbar v-model="snackbar" :color="color">
       {{ text }}
     </v-snackbar>
   </div>
@@ -11,5 +11,5 @@ import { useSnackbarStore } from '@/store/snackbar.store';
 import { storeToRefs } from 'pinia';
 
 const snackbarStore = useSnackbarStore();
-const { snackbar, text } = storeToRefs(snackbarStore);
+const { snackbar, text, color } = storeToRefs(snackbarStore);
 </script>

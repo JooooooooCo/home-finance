@@ -227,6 +227,7 @@ const saveTransaction = async () => {
     return;
   }
 
+  snackbarStore.showSnackbar(res.message, true);
   close();
 };
 

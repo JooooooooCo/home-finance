@@ -324,6 +324,7 @@ const deleteTransaction = async () => {
     return;
   }
 
+  snackbarStore.showSnackbar(res.message, true);
   getAllTransactions();
 };
 
