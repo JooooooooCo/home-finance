@@ -133,7 +133,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
 import { useDisplay } from 'vuetify';
 import dayjs from 'dayjs';
 import { axiosHelper } from "@/helper/axios.helper";
@@ -162,12 +162,25 @@ const { mdAndUp } = useDisplay();
 const currentDate = dayjs();
 const defaultEmptyForm = {
   transaction_type_id: 1,
+  payment_type_id: null,
+  payment_status_id: null,
   purchase_date: currentDate.format('YYYY-MM-DD'),
   due_date: '',
   payment_date: '',
+  amount: null,
+  current_installment: 1,
+  total_installments: 1,
+  description: '',
+  primary_category_id: null,
+  secondary_category_id: null,
+  specific_category_id: null,
+  primary_note: '',
+  secondary_note: '',
+  spending_average: '',
   is_real: 1,
+  is_reconciled: 0,
 }
-const form = ref(props.modelValue ? { ...props.modelValue } : defaultEmptyForm)
+const form = ref(props.modelValue ? { ...props.modelValue } : { ...defaultEmptyForm })
 const showNotesFields = ref(false);
 
 watch(() => props.modelValue, (val) => {
@@ -226,8 +239,9 @@ const generateBatchTransactions = () => {
 
 const saveTransaction = async () => {
   if (!validateForm()) return;
+  const isEdit = form.value.id;
   loading.value = true;
-  const res = form.value.id ? await editTransaction() : await createTransaction();
+  const res = isEdit ? await editTransaction() : await createTransaction();
   loading.value = false;
 
   if (res.error) {
@@ -236,7 +250,11 @@ const saveTransaction = async () => {
   }
 
   snackbarStore.showSnackbar(res.message, true);
-  close();
+  if (isEdit) {
+    close();
+  } else {
+    resetFormKeepingLastPurchaseDate();
+  }
 };
 
 const createTransaction = async () => {
@@ -257,5 +275,16 @@ const editTransaction = async () => {
   return await axiosHelper.put(url, body);
 };
 
+const resetFormKeepingLastPurchaseDate = () => {
+  form.value = { ...defaultEmptyForm, purchase_date: form.value.purchase_date }; 
+  scrollTop();
+};
+
 const close = () => emit('close');
+
+const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+onMounted(() => {
+  scrollTop();
+});
 </script>

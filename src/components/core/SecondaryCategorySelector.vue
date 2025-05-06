@@ -1,6 +1,6 @@
 <template>
-  <SelectPicker v-if="!loading" v-model="selectedItem" :items="availableOptions" @update:modelValue="changeSelection"
-    :label="label" :disabled="!transactionTypeId && requireTransactionType" :hideDetails="hideDetails"/>
+  <SelectPicker v-model="selectedItem" :items="availableOptions" @update:modelValue="changeSelection"
+    :label="label" :disabled="(!transactionTypeId && requireTransactionType) || loading" :hideDetails="hideDetails"/>
 </template>
 
 <script setup>
@@ -60,6 +60,10 @@ const getAllOptions = async () => {
 };
 
 watch(() => props.transactionTypeId, (val) => getAllOptions())
+
+watch(() => props.modelValue, (val) => {
+  selectedItem.value = val;
+});
 
 onMounted(() => {
   getAllOptions();

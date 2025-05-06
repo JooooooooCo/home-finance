@@ -1,6 +1,6 @@
 <template>
   <v-btn-toggle 
-    v-model="selectedTransactionType" 
+    v-model="selectedItem" 
     @update:modelValue="changeSelection" 
     :multiple="multipleChoice"
     :mandatory="!multipleChoice"
@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 const props = defineProps({
   modelValue: {
@@ -31,9 +31,13 @@ const props = defineProps({
 
 })
 
-const selectedTransactionType = ref(!props.multipleChoice ? props.modelValue : []);
+const selectedItem = ref(!props.multipleChoice ? props.modelValue : []);
 
 const emit = defineEmits(['update:modelValue']);
+
+watch(() => props.modelValue, (val) => {
+  selectedItem.value = val;
+});
 
 const changeSelection = (value) => {
   emit('update:modelValue', value);

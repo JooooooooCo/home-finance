@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { axiosHelper } from "@/helper/axios.helper";
 import { useSnackbarStore } from '@/store/snackbar.store';
 import SelectPicker from '@/components/generics/SelectPicker.vue';
@@ -44,6 +44,10 @@ const getAllOptions = async () => {
 
   availableOptions.value = res.data;
 };
+
+watch(() => props.modelValue, (val) => {
+  selectedItem.value = val;
+});
 
 onMounted(() => {
   getAllOptions();

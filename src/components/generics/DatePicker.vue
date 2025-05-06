@@ -23,7 +23,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useDateHandler } from '@/composables/useDateHandler'
 
 const props = defineProps({
@@ -65,6 +65,10 @@ const selectDate = (date) => {
 const openDialog = () => {
   dialogPicker.value = true;
 }
+
+watch(() => props.modelValue, (val) => {
+  selectedDate.value = !val ? '' : new Date(val);
+});
 
 onMounted(() => {
   if (props.modelValue) {
