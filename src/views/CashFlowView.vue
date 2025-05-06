@@ -7,7 +7,7 @@
             <v-card-actions>
               <v-row>
                 <v-col class="pt-0 d-flex justify-space-between">
-                <v-btn variant="text" :text="showSummaryTotals ? 'OCULTAR TOTAIS' : 'EXIBIR TOTAIS'" color="teal darken-2"
+                  <v-btn variant="text" :text="showSummaryTotals ? 'OCULTAR TOTAIS' : 'EXIBIR TOTAIS'" color="teal darken-2"
                     :prepend-icon="showSummaryTotals ? 'mdi-eye-off-outline' : 'mdi-eye-outline'" rounded @click="showSummaryTotals = !showSummaryTotals" />
                   <v-btn variant="text" text="FILTROS" color="teal darken-2"
                     prepend-icon="mdi-filter-menu-outline" rounded @click="showFilter = !showFilter" />

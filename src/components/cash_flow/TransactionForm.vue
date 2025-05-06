@@ -83,6 +83,13 @@
         </v-row>
   
         <v-row dense>
+          <v-col cols="12">
+            <v-btn variant="text" :text="showNotesFields ? 'OCULTAR OBSERVAÇÕES' : 'EXIBIR OBSERVAÇÕES'" color="teal darken-2"
+              :prepend-icon="showNotesFields ? 'mdi-eye-off-outline' : 'mdi-eye-outline'" rounded @click="showNotesFields = !showNotesFields" />
+          </v-col>
+        </v-row>
+
+        <v-row dense v-if="showNotesFields">
           <v-col cols="12" md="4">
             <v-textarea label="Observação Principal" v-model="form.primary_note" @input="form.primary_note = form.primary_note.toUpperCase()" rows="2" variant="solo-filled" flat rounded-sm :hideDetails="mdAndUp"/>
           </v-col>
@@ -161,6 +168,7 @@ const defaultEmptyForm = {
   is_real: 1,
 }
 const form = ref(props.modelValue ? { ...props.modelValue } : defaultEmptyForm)
+const showNotesFields = ref(false);
 
 watch(() => props.modelValue, (val) => {
   form.value = { ...val }
