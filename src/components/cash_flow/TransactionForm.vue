@@ -10,7 +10,7 @@
   
         <v-row dense>
           <v-col :cols="mdAndUp ? 4 : 12">
-            <PaymentTypeSelector v-model="form.payment_type_id" />
+            <PaymentTypeSelector v-model="form.payment_type_id" @update:modelValue="autoFill" />
           </v-col>
   
           <v-col :cols="mdAndUp ? 3 : 12">
@@ -29,7 +29,7 @@
   
         <v-row dense>
           <v-col cols="12" md="4">
-            <DatePicker inputLabel="Data da Compra" v-model="form.purchase_date" />
+            <DatePicker inputLabel="Data da Compra" v-model="form.purchase_date" @update:modelValue="autoFill" />
           </v-col>
   
           <v-col cols="12" md="4">
@@ -279,6 +279,17 @@ const resetFormKeepingLastPurchaseDate = () => {
   form.value = { ...defaultEmptyForm, purchase_date: form.value.purchase_date }; 
   scrollTop();
 };
+
+const autoFill = () => {
+  // TODO: refact to use consts or params from db config
+  const cashPaymentTypeId = 1;
+  const paidPaymentStatusId = 1;
+  if (form.value.payment_type_id != cashPaymentTypeId) return
+
+  form.value.payment_status_id = paidPaymentStatusId;
+  form.value.due_date = form.value.purchase_date;
+  form.value.payment_date = form.value.purchase_date;
+}
 
 const close = () => emit('close');
 
