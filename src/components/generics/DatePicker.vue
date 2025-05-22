@@ -24,6 +24,7 @@
 
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue';
+import dayjs from 'dayjs';
 import { useDateHandler } from '@/composables/useDateHandler'
 
 const props = defineProps({
@@ -67,7 +68,7 @@ const openDialog = () => {
 }
 
 watch(() => props.modelValue, (val) => {
-  selectedDate.value = !val ? '' : new Date(val);
+  selectedDate.value = !val ? '' : dayjs(val, 'YYYY-MM-DD').toDate();
 });
 
 onMounted(() => {
