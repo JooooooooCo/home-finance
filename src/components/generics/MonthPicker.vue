@@ -3,7 +3,7 @@
     <SelectPicker
       v-model="selectedItem"
       :items="availableOptions"
-      label="Mês"
+      label=""
       @update:modelValue="changeSelection"
       hideDetails
     />

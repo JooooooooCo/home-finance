@@ -3,7 +3,7 @@
     <SelectPicker
       v-model="selectedItem"
       :items="availableOptions"
-      label="Ano"
+      label=""
       @update:modelValue="changeSelection"
       hideDetails
     />
