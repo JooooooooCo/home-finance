@@ -1,5 +1,5 @@
 <template>
-  <SelectPicker v-model="selectedItem" :items="availableOptions" @update:modelValue="changeSelection"
+  <SelectPicker v-model="selectedItem" :items="availableOptions" :externalOpenDialog="externalOpenDialog" @update:modelValue="changeSelection"
     :label="label" :disabled="(!transactionTypeId && requireTransactionType) || loading" :hideDetails="hideDetails"/>
 </template>
 
@@ -28,7 +28,11 @@ const props = defineProps({
   hideDetails: {
     type: Boolean,
     default: false,
-  }
+  },
+  externalOpenDialog: {
+    type: Boolean,
+    default: false,
+  },
 })
 
 const label = "Categoria Secundária";

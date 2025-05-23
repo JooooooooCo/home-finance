@@ -10,7 +10,7 @@
   
         <v-row dense>
           <v-col :cols="mdAndUp ? 4 : 12">
-            <PaymentTypeSelector v-model="form.payment_type_id" @update:modelValue="autoFill" />
+            <PaymentTypeSelector v-model="form.payment_type_id" @update:modelValue="nextField('payment_type')" />
           </v-col>
   
           <v-col :cols="mdAndUp ? 3 : 12">
@@ -29,7 +29,7 @@
   
         <v-row dense>
           <v-col cols="12" md="4">
-            <DatePicker inputLabel="Data da Compra" v-model="form.purchase_date" @update:modelValue="autoFill" />
+            <DatePicker inputLabel="Data da Compra" :externalOpenDialog="openField.purchase_date" v-model="form.purchase_date" @update:modelValue="nextField('purchase_date')" />
           </v-col>
   
           <v-col cols="12" md="4">
@@ -64,21 +64,33 @@
   
         <v-row dense>
           <v-col cols="12">
-            <v-textarea label="Descrição" v-model="form.description" @input="form.description = form.description.toUpperCase()" prepend-inner-icon="mdi-note" required rows="2" auto-grow variant="solo-filled" flat rounded-sm />
+            <v-textarea
+              label="Descrição"
+              v-model="form.description"
+              @input="form.description = form.description.toUpperCase()"
+              @blur="nextField('description')"
+              prepend-inner-icon="mdi-note"
+              required
+              rows="2"
+              auto-grow
+              variant="solo-filled"
+              flat
+              rounded-sm
+            />
           </v-col>
         </v-row>
   
         <v-row dense>
           <v-col cols="12" md="4">
-            <PrimaryCategorySelector v-model="form.primary_category_id" />
+            <PrimaryCategorySelector v-model="form.primary_category_id" :externalOpenDialog="openField.primary_category" @update:modelValue="nextField('primary_category')" />
           </v-col>
   
           <v-col cols="12" md="4">
-            <SecondaryCategorySelector v-model="form.secondary_category_id" :transactionTypeId="form.transaction_type_id" />
+            <SecondaryCategorySelector v-model="form.secondary_category_id" :transactionTypeId="form.transaction_type_id" :externalOpenDialog="openField.secondary_category" @update:modelValue="nextField('secondary_category')" />
           </v-col>
   
           <v-col cols="12" md="4">
-            <SpecificCategorySelector v-model="form.specific_category_id" :secondaryCategoryId="form.secondary_category_id" />
+            <SpecificCategorySelector v-model="form.specific_category_id" :secondaryCategoryId="form.secondary_category_id" :externalOpenDialog="openField.specific_category" />
           </v-col>
         </v-row>
   
@@ -148,6 +160,10 @@ import PrimaryCategorySelector from '@/components/core/PrimaryCategorySelector.v
 import SecondaryCategorySelector from '@/components/core/SecondaryCategorySelector.vue'
 import SpecificCategorySelector from '@/components/core/SpecificCategorySelector.vue'
 
+// TODO: refact to use consts or params from db config
+const CASH_PAYMENT_TYPE_ID = 1;
+const PAID_PAYMENT_STATUS_ID = 1;
+
 const props = defineProps({
   modelValue: Object,
 })
@@ -182,6 +198,12 @@ const defaultEmptyForm = {
 }
 const form = ref(props.modelValue ? { ...props.modelValue } : { ...defaultEmptyForm })
 const showNotesFields = ref(false);
+const openField = ref({
+  purchase_date: false,
+  primary_category: false,
+  secondary_category: false,
+  specific_category: false,
+});
 
 watch(() => props.modelValue, (val) => {
   form.value = { ...val }
@@ -212,7 +234,6 @@ const getGenerateBatchTransactionsConfirmationLabel = computed(() => {
 
   return `Gerar ${form.value.total_installments} parcelas?`;
 });
-
 
 const calculateInstallments = (amount, totalInstallments) => {
   const baseInstallment = (amount / totalInstallments).toFixed(2);
@@ -280,13 +301,33 @@ const resetFormKeepingLastPurchaseDate = () => {
   scrollTop();
 };
 
-const autoFill = () => {
-  // TODO: refact to use consts or params from db config
-  const cashPaymentTypeId = 1;
-  const paidPaymentStatusId = 1;
-  if (form.value.payment_type_id != cashPaymentTypeId) return
+const nextField = (from) => {
+  if (form.value.payment_type_id != CASH_PAYMENT_TYPE_ID) return
 
-  form.value.payment_status_id = paidPaymentStatusId;
+  if (from == 'payment_type') {
+    openField.value.purchase_date = true;
+    autoFill();
+  }
+
+  if (from == 'purchase_date') {
+    autoFill();
+  }
+
+  if (from == 'description') {
+    openField.value.primary_category = true;
+  }
+
+  if (from == 'primary_category') {
+    openField.value.secondary_category = true;
+  }
+
+  if (from == 'secondary_category') {
+    openField.value.specific_category = true;
+  }
+}
+
+const autoFill = () => {
+  form.value.payment_status_id = PAID_PAYMENT_STATUS_ID;
   form.value.due_date = form.value.purchase_date;
   form.value.payment_date = form.value.purchase_date;
 }

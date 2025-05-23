@@ -45,7 +45,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 
 const props = defineProps({
   items: {
@@ -67,6 +67,10 @@ const props = defineProps({
   hideDetails: {
     type: Boolean,
     default: false,
+  },
+  externalOpenDialog: {
+    type: Boolean,
+    default: false,
   }
 })
 
@@ -83,4 +87,8 @@ const selectOption = (option) => {
   emit('update:modelValue', option.id)
   dialog.value = false
 }
+
+watch(() => props.externalOpenDialog, (val) => {
+  dialog.value = val;
+});
 </script>

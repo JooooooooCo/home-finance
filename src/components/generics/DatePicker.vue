@@ -36,6 +36,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  externalOpenDialog: {
+    type: Boolean,
+    default: false,
+  }
 });
 
 const emit = defineEmits(['update:modelValue'])
@@ -69,6 +73,10 @@ const openDialog = () => {
 
 watch(() => props.modelValue, (val) => {
   selectedDate.value = !val ? '' : dayjs(val, 'YYYY-MM-DD').toDate();
+});
+
+watch(() => props.externalOpenDialog, (val) => {
+  dialogPicker.value = val;
 });
 
 onMounted(() => {
