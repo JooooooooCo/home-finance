@@ -1,5 +1,5 @@
 <template>
-  <label :for="`number-stepper-${label}`" class="v-label text-caption">{{label}}</label>
+  <label v-if="label" :for="`number-stepper-${label}`" class="v-label text-caption">{{label}}</label>
   <v-text-field :id="`number-stepper-${label}`" :model-value="modelValue" variant="solo-filled" flat rounded-xl
     @update:model-value="val => emit('update:modelValue', Number(val))">
     <template #prepend-inner>
