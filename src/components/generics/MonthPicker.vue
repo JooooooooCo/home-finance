@@ -1,5 +1,14 @@
 <template>
-  <div>
+  <v-col v-if="!mobileView" cols="6" class="pt-0" v-for="option in availableOptions" :key="option.id">
+    <v-btn 
+      :color="isSelectedOption(option.id) ? 'teal darken-2' : ''"
+      @click="select(option.id)" 
+      variant="text"
+      block
+    >{{ option.name }}</v-btn>
+  </v-col>
+
+  <v-col v-else cols="6" class="pt-0">
     <SelectPicker
       v-model="selectedItem"
       :items="availableOptions"
@@ -7,7 +16,7 @@
       @update:modelValue="changeSelection"
       hideDetails
     />
-  </div>
+  </v-col>
 </template>
 
 <script setup>
@@ -34,13 +43,20 @@ const props = defineProps({
     type: Number,
     default: null
   },
+  mobileView: {
+    type: Boolean,
+    default: false,
+  }
 });
 
 const emit = defineEmits(['update:modelValue']);
 
 const selectedItem = ref(props.modelValue);
 
-const changeSelection = (value) => {
-  emit('update:modelValue', value);
+const isSelectedOption = (optionId) => selectedItem.value == optionId;
+
+const select = (optionId) => {
+  selectedItem.value = optionId;
+  emit('update:modelValue', optionId);
 };
 </script>
