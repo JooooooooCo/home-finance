@@ -1,7 +1,7 @@
 <template>
   <label v-if="label" :for="`number-stepper-${label}`" class="v-label text-caption">{{label}}</label>
   <v-text-field :id="`number-stepper-${label}`" :model-value="modelValue" variant="solo-filled" flat rounded-xl
-    @update:model-value="val => emit('update:modelValue', Number(val))">
+    @update:model-value="val => emit('update:modelValue', Number(val))" :hide-details="hideDetails">
     <template #prepend-inner>
       <v-btn icon size="small" variant="text" @click="decrement">
         <v-icon>mdi-minus</v-icon>
@@ -26,6 +26,10 @@ const props = defineProps({
   label: {
     type: String,
     default: ""
+  },
+  hideDetails: {
+    type: Boolean,
+    default: true,
   }
 })
 

@@ -47,11 +47,11 @@
           </v-col>
   
           <v-col cols="6" md="2">
-            <NumberStepperInput v-model="form.current_installment" label="Parcela Atual" />
+            <NumberStepperInput v-model="form.current_installment" label="Parcela Atual" :hideDetails="false" />
           </v-col>
   
           <v-col cols="6" md="2">
-            <NumberStepperInput v-model="form.total_installments" label="Total de Parcelas" />
+            <NumberStepperInput v-model="form.total_installments" label="Total de Parcelas" :hideDetails="false" />
           </v-col>
           <v-col cols="12" md="4" class="d-flex align-end mt-0" v-if="form.total_installments > 1">
             <v-checkbox
