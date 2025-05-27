@@ -12,21 +12,25 @@ export const axiosHelper = {
 };
 
 function request(method) {
-  return async (url, body) => {
+  return async (url, data, options = {}) => {
     const requestConfig = {
       url: url,
       method: method,
       baseURL: API_URL,
-      headers: authHeader(),
+      ...options,
+      headers: {
+        ...authHeader(),
+        ...(options.headers || {}),
+      },
     };
 
-    if (body) {
+    if (data) {      
       requestConfig.headers["Content-Type"] = "application/json";
 
       if (method === "GET") {
-        requestConfig.params = body;
+        requestConfig.params = data;
       } else {
-        requestConfig.data = JSON.stringify(body);
+        requestConfig.data = JSON.stringify(data);
       }
     }
 

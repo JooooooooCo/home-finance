@@ -7,10 +7,59 @@
             <v-card-actions>
               <v-row>
                 <v-col class="pt-0 d-flex justify-space-between">
-                  <v-btn variant="text" :text="showSummaryTotals ? 'OCULTAR TOTAIS' : 'EXIBIR TOTAIS'" color="teal darken-2"
-                    :prepend-icon="showSummaryTotals ? 'mdi-eye-off-outline' : 'mdi-eye-outline'" rounded @click="showSummaryTotals = !showSummaryTotals" />
-                  <v-btn variant="text" text="FILTROS" color="teal darken-2"
-                    prepend-icon="mdi-filter-menu-outline" rounded @click="showFilter = !showFilter" />
+                  <v-btn
+                    v-if="mdAndUp"
+                    variant="text"
+                    :text="showSummaryTotals ? 'OCULTAR TOTAIS' : 'EXIBIR TOTAIS'"
+                    color="teal darken-2"
+                    :prepend-icon="showSummaryTotals? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
+                    rounded
+                    @click="showSummaryTotals = !showSummaryTotals"
+                  />
+                  <v-btn
+                    v-else
+                    size="large"
+                    color="teal darken-2"
+                    :icon="showSummaryTotals? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
+                    rounded
+                    @click="showSummaryTotals = !showSummaryTotals"
+                  />
+                  
+                  <v-btn
+                    v-if="mdAndUp"
+                    variant="text"
+                    text="EXPORTAR"
+                    color="teal darken-2"
+                    prepend-icon="mdi-download"
+                    rounded
+                    @click="exportList"
+                  />
+                  <v-btn
+                    v-else
+                    size="large"
+                    color="teal darken-2"
+                    icon="mdi-download"
+                    rounded
+                    @click="exportList"
+                  />
+                  
+                  <v-btn
+                    v-if="mdAndUp"
+                    variant="text"
+                    text="FILTROS"
+                    color="teal darken-2"
+                    prepend-icon="mdi-filter-menu-outline"
+                    rounded
+                    @click="showFilter = !showFilter"
+                  />
+                  <v-btn
+                    v-else
+                    size="large"
+                    color="teal darken-2"
+                    icon="mdi-filter-menu-outline"
+                    rounded
+                    @click="showFilter = !showFilter"
+                  />
                 </v-col>
               </v-row>
             </v-card-actions>
@@ -246,6 +295,7 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useDisplay } from 'vuetify';
 import { axiosHelper } from "@/helper/axios.helper";
 import { useDateHandler } from '@/composables/useDateHandler'
 import { useMonetaryValueHandler } from '@/composables/useMonetaryValueHandler'
@@ -260,6 +310,7 @@ const paidStatus = { id: 1, name: 'PAGO' };
 const { userDateFormatter, apiDateFormatter } = useDateHandler();
 const { userMonetaryValueFormatter } = useMonetaryValueHandler();
 const snackbarStore = useSnackbarStore();
+const { mdAndUp } = useDisplay();
 const transactions = ref([]);
 const summaryTotals = ref({});
 const filters = ref(null);
@@ -299,6 +350,36 @@ const getAllTransactions = async () => {
 
   transactions.value = res.data.transactions;
   summaryTotals.value = res.data.totals;
+};
+
+const exportList = async () => {
+  loading.value = true;
+  const url = "/cashflow/transaction/export";
+  const reqType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+  const options = {
+    responseType: 'blob',
+    headers: {
+      Accept: reqType
+    }
+  };
+  const res = await axiosHelper.get(url, filters.value, options);
+  loading.value = false;
+
+  if (res.error) {
+    snackbarStore.showSnackbar(res.message);
+    showSummaryTotals.value = false;
+    return;
+  }
+  
+  const blob = new Blob([res], { type: reqType });
+  const urlDownload = window.URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = urlDownload;
+  link.setAttribute('download', 'transactions.xlsx');
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  window.URL.revokeObjectURL(urlDownload);
 };
 
 const openDeleteConfirmation = (id) => {
