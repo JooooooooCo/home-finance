@@ -20,19 +20,16 @@
         <v-card-title>{{ label }}</v-card-title>
         <v-divider />
         <v-card-text class="flex-grow-1 overflow-y-auto">
-          <v-list>
-            <v-list-item v-for="option in items" :key="option.id">
-              <v-btn
-                variant="tonal"
-                color="blue-grey darken-4"
-                large
-                block
-                @click="selectOption(option)"
-              >
-                <v-col class="text-wrap">{{ option.name }}</v-col>
-              </v-btn>
-            </v-list-item>
-          </v-list>
+          <v-chip
+            v-for="option in items"
+            :key="option.id"
+            class="ma-2"
+            color="teal darken-2"
+            text-color="white"
+            @click="selectOption(option)"
+          >
+            <b>{{ option.name }}</b>
+          </v-chip>
         </v-card-text>
         <v-divider />
         <v-card-actions>
