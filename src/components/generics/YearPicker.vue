@@ -24,7 +24,7 @@ const availableOptions = ref(
 const props = defineProps({
   modelValue: {
     type: Number,
-    default: null
+    default: null,
   },
 });
 
@@ -32,7 +32,7 @@ const emit = defineEmits(['update:modelValue']);
 
 const selectedItem = ref(props.modelValue);
 
-const changeSelection = (value) => {
+const changeSelection = value => {
   emit('update:modelValue', value);
 };
 </script>

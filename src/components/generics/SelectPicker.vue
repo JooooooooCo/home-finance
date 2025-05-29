@@ -42,7 +42,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch } from 'vue';
 
 const props = defineProps({
   items: {
@@ -59,7 +59,7 @@ const props = defineProps({
   },
   disabled: {
     type: Boolean,
-    default: false
+    default: false,
   },
   hideDetails: {
     type: Boolean,
@@ -68,24 +68,27 @@ const props = defineProps({
   externalOpenDialog: {
     type: Boolean,
     default: false,
-  }
-})
+  },
+});
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue']);
 
-const dialog = ref(false)
+const dialog = ref(false);
 
 const selectedLabel = computed(() => {
-  const found = props.items.find(item => item.id === props.modelValue)
-  return found ? found.name : ''
-})
-
-const selectOption = (option) => {
-  emit('update:modelValue', option.id)
-  dialog.value = false
-}
-
-watch(() => props.externalOpenDialog, (val) => {
-  dialog.value = val;
+  const found = props.items.find(item => item.id === props.modelValue);
+  return found ? found.name : '';
 });
+
+const selectOption = option => {
+  emit('update:modelValue', option.id);
+  dialog.value = false;
+};
+
+watch(
+  () => props.externalOpenDialog,
+  val => {
+    dialog.value = val;
+  }
+);
 </script>

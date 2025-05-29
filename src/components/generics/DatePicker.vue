@@ -17,7 +17,13 @@
     </template>
 
     <v-card>
-      <v-date-picker v-if="dialogPicker" v-model="datePickerInicialValue" @update:model-value="selectDate" locale="pt-BR" show-adjacent-months />
+      <v-date-picker
+        v-if="dialogPicker"
+        v-model="datePickerInicialValue"
+        @update:model-value="selectDate"
+        locale="pt-BR"
+        show-adjacent-months
+      />
     </v-card>
   </v-dialog>
 </template>
@@ -25,7 +31,7 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue';
 import dayjs from 'dayjs';
-import { useDateHandler } from '@/composables/useDateHandler'
+import { useDateHandler } from '@/composables/useDateHandler';
 
 const props = defineProps({
   modelValue: {
@@ -39,10 +45,10 @@ const props = defineProps({
   externalOpenDialog: {
     type: Boolean,
     default: false,
-  }
+  },
 });
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue']);
 const { userDateFormatter, apiDateFormatter, convertStringToDate } = useDateHandler();
 
 const datePickerInicialValue = computed(() => {
@@ -61,23 +67,29 @@ const label = ref(props.inputLabel);
 const dialogPicker = ref(false);
 const selectedDate = ref('');
 
-const selectDate = (date) => {
+const selectDate = date => {
   selectedDate.value = date;
   emit('update:modelValue', apiFormattedDate.value);
   dialogPicker.value = false;
-}
+};
 
 const openDialog = () => {
   dialogPicker.value = true;
-}
+};
 
-watch(() => props.modelValue, (val) => {
-  selectedDate.value = !val ? '' : dayjs(val, 'YYYY-MM-DD').toDate();
-});
+watch(
+  () => props.modelValue,
+  val => {
+    selectedDate.value = !val ? '' : dayjs(val, 'YYYY-MM-DD').toDate();
+  }
+);
 
-watch(() => props.externalOpenDialog, (val) => {
-  dialogPicker.value = val;
-});
+watch(
+  () => props.externalOpenDialog,
+  val => {
+    dialogPicker.value = val;
+  }
+);
 
 onMounted(() => {
   if (props.modelValue) {

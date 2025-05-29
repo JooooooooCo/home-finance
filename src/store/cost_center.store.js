@@ -1,17 +1,17 @@
-import { defineStore } from "pinia";
-import { axiosHelper } from "@/helper/axios.helper";
-import router from "@/router";
+import { defineStore } from 'pinia';
+import { axiosHelper } from '@/helper/axios.helper';
+import router from '@/router';
 import { useSnackbarStore } from '@/store/snackbar.store';
 
-export const useCostCenterStore = defineStore("cost_center", {
+export const useCostCenterStore = defineStore('cost_center', {
   state: () => {
     return {
-      id: JSON.parse(localStorage.getItem("cost_center_id")),
-      name: JSON.parse(localStorage.getItem("cost_center_name")),
+      id: JSON.parse(localStorage.getItem('cost_center_id')),
+      name: JSON.parse(localStorage.getItem('cost_center_name')),
     };
   },
   getters: {
-    isCostCenterSelected: (state) => {
+    isCostCenterSelected: state => {
       return state.id ? true : false;
     },
   },
@@ -20,8 +20,8 @@ export const useCostCenterStore = defineStore("cost_center", {
       this.id = costCenter.id;
       this.name = costCenter.name;
 
-      localStorage.setItem("cost_center_id", JSON.stringify(this.id));
-      localStorage.setItem("cost_center_name", JSON.stringify(this.name));
+      localStorage.setItem('cost_center_id', JSON.stringify(this.id));
+      localStorage.setItem('cost_center_name', JSON.stringify(this.name));
 
       router.push({ name: 'dashboard' });
     },
@@ -29,14 +29,14 @@ export const useCostCenterStore = defineStore("cost_center", {
       this.id = null;
       this.name = null;
 
-      localStorage.setItem("cost_center_id", JSON.stringify(this.id));
-      localStorage.setItem("cost_center_name", JSON.stringify(this.name));
+      localStorage.setItem('cost_center_id', JSON.stringify(this.id));
+      localStorage.setItem('cost_center_name', JSON.stringify(this.name));
 
       router.push({ name: 'cost-center-selection' });
     },
     async createCostCenter(cost_center_name) {
       const body = { name: cost_center_name };
-      const url = "/cost-center";
+      const url = '/cost-center';
 
       const res = await axiosHelper.post(url, body);
 

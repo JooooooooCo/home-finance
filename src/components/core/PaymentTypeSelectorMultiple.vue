@@ -19,25 +19,28 @@ const availableOptions = ref([]);
 const props = defineProps({
   modelValue: {
     type: Array,
-    default: () => []
+    default: () => [],
   },
-})
+});
 
 const emit = defineEmits(['update:modelValue']);
 
-const label = "Modo de Pagamento";
+const label = 'Modo de Pagamento';
 const selectedItems = ref([...props.modelValue]);
 
-watch(() => props.modelValue, (newVal) => {
-  selectedItems.value = [...newVal];
-});
+watch(
+  () => props.modelValue,
+  newVal => {
+    selectedItems.value = [...newVal];
+  }
+);
 
-const changeSelection = (values) => {
+const changeSelection = values => {
   emit('update:modelValue', values);
-}
+};
 
 const getAllOptions = async () => {
-  const url = "/settings/payment-type";
+  const url = '/settings/payment-type';
   const res = await axiosHelper.get(url);
 
   if (res.error) {
@@ -46,9 +49,9 @@ const getAllOptions = async () => {
   }
 
   availableOptions.value = res.data;
-}
+};
 
 onMounted(() => {
   getAllOptions();
-})
+});
 </script>

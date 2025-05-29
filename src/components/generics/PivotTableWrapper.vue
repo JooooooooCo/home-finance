@@ -1,11 +1,11 @@
 <template>
-    <div>Pivot</div>
+  <div>Pivot</div>
 </template>
 
 <script>
-import WebDataRocks from "@webdatarocks/webdatarocks";
+import WebDataRocks from '@webdatarocks/webdatarocks';
 export default {
-  name: "Pivot",
+  name: 'Pivot',
   props: {
     afterchartdraw: Function,
     aftergriddraw: Function,
@@ -48,21 +48,21 @@ export default {
     runningquery: Function,
     toolbar: Boolean,
     update: Function,
-    width: [Number, String]
+    width: [Number, String],
   },
-  mounted: function() {
+  mounted: function () {
     this.webdatarocks = new WebDataRocks({
       ...this.$props,
-      container: this.$el
+      container: this.$el,
     });
   },
   beforeUpdate() {
     return false;
-  }
+  },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 @import '@webdatarocks/webdatarocks/webdatarocks.min.css';
-</style> 
+</style>

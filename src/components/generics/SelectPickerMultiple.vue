@@ -48,7 +48,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch } from 'vue';
 
 const props = defineProps({
   items: {
@@ -66,38 +66,41 @@ const props = defineProps({
   hideDetails: {
     type: Boolean,
     default: true,
+  },
+});
+
+const emit = defineEmits(['update:modelValue']);
+
+const dialog = ref(false);
+const selectedIds = ref([...props.modelValue]);
+
+watch(
+  () => props.modelValue,
+  val => {
+    selectedIds.value = [...(val || [])];
   }
-})
-
-const emit = defineEmits(['update:modelValue'])
-
-const dialog = ref(false)
-const selectedIds = ref([...props.modelValue])
-
-watch(() => props.modelValue, (val) => {
-  selectedIds.value = [...(val || [])]
-})
+);
 
 const selectedLabel = computed(() => {
-  const selectedItems = props.items.filter(i => selectedIds.value.includes(i.id))
-  return selectedItems.map(i => i.name).join(', ')
-})
+  const selectedItems = props.items.filter(i => selectedIds.value.includes(i.id));
+  return selectedItems.map(i => i.name).join(', ');
+});
 
-const isSelected = (id) => {
-  return selectedIds.value.includes(id)
-}
+const isSelected = id => {
+  return selectedIds.value.includes(id);
+};
 
-const toggleSelection = (id) => {
-  const index = selectedIds.value.indexOf(id)
+const toggleSelection = id => {
+  const index = selectedIds.value.indexOf(id);
   if (index === -1) {
-    selectedIds.value.push(id)
+    selectedIds.value.push(id);
   } else {
-    selectedIds.value.splice(index, 1)
+    selectedIds.value.splice(index, 1);
   }
-}
+};
 
 const emitSelection = () => {
-  emit('update:modelValue', [...selectedIds.value])
-  dialog.value = false
-}
+  emit('update:modelValue', [...selectedIds.value]);
+  dialog.value = false;
+};
 </script>

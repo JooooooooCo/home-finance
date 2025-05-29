@@ -10,11 +10,7 @@
           @delete="deletePaymentType"
         />
 
-        <PaymentTypeForm
-          v-if="showForm"
-          :item="selectedPaymentType"
-          @hide-form="hideForm"
-        />
+        <PaymentTypeForm v-if="showForm" :item="selectedPaymentType" @hide-form="hideForm" />
       </v-col>
     </v-row>
   </v-container>
@@ -22,7 +18,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { axiosHelper } from "@/helper/axios.helper";
+import { axiosHelper } from '@/helper/axios.helper';
 import { useSnackbarStore } from '@/store/snackbar.store';
 import GenericList from '@/components/settings/GenericList.vue';
 import PaymentTypeForm from '@/components/settings/PaymentTypeForm.vue';
@@ -33,7 +29,7 @@ const showForm = ref(false);
 const selectedPaymentType = ref({ id: null, name: null });
 
 const getAllPaymentTypes = async () => {
-  const url = "/settings/payment-type";
+  const url = '/settings/payment-type';
   const res = await axiosHelper.get(url);
 
   if (res.error) {
@@ -44,7 +40,7 @@ const getAllPaymentTypes = async () => {
   paymentTypes.value = res.data;
 };
 
-const deletePaymentType = async (id) => {
+const deletePaymentType = async id => {
   const url = `/settings/payment-type/${id}`;
   const res = await axiosHelper.delete(url);
 
@@ -61,7 +57,7 @@ const showAddForm = () => {
   showForm.value = true;
 };
 
-const showEditForm = (item) => {
+const showEditForm = item => {
   selectedPaymentType.value = item;
   showForm.value = true;
 };

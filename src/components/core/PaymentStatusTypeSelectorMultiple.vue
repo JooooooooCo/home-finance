@@ -9,7 +9,7 @@
 
 <script setup>
 import { ref, onMounted, watch } from 'vue';
-import { axiosHelper } from "@/helper/axios.helper";
+import { axiosHelper } from '@/helper/axios.helper';
 import { useSnackbarStore } from '@/store/snackbar.store';
 import SelectPickerMultiple from '@/components/generics/SelectPickerMultiple.vue';
 
@@ -19,25 +19,28 @@ const availableOptions = ref([]);
 const props = defineProps({
   modelValue: {
     type: Array,
-    default: () => []
+    default: () => [],
   },
 });
 
 const emit = defineEmits(['update:modelValue']);
 
-const label = "Situação de Pagamento";
+const label = 'Situação de Pagamento';
 const selectedItems = ref([...props.modelValue]);
 
-watch(() => props.modelValue, (val) => {
-  selectedItems.value = [...val];
-});
+watch(
+  () => props.modelValue,
+  val => {
+    selectedItems.value = [...val];
+  }
+);
 
-const changeSelection = (value) => {
+const changeSelection = value => {
   emit('update:modelValue', value);
 };
 
 const getAllOptions = async () => {
-  const url = "/settings/payment-status-type";
+  const url = '/settings/payment-status-type';
   const res = await axiosHelper.get(url);
 
   if (res.error) {

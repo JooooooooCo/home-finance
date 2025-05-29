@@ -1,9 +1,20 @@
 <template>
-  <v-date-input :label="inputLabel" v-model="model" @update:model-value="updateModel" @click:clear="resetModel"
-    prepend-icon="" prepend-inner-icon="mdi-calendar" multiple="range" variant="solo-filled" flat clearable
-    show-adjacent-months hide-details>
+  <v-date-input
+    :label="inputLabel"
+    v-model="model"
+    @update:model-value="updateModel"
+    @click:clear="resetModel"
+    prepend-icon=""
+    prepend-inner-icon="mdi-calendar"
+    multiple="range"
+    variant="solo-filled"
+    flat
+    clearable
+    show-adjacent-months
+    hide-details
+  >
     <template #input="{ props }">
-      <input v-bind="props" readonly class="v-field__input">
+      <input v-bind="props" readonly class="v-field__input" />
     </template>
   </v-date-input>
 </template>
@@ -22,14 +33,14 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue']);
 
 const model = ref(props.modelValue);
 
-const updateModel = (date) => {
+const updateModel = date => {
   model.value = date;
   emit('update:modelValue', model.value);
-}
+};
 
-const resetModel = () => updateModel([])
+const resetModel = () => updateModel([]);
 </script>

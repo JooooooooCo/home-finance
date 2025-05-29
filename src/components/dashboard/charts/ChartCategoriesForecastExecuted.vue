@@ -1,17 +1,17 @@
 <template>
-    <v-chart class="chart" :option="option" />
+  <v-chart class="chart" :option="option" />
 </template>
-  
+
 <script setup>
-import VChart from "vue-echarts"
-import { ref, provide } from "vue"
-import { use } from "echarts/core";
-import { BarChart } from "echarts/charts";
-import { DatasetComponent, GridComponent } from "echarts/components";
-import { CanvasRenderer } from "echarts/renderers";
+import VChart from 'vue-echarts';
+import { ref, provide } from 'vue';
+import { use } from 'echarts/core';
+import { BarChart } from 'echarts/charts';
+import { DatasetComponent, GridComponent } from 'echarts/components';
+import { CanvasRenderer } from 'echarts/renderers';
 
 use([DatasetComponent, GridComponent, BarChart, CanvasRenderer]);
-  
+
 const option = ref({
   dataset: {
     source: [
@@ -24,8 +24,8 @@ const option = ref({
       [68.1, 79146, 'Tea'],
       [19.6, 91852, 'Orange Juice'],
       [10.6, 101852, 'Lemon Juice'],
-      [32.7, 20112, 'Walnut Brownie']
-    ]
+      [32.7, 20112, 'Walnut Brownie'],
+    ],
   },
   xAxis: {},
   yAxis: { type: 'category' },
@@ -36,16 +36,15 @@ const option = ref({
         // Map "amount" column to x-axis.
         x: 'amount',
         // Map "product" row to y-axis.
-        y: 'product'
-      }
-    }
-  ]
+        y: 'product',
+      },
+    },
+  ],
 });
 </script>
 
 <style scoped>
 .chart {
-height: 400px;
+  height: 400px;
 }
 </style>
-  

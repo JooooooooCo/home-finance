@@ -1,63 +1,63 @@
-import { createRouter, createWebHistory } from "vue-router";
-import MainLayoutView from "@/views/MainLayoutView.vue";
-import { useAuthStore } from "@/store/auth.store";
-import { useCostCenterStore } from "@/store/cost_center.store";
+import { createRouter, createWebHistory } from 'vue-router';
+import MainLayoutView from '@/views/MainLayoutView.vue';
+import { useAuthStore } from '@/store/auth.store';
+import { useCostCenterStore } from '@/store/cost_center.store';
 
-const publicRoutes = ["/", "/cost-center-selection"];
+const publicRoutes = ['/', '/cost-center-selection'];
 
 const routes = [
   {
-    path: "/",
-    name: "login",
-    component: () => import("@/views/LoginView.vue"),
+    path: '/',
+    name: 'login',
+    component: () => import('@/views/LoginView.vue'),
     meta: { isPublic: true },
   },
   {
-    path: "/cost-center-selection",
-    name: "cost-center-selection",
-    component: () => import("@/views/CostCenterSelectionView.vue"),
+    path: '/cost-center-selection',
+    name: 'cost-center-selection',
+    component: () => import('@/views/CostCenterSelectionView.vue'),
     meta: { isPublic: true },
   },
   {
-    path: "/app",
+    path: '/app',
     component: MainLayoutView,
     meta: { requiresAuth: true, requiresCostCenter: true },
     children: [
       {
-        path: "/dashboard",
-        name: "dashboard",
-        component: () => import("@/views/DashboardView.vue"),
+        path: '/dashboard',
+        name: 'dashboard',
+        component: () => import('@/views/DashboardView.vue'),
       },
       {
-        path: "/cash-flow",
-        name: "cash-flow",
-        component: () => import("@/views/CashFlowView.vue"),
+        path: '/cash-flow',
+        name: 'cash-flow',
+        component: () => import('@/views/CashFlowView.vue'),
       },
       {
-        path: "/pivot-table",
-        name: "pivot-table",
-        component: () => import("@/views/PivotTableView.vue"),
+        path: '/pivot-table',
+        name: 'pivot-table',
+        component: () => import('@/views/PivotTableView.vue'),
       },
       {
-        path: "/cost-center",
-        name: "cost-center",
-        component: () => import("@/views/CostCenterView.vue"),
+        path: '/cost-center',
+        name: 'cost-center',
+        component: () => import('@/views/CostCenterView.vue'),
       },
       {
-        path: "/settings",
+        path: '/settings',
         children: [
           {
-            path: "/payment-type",
-            name: "settings-payment-type",
-            component: () => import("@/views/settings/PaymentTypeView.vue"),
+            path: '/payment-type',
+            name: 'settings-payment-type',
+            component: () => import('@/views/settings/PaymentTypeView.vue'),
           },
           {
-            path: "/payment-status-type",
-            name: "settings-payment-status-type",
-            component: () => import("@/views/settings/PaymentStatusTypeView.vue"),
+            path: '/payment-status-type',
+            name: 'settings-payment-status-type',
+            component: () => import('@/views/settings/PaymentStatusTypeView.vue'),
           },
         ],
-      }
+      },
     ],
   },
 ];
@@ -80,12 +80,12 @@ router.beforeEach((to, from, next) => {
 
   if (requiresAuth && !authStore.isLoggedIn) {
     authStore.returnUrl = to.path;
-    return next({ name: "login" });
+    return next({ name: 'login' });
   }
 
   if (requiresCostCenter && !costCenterStore.isCostCenterSelected) {
     authStore.returnUrl = to.path;
-    return next({ name: "cost-center-selection" });
+    return next({ name: 'cost-center-selection' });
   }
 
   next();

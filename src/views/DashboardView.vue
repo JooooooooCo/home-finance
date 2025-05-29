@@ -6,8 +6,8 @@
 </template>
 
 <script setup>
-import DashboardMain from "@/components/dashboard/DashboardMain.vue";
-import DashboardMainMobile from "@/components/dashboard/DashboardMainMobile.vue";
+import DashboardMain from '@/components/dashboard/DashboardMain.vue';
+import DashboardMainMobile from '@/components/dashboard/DashboardMainMobile.vue';
 import { useDisplay } from 'vuetify';
 
 const { mdAndUp } = useDisplay();

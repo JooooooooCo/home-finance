@@ -1,5 +1,3 @@
-<template>
-    MainLargeScreen
-</template>
+<template>MainLargeScreen</template>
 
 <script setup></script>

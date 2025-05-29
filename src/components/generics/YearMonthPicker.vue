@@ -1,15 +1,22 @@
 <template>
   <v-col cols="6" class="pt-0 pb-0">
-      <NumberStepperInput v-model="selectedYear" @update:modelValue="emitUpdateModelValue" />
-  </v-col>     
+    <NumberStepperInput v-model="selectedYear" @update:modelValue="emitUpdateModelValue" />
+  </v-col>
 
-  <v-col v-if="!mobileView" cols="6" class="pt-0" v-for="option in availableOptions" :key="option.id">
-    <v-btn 
+  <v-col
+    v-if="!mobileView"
+    cols="6"
+    class="pt-0"
+    v-for="option in availableOptions"
+    :key="option.id"
+  >
+    <v-btn
       :color="isSelectedOption(option.id) ? 'teal darken-2' : ''"
-      @click="select(option.id)" 
+      @click="select(option.id)"
       variant="text"
       block
-    >{{ option.name }}</v-btn>
+      >{{ option.name }}</v-btn
+    >
   </v-col>
 
   <v-col v-else cols="6" class="pt-0 pb-0">
@@ -50,12 +57,12 @@ const props = defineProps({
     default: {
       year: dayjs().format('YYYY'),
       month: dayjs().format('MM'),
-    }
+    },
   },
   mobileView: {
     type: Boolean,
     default: false,
-  }
+  },
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -63,9 +70,9 @@ const emit = defineEmits(['update:modelValue']);
 const selectedYear = ref(parseInt(props.modelValue.year));
 const selectedMonth = ref(parseInt(props.modelValue.month));
 
-const isSelectedOption = (optionId) => selectedMonth.value == optionId;
+const isSelectedOption = optionId => selectedMonth.value == optionId;
 
-const changeSelection = (optionId) => {
+const changeSelection = optionId => {
   selectedMonth.value = optionId;
   emitUpdateModelValue();
 };
@@ -75,5 +82,5 @@ const emitUpdateModelValue = () => {
     year: selectedYear.value,
     month: selectedMonth.value,
   });
-}
+};
 </script>

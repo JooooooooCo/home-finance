@@ -12,7 +12,7 @@
                     variant="text"
                     :text="showSummaryTotals ? 'OCULTAR TOTAIS' : 'EXIBIR TOTAIS'"
                     color="teal darken-2"
-                    :prepend-icon="showSummaryTotals? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
+                    :prepend-icon="showSummaryTotals ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
                     rounded="xl"
                     @click="showSummaryTotals = !showSummaryTotals"
                   />
@@ -20,11 +20,11 @@
                     v-else
                     size="large"
                     color="teal darken-2"
-                    :icon="showSummaryTotals? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
+                    :icon="showSummaryTotals ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
                     rounded="xl"
                     @click="showSummaryTotals = !showSummaryTotals"
                   />
-                  
+
                   <v-btn
                     v-if="mdAndUp"
                     variant="text"
@@ -42,7 +42,7 @@
                     rounded="xl"
                     @click="exportList"
                   />
-                  
+
                   <v-btn
                     v-if="mdAndUp"
                     variant="text"
@@ -69,8 +69,13 @@
             <v-row>
               <v-col cols="6" class="pt-0 pb-0">
                 <v-card elevation="0">
-                  <v-card-title class="text-subtitle-2 text-medium-emphasis font-weight-regular">Saldo Inicial</v-card-title>
-                  <v-card-text class="text-h6 font-weight-bold" :class="summaryTotals.executed_history_balance_amount < 0 ? 'text-red' : ''">
+                  <v-card-title class="text-subtitle-2 text-medium-emphasis font-weight-regular"
+                    >Saldo Inicial</v-card-title
+                  >
+                  <v-card-text
+                    class="text-h6 font-weight-bold"
+                    :class="summaryTotals.executed_history_balance_amount < 0 ? 'text-red' : ''"
+                  >
                     {{ userMonetaryValueFormatter(summaryTotals.executed_history_balance_amount) }}
                   </v-card-text>
                 </v-card>
@@ -78,8 +83,13 @@
 
               <v-col cols="6" class="pt-0 pb-0">
                 <v-card elevation="0">
-                  <v-card-title class="text-subtitle-2 text-medium-emphasis font-weight-regular">Saldo Atual</v-card-title>
-                  <v-card-text class="text-h6 font-weight-bold" :class="summaryTotals.executed_balance_amount < 0 ? 'text-red' : ''">
+                  <v-card-title class="text-subtitle-2 text-medium-emphasis font-weight-regular"
+                    >Saldo Atual</v-card-title
+                  >
+                  <v-card-text
+                    class="text-h6 font-weight-bold"
+                    :class="summaryTotals.executed_balance_amount < 0 ? 'text-red' : ''"
+                  >
                     {{ userMonetaryValueFormatter(summaryTotals.executed_balance_amount) }}
                   </v-card-text>
                 </v-card>
@@ -87,8 +97,13 @@
 
               <v-col cols="6" class="pt-0 pb-0">
                 <v-card elevation="0">
-                  <v-card-title class="text-subtitle-2 text-medium-emphasis font-weight-regular">Saldo Final</v-card-title>
-                  <v-card-text class="text-h6 font-weight-bold" :class="summaryTotals.forecast_balance_amount < 0 ? 'text-red' : ''">
+                  <v-card-title class="text-subtitle-2 text-medium-emphasis font-weight-regular"
+                    >Saldo Final</v-card-title
+                  >
+                  <v-card-text
+                    class="text-h6 font-weight-bold"
+                    :class="summaryTotals.forecast_balance_amount < 0 ? 'text-red' : ''"
+                  >
                     {{ userMonetaryValueFormatter(summaryTotals.forecast_balance_amount) }}
                   </v-card-text>
                 </v-card>
@@ -98,11 +113,14 @@
                 <v-row>
                   <v-col>
                     <v-card elevation="0">
-
                       <v-card-text class="pt-0 pb-0">
                         <v-row class="mt-0">
                           <v-col cols="12">
-                            <v-icon icon="mdi-arrow-up-circle-outline" class="mr-1" color="teal darken-2" />
+                            <v-icon
+                              icon="mdi-arrow-up-circle-outline"
+                              class="mr-1"
+                              color="teal darken-2"
+                            />
                             {{ userMonetaryValueFormatter(summaryTotals.forecast_revenue_amount) }}
                           </v-col>
                         </v-row>
@@ -121,9 +139,18 @@
             <v-divider class="mt-4" />
           </v-card>
 
-          <v-card v-for="transaction in transactions" :key="transaction.id" elevation="0" class="mb-4">
+          <v-card
+            v-for="transaction in transactions"
+            :key="transaction.id"
+            elevation="0"
+            class="mb-4"
+          >
             <template v-slot:prepend>
-              <v-chip v-if="transaction.payment_status.id == paidStatus.id" color="teal darken-2" class="mr-1">
+              <v-chip
+                v-if="transaction.payment_status.id == paidStatus.id"
+                color="teal darken-2"
+                class="mr-1"
+              >
                 <v-icon icon="mdi-check" class="mr-1" color="teal-lighten-2" />
                 <b>{{ transaction.payment_status.name }}</b>
               </v-chip>
@@ -132,7 +159,12 @@
                 <b>{{ transaction.payment_status.name }}</b>
                 <LoaderCircular v-if="loadingMarkAsPaid[transaction.id]" class="ml-1" />
               </v-chip>
-              <v-chip v-if="transaction.is_reconciled" @click="toogleReconciled(transaction.id)" color="teal darken-2" class="mr-1">
+              <v-chip
+                v-if="transaction.is_reconciled"
+                @click="toogleReconciled(transaction.id)"
+                color="teal darken-2"
+                class="mr-1"
+              >
                 <v-icon icon="mdi-check" class="mr-1" color="teal-lighten-2" />
                 <b>CONCILIADO</b>
                 <LoaderCircular v-if="loadingToogleReconciled[transaction.id]" class="ml-1" />
@@ -147,8 +179,15 @@
             <v-card-title class="text-subtitle-1">
               <v-row>
                 <v-col class="text-wrap text-black">
-                  <v-icon :icon="transaction.transaction_type_id == 1 ? 'mdi-arrow-down-circle-outline' : 'mdi-arrow-up-circle-outline'" class="mr-1"
-                    :color="transaction.transaction_type_id == 1 ? 'red' : 'teal darken-2'" />
+                  <v-icon
+                    :icon="
+                      transaction.transaction_type_id == 1
+                        ? 'mdi-arrow-down-circle-outline'
+                        : 'mdi-arrow-up-circle-outline'
+                    "
+                    class="mr-1"
+                    :color="transaction.transaction_type_id == 1 ? 'red' : 'teal darken-2'"
+                  />
                   <b>{{ transaction.description }}</b>
                 </v-col>
               </v-row>
@@ -176,11 +215,15 @@
             </v-card-subtitle>
 
             <v-card-actions>
-              <v-btn variant="text" color="red" @click.stop="openDeleteConfirmation(transaction.id)">Excluir</v-btn>
+              <v-btn variant="text" color="red" @click.stop="openDeleteConfirmation(transaction.id)"
+                >Excluir</v-btn
+              >
               <v-btn variant="text" @click.stop="showEditForm(transaction)">Editar</v-btn>
               <v-spacer />
-              <v-btn :icon="showCardsDetail[transaction.id] ? 'mdi-chevron-up' : 'mdi-chevron-down'"
-                @click="showCardsDetail[transaction.id] = !showCardsDetail[transaction.id]" />
+              <v-btn
+                :icon="showCardsDetail[transaction.id] ? 'mdi-chevron-up' : 'mdi-chevron-down'"
+                @click="showCardsDetail[transaction.id] = !showCardsDetail[transaction.id]"
+              />
             </v-card-actions>
 
             <v-expand-transition>
@@ -191,7 +234,9 @@
                   <v-row class="mt-0">
                     <v-col cols="8">
                       <v-icon icon="mdi-information-outline" class="mr-1" />
-                      PARCELA {{ transaction.current_installment }}/{{ transaction.total_installments }}
+                      PARCELA {{ transaction.current_installment }}/{{
+                        transaction.total_installments
+                      }}
                     </v-col>
                     <v-col class="text-right" cols="4">
                       <v-icon icon="mdi-key-outline" class="mr-1" />
@@ -246,7 +291,13 @@
                     </v-col>
                   </v-row>
 
-                  <div v-if="transaction.primary_note || transaction.secondary_note || transaction.spending_average">
+                  <div
+                    v-if="
+                      transaction.primary_note ||
+                      transaction.secondary_note ||
+                      transaction.spending_average
+                    "
+                  >
                     <v-divider />
 
                     <v-row class="mt-0" v-if="transaction.primary_note">
@@ -274,7 +325,6 @@
 
             <v-divider />
           </v-card>
-
         </v-list>
       </v-col>
     </v-row>
@@ -285,20 +335,32 @@
 
     <LoaderDialog :model-value="loading" />
 
-    <ConfirmationDialog :model-value="showConfirmation" :persistent="false" @confirm="deleteTransaction"
-      @cancel="resetDeleteConfirmation" />
+    <ConfirmationDialog
+      :model-value="showConfirmation"
+      :persistent="false"
+      @confirm="deleteTransaction"
+      @cancel="resetDeleteConfirmation"
+    />
 
-    <v-btn v-if="!showForm" @click.prevent="showAddForm()" position="fixed" location="bottom right" class="ma-4"
-      size="large" icon="mdi-plus" color="teal darken-2" />
+    <v-btn
+      v-if="!showForm"
+      @click.prevent="showAddForm()"
+      position="fixed"
+      location="bottom right"
+      class="ma-4"
+      size="large"
+      icon="mdi-plus"
+      color="teal darken-2"
+    />
   </v-container>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import { useDisplay } from 'vuetify';
-import { axiosHelper } from "@/helper/axios.helper";
-import { useDateHandler } from '@/composables/useDateHandler'
-import { useMonetaryValueHandler } from '@/composables/useMonetaryValueHandler'
+import { axiosHelper } from '@/helper/axios.helper';
+import { useDateHandler } from '@/composables/useDateHandler';
+import { useMonetaryValueHandler } from '@/composables/useMonetaryValueHandler';
 import { useSnackbarStore } from '@/store/snackbar.store';
 import LoaderDialog from '@/components/generics/LoaderDialog.vue';
 import LoaderCircular from '@/components/generics/LoaderCircular.vue';
@@ -325,20 +387,20 @@ const selectedTransaction = ref(null);
 const showConfirmation = ref(false);
 const deletedTransactionId = ref(null);
 
-const applyFilters = (newFilters) => {
+const applyFilters = newFilters => {
   filters.value = newFilters;
   showFilter.value = false;
   getAllTransactions();
-}
+};
 
 const resetFilters = () => {
   showFilter.value = false;
-  filters.value = null
-}
+  filters.value = null;
+};
 
 const getAllTransactions = async () => {
   loading.value = true;
-  const url = "/cashflow/transaction";
+  const url = '/cashflow/transaction';
   const res = await axiosHelper.get(url, filters.value);
   loading.value = false;
 
@@ -354,13 +416,13 @@ const getAllTransactions = async () => {
 
 const exportList = async () => {
   loading.value = true;
-  const url = "/cashflow/transaction/export";
+  const url = '/cashflow/transaction/export';
   const reqType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
   const options = {
     responseType: 'blob',
     headers: {
-      Accept: reqType
-    }
+      Accept: reqType,
+    },
   };
   const res = await axiosHelper.get(url, filters.value, options);
   loading.value = false;
@@ -370,7 +432,7 @@ const exportList = async () => {
     showSummaryTotals.value = false;
     return;
   }
-  
+
   const blob = new Blob([res], { type: reqType });
   const urlDownload = window.URL.createObjectURL(blob);
   const link = document.createElement('a');
@@ -382,7 +444,7 @@ const exportList = async () => {
   window.URL.revokeObjectURL(urlDownload);
 };
 
-const openDeleteConfirmation = (id) => {
+const openDeleteConfirmation = id => {
   deletedTransactionId.value = id;
   showConfirmation.value = true;
 };
@@ -390,7 +452,7 @@ const openDeleteConfirmation = (id) => {
 const resetDeleteConfirmation = () => {
   deletedTransactionId.value = null;
   showConfirmation.value = false;
-}
+};
 
 const deleteTransaction = async () => {
   showConfirmation.value = false;
@@ -409,14 +471,14 @@ const deleteTransaction = async () => {
   getAllTransactions();
 };
 
-const toogleReconciled = async (id) => {
+const toogleReconciled = async id => {
   const index = transactions.value.findIndex(item => item.id === id);
   const isReconciled = transactions.value[index].is_reconciled;
   loadingToogleReconciled.value[id] = true;
   const url = `/cashflow/transaction/${id}`;
   const payload = {
-    is_reconciled: !isReconciled
-  }
+    is_reconciled: !isReconciled,
+  };
   const res = await axiosHelper.put(url, payload);
   loadingToogleReconciled.value[id] = false;
 
@@ -428,7 +490,7 @@ const toogleReconciled = async (id) => {
   transactions.value[index].is_reconciled = !isReconciled;
 };
 
-const markAsPaid = async (id) => {
+const markAsPaid = async id => {
   const index = transactions.value.findIndex(item => item.id === id);
   const paymentDate = apiDateFormatter(new Date());
 
@@ -437,7 +499,7 @@ const markAsPaid = async (id) => {
   const payload = {
     payment_status_id: paidStatus.id,
     payment_date: paymentDate,
-  }
+  };
   const res = await axiosHelper.put(url, payload);
   loadingMarkAsPaid.value[id] = false;
 
@@ -457,7 +519,7 @@ const showAddForm = () => {
   showForm.value = true;
 };
 
-const showEditForm = (item) => {
+const showEditForm = item => {
   selectedTransaction.value = item;
   showForm.value = true;
 };

@@ -1,9 +1,15 @@
 <template>
-  <v-progress-circular color="teal darken-2" indeterminate :size="size" :width="getWidth" :class="`ma-${marSize}`" />
+  <v-progress-circular
+    color="teal darken-2"
+    indeterminate
+    :size="size"
+    :width="getWidth"
+    :class="`ma-${marSize}`"
+  />
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed } from 'vue';
 const props = defineProps({
   size: {
     type: Number,
@@ -11,8 +17,8 @@ const props = defineProps({
   },
   marSize: {
     type: Number,
-    default: 0
-  }
+    default: 0,
+  },
 });
 
 const getWidth = computed(() => props.size / 12);

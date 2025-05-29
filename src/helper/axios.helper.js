@@ -1,14 +1,14 @@
-import { useAuthStore } from "@/store/auth.store";
-import { useCostCenterStore } from "@/store/cost_center.store";
-import axios from "axios";
+import { useAuthStore } from '@/store/auth.store';
+import { useCostCenterStore } from '@/store/cost_center.store';
+import axios from 'axios';
 
 const API_URL = process.env.VUE_APP_ROOT_API;
 
 export const axiosHelper = {
-  get: request("GET"),
-  post: request("POST"),
-  put: request("PUT"),
-  delete: request("DELETE"),
+  get: request('GET'),
+  post: request('POST'),
+  put: request('PUT'),
+  delete: request('DELETE'),
 };
 
 function request(method) {
@@ -24,10 +24,10 @@ function request(method) {
       },
     };
 
-    if (data) {      
-      requestConfig.headers["Content-Type"] = "application/json";
+    if (data) {
+      requestConfig.headers['Content-Type'] = 'application/json';
 
-      if (method === "GET") {
+      if (method === 'GET') {
         requestConfig.params = data;
       } else {
         requestConfig.data = JSON.stringify(data);
@@ -35,8 +35,8 @@ function request(method) {
     }
 
     return await axios(requestConfig)
-      .then((res) => handleResponse(res))
-      .catch((err) => handleError(err));
+      .then(res => handleResponse(res))
+      .catch(err => handleError(err));
   };
 }
 
@@ -46,10 +46,10 @@ function authHeader() {
   let header = {};
 
   if (authStore.isLoggedIn) {
-    header["Authorization"] = `Bearer ${authStore.token}`;
+    header['Authorization'] = `Bearer ${authStore.token}`;
 
     if (costCenterStore.isCostCenterSelected) {
-      header["X-Tenant-ID"] = costCenterStore.id;
+      header['X-Tenant-ID'] = costCenterStore.id;
     }
   }
 

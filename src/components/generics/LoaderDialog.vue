@@ -15,7 +15,7 @@ const props = defineProps({
   },
   persistent: {
     type: Boolean,
-    default: true
-  }
+    default: true,
+  },
 });
 </script>

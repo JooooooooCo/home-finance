@@ -22,7 +22,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { axiosHelper } from "@/helper/axios.helper";
+import { axiosHelper } from '@/helper/axios.helper';
 import { useSnackbarStore } from '@/store/snackbar.store';
 import GenericList from '@/components/settings/GenericList.vue';
 import PaymentStatusTypeForm from '@/components/settings/PaymentStatusTypeForm.vue';
@@ -33,7 +33,7 @@ const showForm = ref(false);
 const selectedPaymentStatusType = ref({ id: null, name: null });
 
 const getAllPaymentStatusTypes = async () => {
-  const url = "/settings/payment-status-type";
+  const url = '/settings/payment-status-type';
   const res = await axiosHelper.get(url);
 
   if (res.error) {
@@ -44,7 +44,7 @@ const getAllPaymentStatusTypes = async () => {
   paymentStatusTypes.value = res.data;
 };
 
-const deletePaymentStatusType = async (id) => {
+const deletePaymentStatusType = async id => {
   const url = `/settings/payment-status-type/${id}`;
   const res = await axiosHelper.delete(url);
 
@@ -61,7 +61,7 @@ const showAddForm = () => {
   showForm.value = true;
 };
 
-const showEditForm = (item) => {
+const showEditForm = item => {
   selectedPaymentStatusType.value = item;
   showForm.value = true;
 };

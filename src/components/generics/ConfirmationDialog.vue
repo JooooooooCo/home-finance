@@ -1,5 +1,11 @@
 <template>
-  <v-dialog :model-value="isOpen" max-width="80%" width="300" :persistent="persistent" @afterLeave="cancel">
+  <v-dialog
+    :model-value="isOpen"
+    max-width="80%"
+    width="300"
+    :persistent="persistent"
+    @afterLeave="cancel"
+  >
     <v-card>
       <v-card-title class="text-h6 text-center">
         <v-row>
@@ -37,32 +43,32 @@ const props = defineProps({
   },
   title: {
     type: String,
-    default: 'Atenção!'
+    default: 'Atenção!',
   },
   message: {
     type: String,
-    default: 'Deseja realmente prosseguir?'
+    default: 'Deseja realmente prosseguir?',
   },
   persistent: {
     type: Boolean,
-    default: true
+    default: true,
   },
 });
 
-const emit = defineEmits(['update:modelValue', 'confirm', 'cancel'])
+const emit = defineEmits(['update:modelValue', 'confirm', 'cancel']);
 
 const isOpen = computed({
   get: () => props.modelValue,
   set: val => emit('update:modelValue', val),
-})
+});
 
 const confirm = () => {
-  emit('confirm')
-  isOpen.value = false
-}
+  emit('confirm');
+  isOpen.value = false;
+};
 
 const cancel = () => {
-  emit('cancel')
-  isOpen.value = false
-}
+  emit('cancel');
+  isOpen.value = false;
+};
 </script>

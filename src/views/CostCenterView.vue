@@ -10,11 +10,7 @@
           @delete="deleteCostCenter"
         />
 
-        <CostCenterForm
-          v-if="showForm"
-          :item="selectedCostCenter"
-          @hide-form="hideForm"
-        />
+        <CostCenterForm v-if="showForm" :item="selectedCostCenter" @hide-form="hideForm" />
       </v-col>
     </v-row>
   </v-container>
@@ -22,7 +18,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { axiosHelper } from "@/helper/axios.helper";
+import { axiosHelper } from '@/helper/axios.helper';
 import { useSnackbarStore } from '@/store/snackbar.store';
 import GenericList from '@/components/settings/GenericList.vue';
 import CostCenterForm from '@/components/cost_center/CostCenterForm.vue';
@@ -33,7 +29,7 @@ const showForm = ref(false);
 const selectedCostCenter = ref({ id: null, name: null });
 
 const getAllCostCenter = async () => {
-  const url = "/cost-center";
+  const url = '/cost-center';
   const res = await axiosHelper.get(url);
 
   if (res.error) {
@@ -44,7 +40,7 @@ const getAllCostCenter = async () => {
   costCenters.value = res.data;
 };
 
-const deleteCostCenter = async (costCenterId) => {
+const deleteCostCenter = async costCenterId => {
   const url = `/cost-center/${costCenterId}`;
   const res = await axiosHelper.delete(url);
 
@@ -61,7 +57,7 @@ const showAddForm = () => {
   showForm.value = true;
 };
 
-const showEditForm = (item) => {
+const showEditForm = item => {
   selectedCostCenter.value = item;
   showForm.value = true;
 };
