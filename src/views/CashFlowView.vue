@@ -13,7 +13,7 @@
                     :text="showSummaryTotals ? 'OCULTAR TOTAIS' : 'EXIBIR TOTAIS'"
                     color="teal darken-2"
                     :prepend-icon="showSummaryTotals? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
-                    rounded
+                    rounded="xl"
                     @click="showSummaryTotals = !showSummaryTotals"
                   />
                   <v-btn
@@ -21,7 +21,7 @@
                     size="large"
                     color="teal darken-2"
                     :icon="showSummaryTotals? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
-                    rounded
+                    rounded="xl"
                     @click="showSummaryTotals = !showSummaryTotals"
                   />
                   
@@ -31,7 +31,7 @@
                     text="EXPORTAR"
                     color="teal darken-2"
                     prepend-icon="mdi-download"
-                    rounded
+                    rounded="xl"
                     @click="exportList"
                   />
                   <v-btn
@@ -39,7 +39,7 @@
                     size="large"
                     color="teal darken-2"
                     icon="mdi-download"
-                    rounded
+                    rounded="xl"
                     @click="exportList"
                   />
                   
@@ -49,7 +49,7 @@
                     text="FILTROS"
                     color="teal darken-2"
                     prepend-icon="mdi-filter-menu-outline"
-                    rounded
+                    rounded="xl"
                     @click="showFilter = !showFilter"
                   />
                   <v-btn
@@ -57,7 +57,7 @@
                     size="large"
                     color="teal darken-2"
                     icon="mdi-filter-menu-outline"
-                    rounded
+                    rounded="xl"
                     @click="showFilter = !showFilter"
                   />
                 </v-col>

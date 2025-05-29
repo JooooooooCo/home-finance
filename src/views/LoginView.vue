@@ -27,7 +27,7 @@
 
                 <v-row>
                   <v-col cols="12" class="text-center">
-                    <v-btn type="submit" color="teal darken-2" class="white--text" large block>Login</v-btn>
+                    <v-btn type="submit" color="teal darken-2" class="white--text" size="x-large" block>Login</v-btn>
                   </v-col>
                 </v-row>
                 

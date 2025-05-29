@@ -35,7 +35,7 @@
 
                 <v-row>
                   <v-col cols="12" class="text-center">
-                    <v-btn @click="toogleAddCostCenter" variant="tonal" large block>New</v-btn>
+                    <v-btn @click="toogleAddCostCenter" variant="tonal" size="large">New</v-btn>
                   </v-col>
                 </v-row>
               </v-form>
