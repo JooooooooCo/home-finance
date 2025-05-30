@@ -17,8 +17,8 @@
 
     <v-dialog v-model="dialog" width="400">
       <v-card class="d-flex flex-column">
-        <v-card-title>{{ label }}</v-card-title>
-        <v-divider />
+        <v-card-title v-show="label">{{ label }}</v-card-title>
+        <v-divider v-show="label" />
         <v-card-text class="flex-grow-1 overflow-y-auto">
           <v-chip
             v-for="option in items"

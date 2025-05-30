@@ -3,6 +3,7 @@
     <v-row class="mt-0">
       <YearMonthPicker v-model="dueDateFilter" mobileView />
     </v-row>
+
     <v-row>
       <v-col cols="6" class="d-flex flex-column justify-center"> <h3>Budget</h3> </v-col>
       <v-col cols="6" class="d-flex flex-column">
@@ -14,6 +15,8 @@
       </v-col>
     </v-row>
     <v-divider class="mb-4 mt-2" />
+
+    <PrimaryCategoryBudget :totalBudget="forecastRevenueAmount" />
   </v-container>
 </template>
 
@@ -24,6 +27,7 @@ import { axiosHelper } from '@/helper/axios.helper';
 import { useSnackbarStore } from '@/store/snackbar.store';
 import { useDateHandler } from '@/composables/useDateHandler';
 import YearMonthPicker from '@/components/generics/YearMonthPicker.vue';
+import PrimaryCategoryBudget from '@/components/budget/PrimaryCategoryBudget.vue';
 import dayjs from 'dayjs';
 
 const { userMonetaryValueFormatter } = useMonetaryValueHandler();

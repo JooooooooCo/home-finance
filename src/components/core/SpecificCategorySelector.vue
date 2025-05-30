@@ -5,19 +5,18 @@
     :externalOpenDialog="externalOpenDialog"
     @update:modelValue="changeSelection"
     :label="label"
-    :disabled="!secondaryCategoryId || loading"
+    :disabled="!secondaryCategoryId || loading || availableOptions.length == 0"
     :hideDetails="hideDetails"
   />
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { axiosHelper } from '@/helper/axios.helper';
 import { useSnackbarStore } from '@/store/snackbar.store';
 import SelectPicker from '@/components/generics/SelectPicker.vue';
 
 const snackbarStore = useSnackbarStore();
-const availableOptions = ref([]);
 
 const props = defineProps({
   modelValue: {
@@ -36,17 +35,29 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  ignoreOptions: {
+    type: Array,
+    default: [],
+  },
 });
+
+const emit = defineEmits(['update:modelValue']);
 
 const label = 'Categoria Específica';
 const selectedItem = ref(props.modelValue);
 const loading = ref(false);
+const allOptions = ref([]);
 
-const emit = defineEmits(['update:modelValue']);
+const availableOptions = computed(() =>
+  allOptions.value.filter(option => !props.ignoreOptions.includes(option.id))
+);
 
 const changeSelection = value => {
-  emit('update:modelValue', value);
+  const optionObject = getSelectedOptionObject(value);
+  emit('update:modelValue', value, optionObject);
 };
+
+const getSelectedOptionObject = id => allOptions.value.find(option => option.id === id);
 
 const getAllOptions = async () => {
   if (!props.secondaryCategoryId) return;
@@ -63,7 +74,7 @@ const getAllOptions = async () => {
     return;
   }
 
-  availableOptions.value = res.data;
+  allOptions.value = res.data;
   loading.value = false;
 };
 
