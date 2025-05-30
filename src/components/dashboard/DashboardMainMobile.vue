@@ -1,5 +1,5 @@
 <template>
-  <v-row class="mt-2">
+  <v-row class="mt-0">
     <YearMonthPicker v-model="dueDateFilter" mobileView />
   </v-row>
   <v-row>

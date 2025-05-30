@@ -33,6 +33,11 @@
           title="Dashboard"
         ></v-list-item>
         <v-list-item
+          :to="{ name: 'budget' }"
+          prepend-icon="mdi-bullseye-arrow"
+          title="Budget"
+        ></v-list-item>
+        <v-list-item
           :to="{ name: 'cash-flow' }"
           prepend-icon="mdi-layers"
           title="Transactions"
