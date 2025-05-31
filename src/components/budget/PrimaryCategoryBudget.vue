@@ -30,6 +30,7 @@
             v-model="category.budget"
             :thumb-size="16"
             :step="1"
+            :color="isOverMaxPercentage ? 'red' : ''"
             thumb-label="always"
             hideDetails
           >
@@ -63,6 +64,7 @@
         <PrimaryCategorySelector
           v-model="selected"
           :ignoreOptions="categories?.map(category => category.id)"
+          label="Adicionar Categoria Principal"
           @update:modelValue="addCategory"
         />
       </v-col>
@@ -71,7 +73,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useMonetaryValueHandler } from '@/composables/useMonetaryValueHandler';
 import PrimaryCategorySelector from '@/components/core/PrimaryCategorySelector.vue';
 import SecondaryCategoryBudget from './SecondaryCategoryBudget.vue';
@@ -96,6 +98,16 @@ const addCategory = (id, category) => {
 
 const removeCategory = id =>
   (categories.value = categories.value.filter(category => category.id !== id));
+
+const totalPercentage = computed(() => {
+  let totalPercentage = 0;
+  categories.value.forEach(category => {
+    totalPercentage += category.budget;
+  });
+  return totalPercentage;
+});
+
+const isOverMaxPercentage = computed(() => totalPercentage.value > 100);
 
 const getFormattedBudgetPercentageAmount = percentage =>
   userMonetaryValueFormatter(getBudgetPercentageAmount(percentage));

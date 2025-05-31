@@ -39,11 +39,14 @@ const props = defineProps({
     type: Array,
     default: [],
   },
+  label: {
+    type: String,
+    default: 'Categoria Específica',
+  },
 });
 
 const emit = defineEmits(['update:modelValue']);
 
-const label = 'Categoria Específica';
 const selectedItem = ref(props.modelValue);
 const loading = ref(false);
 const allOptions = ref([]);

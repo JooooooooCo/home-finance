@@ -35,11 +35,14 @@ const props = defineProps({
     type: Array,
     default: [],
   },
+  label: {
+    type: String,
+    default: 'Categoria Principal',
+  },
 });
 
 const emit = defineEmits(['update:modelValue']);
 
-const label = 'Categoria Principal';
 const selectedItem = ref(props.modelValue);
 const allOptions = ref([]);
 

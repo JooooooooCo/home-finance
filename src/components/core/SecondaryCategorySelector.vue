@@ -9,6 +9,7 @@
       (!transactionTypeId && requireTransactionType) || loading || availableOptions.length == 0
     "
     :hideDetails="hideDetails"
+    :bgColor="bgColor"
   />
 </template>
 
@@ -45,11 +46,18 @@ const props = defineProps({
     type: Array,
     default: [],
   },
+  bgColor: {
+    type: String,
+    default: null,
+  },
+  label: {
+    type: String,
+    default: 'Categoria Secundária',
+  },
 });
 
 const emit = defineEmits(['update:modelValue']);
 
-const label = 'Categoria Secundária';
 const selectedItem = ref(props.modelValue);
 const loading = ref(false);
 const allOptions = ref([]);

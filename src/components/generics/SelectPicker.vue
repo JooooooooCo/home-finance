@@ -5,6 +5,7 @@
       :items="[]"
       :model-value="selectedLabel"
       variant="solo-filled"
+      :bg-color="bgColor"
       flat
       rounded-sm
       required
@@ -68,6 +69,10 @@ const props = defineProps({
   externalOpenDialog: {
     type: Boolean,
     default: false,
+  },
+  bgColor: {
+    type: String,
+    default: null,
   },
 });
 
