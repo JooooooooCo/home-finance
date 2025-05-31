@@ -54,7 +54,10 @@
       </v-row>
       <v-row v-if="openedRow[category.id]">
         <v-col>
-          <SecondaryCategoryBudget :totalBudget="getBudgetPercentageAmount(category.budget)" />
+          <SecondaryCategoryBudget
+            v-model="category.children"
+            :totalBudget="getBudgetPercentageAmount(category.budget)"
+          />
         </v-col>
       </v-row>
     </v-card>
@@ -73,7 +76,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useMonetaryValueHandler } from '@/composables/useMonetaryValueHandler';
 import PrimaryCategorySelector from '@/components/core/PrimaryCategorySelector.vue';
 import SecondaryCategoryBudget from './SecondaryCategoryBudget.vue';
@@ -81,13 +84,19 @@ import SecondaryCategoryBudget from './SecondaryCategoryBudget.vue';
 const { userMonetaryValueFormatter } = useMonetaryValueHandler();
 
 const props = defineProps({
+  modelValue: {
+    type: Array,
+    default: [],
+  },
   totalBudget: {
     type: Number,
     required: true,
   },
 });
 
-const categories = ref([]);
+const emit = defineEmits(['update:modelValue']);
+
+const categories = ref(props.modelValue);
 const selected = ref(null);
 const openedRow = ref({});
 
@@ -96,8 +105,10 @@ const addCategory = (id, category) => {
   selected.value = null;
 };
 
-const removeCategory = id =>
-  (categories.value = categories.value.filter(category => category.id !== id));
+const removeCategory = id => {
+  categories.value = categories.value.filter(category => category.id !== id);
+  emit('update:modelValue', categories.value);
+};
 
 const totalPercentage = computed(() => {
   let totalPercentage = 0;
@@ -114,4 +125,12 @@ const getFormattedBudgetPercentageAmount = percentage =>
 
 const getBudgetPercentageAmount = percentage =>
   !percentage ? 0 : (percentage / 100) * props.totalBudget;
+
+watch(
+  () => props.modelValue,
+  value => {
+    categories.value = value;
+  },
+  { deep: true }
+);
 </script>

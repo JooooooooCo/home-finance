@@ -16,7 +16,19 @@
     </v-row>
     <v-divider class="mb-4 mt-2" />
 
-    <PrimaryCategoryBudget :totalBudget="forecastRevenueAmount" />
+    <PrimaryCategoryBudget v-model="categoriesBudget" :totalBudget="forecastRevenueAmount" />
+
+    <v-row class="bg-white">
+      <v-divider />
+      <v-col cols="6">
+        <v-btn block color="grey" @click="clean">Limpar</v-btn>
+      </v-col>
+      <v-col cols="6">
+        <v-btn block color="teal darken-2" @click="save" type="submit" variant="elevated"
+          >Salvar</v-btn
+        >
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -34,6 +46,7 @@ const { userMonetaryValueFormatter } = useMonetaryValueHandler();
 const snackbarStore = useSnackbarStore();
 const { getMonthInitialEndDate, apiDateFormatter } = useDateHandler();
 
+const categoriesBudget = ref([]);
 const forecastRevenueAmount = ref(0);
 const dueDateFilter = ref({
   year: dayjs().format('YYYY'),
@@ -68,6 +81,9 @@ const getTotalSummary = async () => {
 
   forecastRevenueAmount.value = res.data.totals.forecast_revenue_amount;
 };
+
+const clean = () => (categoriesBudget.value = []);
+const save = () => console.log(categoriesBudget.value);
 
 watch(
   () => dueDateRangeFilter.value,
