@@ -101,6 +101,7 @@ const selected = ref(null);
 const openedRow = ref({});
 
 const addCategory = (id, category) => {
+  category.budget = 0;
   categories.value.push(category);
   selected.value = null;
 };

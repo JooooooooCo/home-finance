@@ -16,7 +16,7 @@
     </v-row>
     <v-divider class="mb-4 mt-2" />
 
-    <PrimaryCategoryBudget v-model="categoriesBudget" :totalBudget="forecastRevenueAmount" />
+    <PrimaryCategoryBudget v-model="budget.categories" :totalBudget="forecastRevenueAmount" />
 
     <v-row class="bg-white">
       <v-divider />
@@ -24,7 +24,13 @@
         <v-btn block color="grey" @click="clean">Limpar</v-btn>
       </v-col>
       <v-col cols="6">
-        <v-btn block color="teal darken-2" @click="save" type="submit" variant="elevated"
+        <v-btn
+          block
+          color="teal darken-2"
+          @click="save"
+          type="submit"
+          variant="elevated"
+          :loading="loading"
           >Salvar</v-btn
         >
       </v-col>
@@ -46,8 +52,11 @@ const { userMonetaryValueFormatter } = useMonetaryValueHandler();
 const snackbarStore = useSnackbarStore();
 const { getMonthInitialEndDate, apiDateFormatter } = useDateHandler();
 
-const categoriesBudget = ref([]);
+const budget = ref({
+  categories: [],
+});
 const forecastRevenueAmount = ref(0);
+const loading = ref(false);
 const dueDateFilter = ref({
   year: dayjs().format('YYYY'),
   month: dayjs().format('MM'),
@@ -63,6 +72,22 @@ const getRangeDateFormatted = dateRange => {
   return dateRange.length > 0
     ? [apiDateFormatter(dateRange.at(0)), apiDateFormatter(dateRange.at(-1))]
     : [];
+};
+
+const getBudget = async () => {
+  const filters = {
+    year: dueDateFilter.value.year,
+    month: dueDateFilter.value.month,
+  };
+  const url = '/budget';
+  const res = await axiosHelper.get(url, filters);
+
+  if (res.error) {
+    snackbarStore.showSnackbar(res.message);
+    return;
+  }
+
+  budget.value = res.data;
 };
 
 const getTotalSummary = async () => {
@@ -82,13 +107,73 @@ const getTotalSummary = async () => {
   forecastRevenueAmount.value = res.data.totals.forecast_revenue_amount;
 };
 
-const clean = () => (categoriesBudget.value = []);
-const save = () => console.log(categoriesBudget.value);
+const hasCategoryBudgetOverPercentageLimit = categories => {
+  let totalPercentage = 0;
+  let childrenPercentageOverLimit = false;
+  categories.forEach(category => {
+    if (category.children?.length > 0) {
+      const childrenOverLimit = hasCategoryBudgetOverPercentageLimit(category.children);
+      childrenPercentageOverLimit = childrenOverLimit ?? childrenPercentageOverLimit;
+    }
+    totalPercentage += category.budget;
+  });
+
+  if (totalPercentage <= 100 && !childrenPercentageOverLimit) return false;
+
+  snackbarStore.showSnackbar(
+    'O percentual somado das categorias destacadas em vermelho está maior que 100%.'
+  );
+  return true;
+};
+
+const validateBudget = () => !hasCategoryBudgetOverPercentageLimit(budget.value.categories);
+
+const clean = () => (budget.value.categories = []);
+
+const save = async () => {
+  if (!validateBudget()) return;
+
+  const isEdit = budget.value?.id;
+  loading.value = true;
+  const res = isEdit ? await editTransaction() : await createTransaction();
+  loading.value = false;
+
+  if (res.error) {
+    snackbarStore.showSnackbar(res.message);
+    return;
+  }
+
+  budget.value.id = res.data.id;
+  snackbarStore.showSnackbar(res.message, true);
+};
+
+const createTransaction = async () => {
+  const url = '/budget';
+  const body = {
+    year: dueDateFilter.value.year,
+    month: dueDateFilter.value.month,
+    categories: budget.value.categories,
+  };
+  return await axiosHelper.post(url, body);
+};
+
+const editTransaction = async () => {
+  // const url = `/budget/${budget.value.id}`;
+  // const body = budget.value.categories;
+  // return await axiosHelper.put(url, body);
+};
 
 watch(
   () => dueDateRangeFilter.value,
   () => {
     getTotalSummary();
+  }
+);
+
+watch(
+  () => dueDateFilter.value,
+  () => {
+    getBudget();
   }
 );
 </script>
