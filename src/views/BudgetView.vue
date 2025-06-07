@@ -87,7 +87,7 @@ const getBudget = async () => {
     return;
   }
 
-  budget.value = res.data;
+  budget.value = res.data.id > 0 ? res.data : { categories: [] };
 };
 
 const getTotalSummary = async () => {
@@ -158,9 +158,9 @@ const createTransaction = async () => {
 };
 
 const editTransaction = async () => {
-  // const url = `/budget/${budget.value.id}`;
-  // const body = budget.value.categories;
-  // return await axiosHelper.put(url, body);
+  const url = `/budget/${budget.value.id}/categories`;
+  const body = budget.value;
+  return await axiosHelper.put(url, body);
 };
 
 watch(
