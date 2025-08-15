@@ -1,6 +1,6 @@
 <template>
   <v-container class="main-container">
-    <DashboardMain v-if="mdAndUp" />
+    <DashboardMain v-if="mdAndUp && false" />
     <DashboardMainMobile v-else />
   </v-container>
 </template>
@@ -14,9 +14,9 @@ const { mdAndUp } = useDisplay();
 </script>
 
 <style lang="css" scoped>
-.main-container {
+/* .main-container {
   max-width: 100%;
   width: 100%;
   margin: 0;
-}
+} */
 </style>

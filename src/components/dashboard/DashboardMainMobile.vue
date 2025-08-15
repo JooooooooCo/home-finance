@@ -9,9 +9,16 @@
   </v-row>
   <v-row>
     <v-col>
-      <ChartCategoriesForecastExecuted />
+      <ChartCategoriesBudgetExecuted :dueDateFilter="dueDateFilter" />
     </v-col>
   </v-row>
+  <!-- 
+  <v-row>
+    <v-col>
+      <ChartCategoriesForecastExecuted />
+    </v-col>
+  </v-row> 
+  -->
 </template>
 
 <script setup>
@@ -20,13 +27,15 @@ import { useDateHandler } from '@/composables/useDateHandler';
 import YearMonthPicker from '@/components/generics/YearMonthPicker.vue';
 import DashboardTotalSummary from '@/components/dashboard/total-summary/DashboardTotalSummary.vue';
 import ChartCategoriesForecastExecuted from '@/components/dashboard/charts/ChartCategoriesForecastExecuted.vue';
+import ChartCategoriesBudgetExecuted from '@/components/dashboard/charts/ChartCategoriesBudgetExecuted.vue';
 import dayjs from 'dayjs';
 
 const { getMonthInitialEndDate, apiDateFormatter } = useDateHandler();
 
 const dueDateFilter = ref({
   year: dayjs().format('YYYY'),
-  month: dayjs().format('MM'),
+  // month: dayjs().format('MM'),
+  month: 1,
 });
 
 const dueDateRangeFilter = computed(() =>
