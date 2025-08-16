@@ -1,33 +1,35 @@
 <template>
-  <v-col cols="6" class="pt-0 pb-0">
-    <NumberStepperInput v-model="selectedYear" @update:modelValue="emitUpdateModelValue" />
-  </v-col>
+  <!-- <v-row> -->
+  <v-col cols="12" class="pt-0">
+    <v-card elevation="0" class="pa-4">
+      <v-row>
+        <v-col cols="7">
+          <NumberStepperInput v-model="selectedYear" @update:modelValue="emitUpdateModelValue" />
+        </v-col>
 
-  <v-col
-    v-if="!mobileView"
-    cols="6"
-    class="pt-0"
-    v-for="option in availableOptions"
-    :key="option.id"
-  >
-    <v-btn
-      :color="isSelectedOption(option.id) ? 'teal darken-2' : ''"
-      @click="select(option.id)"
-      variant="text"
-      block
-      >{{ option.name }}</v-btn
-    >
-  </v-col>
+        <v-col v-if="!mobileView" cols="5" v-for="option in availableOptions" :key="option.id">
+          <v-btn
+            :color="isSelectedOption(option.id) ? 'teal darken-2' : ''"
+            @click="select(option.id)"
+            variant="text"
+            block
+            >{{ option.name }}</v-btn
+          >
+        </v-col>
 
-  <v-col v-else cols="6" class="pt-0 pb-0">
-    <SelectPicker
-      v-model="selectedMonth"
-      :items="availableOptions"
-      label=""
-      @update:modelValue="changeSelection"
-      hideDetails
-    />
+        <v-col v-else cols="5">
+          <SelectPicker
+            v-model="selectedMonth"
+            :items="availableOptions"
+            label=""
+            @update:modelValue="changeSelection"
+            hideDetails
+          />
+        </v-col>
+      </v-row>
+    </v-card>
   </v-col>
+  <!-- </v-row> -->
 </template>
 
 <script setup>

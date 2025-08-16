@@ -5,7 +5,8 @@
   <v-text-field
     :id="`number-stepper-${label}`"
     :model-value="modelValue"
-    variant="solo-filled"
+    variant="outlined"
+    bg-color="white"
     flat
     rounded-xl
     @update:model-value="val => emit('update:modelValue', Number(val))"

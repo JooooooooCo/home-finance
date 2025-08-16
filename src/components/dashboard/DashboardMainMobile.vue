@@ -2,7 +2,7 @@
   <v-row class="mt-0">
     <YearMonthPicker v-model="dueDateFilter" mobileView />
   </v-row>
-  <v-row>
+  <v-row class="mt-0">
     <v-col>
       <DashboardTotalSummary :dueDateRangeFilter="dueDateRangeFilter" />
     </v-col>

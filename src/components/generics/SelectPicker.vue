@@ -4,7 +4,7 @@
       :label="label"
       :items="[]"
       :model-value="selectedLabel"
-      variant="solo-filled"
+      variant="outlined"
       :bg-color="bgColor"
       flat
       rounded-sm
@@ -72,7 +72,7 @@ const props = defineProps({
   },
   bgColor: {
     type: String,
-    default: null,
+    default: 'white',
   },
 });
 
