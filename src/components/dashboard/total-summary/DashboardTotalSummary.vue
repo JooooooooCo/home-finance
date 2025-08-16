@@ -6,7 +6,7 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="6" class="pt-0 pb-4 pr-2">
+      <v-col cols="6" class="pt-0 pb-2 pr-1">
         <v-card variant="outlined" class="border-thin">
           <v-card-title class="text-caption text-medium-emphasis font-weight-regular pb-0"
             >Saldo Inicial</v-card-title
@@ -20,7 +20,7 @@
         </v-card>
       </v-col>
 
-      <v-col cols="6" class="pt-0 pb-4 pl-2">
+      <v-col cols="6" class="pt-0 pb-2 pl-1">
         <v-card variant="outlined" class="border-thin">
           <v-card-title class="text-caption text-medium-emphasis font-weight-regular pb-0"
             >Saldo Atual</v-card-title
@@ -34,7 +34,7 @@
         </v-card>
       </v-col>
 
-      <v-col cols="6" class="pt-0 pb-4 pr-2">
+      <v-col cols="6" class="pt-0 pb-2 pr-1">
         <v-card variant="outlined" class="border-thin">
           <v-card-title class="text-caption text-medium-emphasis font-weight-regular pb-0">
             <v-icon icon="mdi-arrow-down-circle-outline" class="mr-1" color="red" />
@@ -46,7 +46,7 @@
         </v-card>
       </v-col>
 
-      <v-col cols="6" class="pt-0 pb-4 pl-2">
+      <v-col cols="6" class="pt-0 pb-2 pl-1">
         <v-card variant="outlined" class="border-thin">
           <v-card-title class="text-caption text-medium-emphasis font-weight-regular pb-0">
             <v-icon icon="mdi-arrow-up-circle-outline" class="mr-1" color="teal darken-2" />
@@ -58,7 +58,7 @@
         </v-card>
       </v-col>
 
-      <v-col cols="6" class="pt-0 pb-4 pr-2">
+      <v-col cols="6" class="pt-0 pb-2 pr-1">
         <v-card variant="outlined" class="border-thin">
           <v-card-title class="text-caption text-medium-emphasis font-weight-regular pb-0">
             <v-icon icon="mdi-arrow-down-circle-outline" class="mr-1" color="red" />
@@ -70,7 +70,7 @@
         </v-card>
       </v-col>
 
-      <v-col cols="6" class="pt-0 pb-4 pl-2">
+      <v-col cols="6" class="pt-0 pb-2 pl-1">
         <v-card variant="outlined" class="border-thin">
           <v-card-title class="text-caption text-medium-emphasis font-weight-regular pb-0">
             <v-icon icon="mdi-arrow-up-circle-outline" class="mr-1" color="teal darken-2" />
@@ -82,13 +82,14 @@
         </v-card>
       </v-col>
 
-      <v-col cols="6" class="pt-0 pb-4 pr-2">
+      <v-col cols="12" class="pt-0 pb-2">
         <v-card variant="outlined" class="border-thin">
-          <v-card-title class="text-caption text-medium-emphasis font-weight-regular pb-0"
+          <v-card-title
+            class="text-caption text-medium-emphasis font-weight-regular text-center pb-0"
             >Saldo Final</v-card-title
           >
           <v-card-text
-            class="text-subtitle-1 font-weight-bold pb-2"
+            class="text-h6 font-weight-bold text-center pb-2"
             :class="totalSummary.forecast_balance_amount < 0 ? 'text-red' : ''"
           >
             {{ userMonetaryValueFormatter(totalSummary.forecast_balance_amount) }}

@@ -7,18 +7,11 @@
       <DashboardTotalSummary :dueDateRangeFilter="dueDateRangeFilter" />
     </v-col>
   </v-row>
-  <v-row>
+  <v-row class="mt-0">
     <v-col>
       <ChartCategoriesBudgetExecuted :dueDateFilter="dueDateFilter" />
     </v-col>
   </v-row>
-  <!-- 
-  <v-row>
-    <v-col>
-      <ChartCategoriesForecastExecuted />
-    </v-col>
-  </v-row> 
-  -->
 </template>
 
 <script setup>

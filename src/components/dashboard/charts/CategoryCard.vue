@@ -1,32 +1,16 @@
 <template>
-  <div :class="['category-row', `category-level-${level}`]">
-    <!-- Linha principal da categoria -->
-    <v-row
-      align="center"
-      class="category-main-row py-2 px-3"
-      :class="{ 'elevated-row': level === 0 }"
-      no-gutters
-    >
-      <!-- Botão de expansão e ícone -->
-      <v-col cols="auto" class="pr-2">
-        <v-btn
-          v-if="hasChildren"
-          icon
-          x-small
-          @click="toggleExpansion"
-          :color="level === 0 ? 'primary' : 'grey'"
-        >
-          <v-icon small>{{ isExpanded ? 'mdi-chevron-down' : 'mdi-chevron-right' }}</v-icon>
+  <v-card variant="outlined" class="pa-3 border-thin">
+    <v-row>
+      <v-col cols="12" class="d-flex pb-0">
+        <v-btn v-if="hasChildren" icon size="x-small" variant="text" @click="toggleExpansion">
+          <v-icon>{{ isExpanded ? 'mdi-chevron-down' : 'mdi-chevron-right' }}</v-icon>
         </v-btn>
-        <v-icon v-else :color="getCategoryColor()" small class="ml-1">
-          {{ getCategoryIcon() }}
-        </v-icon>
-      </v-col>
-
-      <!-- Nome da categoria -->
-      <v-col cols="3" class="pa-1">
+        <v-btn v-else icon size="x-small" variant="text">
+          <v-icon>mdi-circle-outline</v-icon>
+        </v-btn>
         <div class="d-flex align-center">
           <span
+            class="text-caption font-weight-medium category-name"
             :class="[
               'font-weight-medium category-name',
               level === 0 ? 'text-subtitle-1' : level === 1 ? 'text-body-2' : 'text-caption',
@@ -37,7 +21,7 @@
           <v-chip
             v-if="category.budget_amount > 0"
             x-small
-            :color="getPercentageColor(category.executed_percentage)"
+            :color="getExecutedColor()"
             class="ml-2"
             text-color="white"
           >
@@ -45,16 +29,28 @@
           </v-chip>
         </div>
       </v-col>
+    </v-row>
 
-      <!-- Valores -->
-      <v-col cols="2" class="pa-1 text-center">
+    <v-row>
+      <v-col cols="12" class="pa-1">
+        <v-progress-linear
+          :model-value="getExecutedPercentage()"
+          :color="getExecutedColor()"
+          height="8"
+          rounded
+        />
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col cols="4" class="pa-1 text-center">
         <div class="text-caption">
           <div class="font-weight-medium">Orçado</div>
           <div class="primary--text">{{ userMonetaryValueFormatter(category.budget_amount) }}</div>
         </div>
       </v-col>
 
-      <v-col cols="2" class="pa-1 text-center">
+      <v-col cols="4" class="pa-1 text-center">
         <div class="text-caption">
           <div class="font-weight-medium">Executado</div>
           <div :class="getExecutedAmountColor()">
@@ -63,7 +59,7 @@
         </div>
       </v-col>
 
-      <v-col cols="2" class="pa-1 text-center">
+      <v-col cols="4" class="pa-1 text-center">
         <div class="text-caption">
           <div class="font-weight-medium">{{ getRemainingLabel() }}</div>
           <div :class="getRemainingAmountColor()">
@@ -71,46 +67,24 @@
           </div>
         </div>
       </v-col>
-
-      <!-- Barra de progresso -->
-      <v-col cols="3" class="pa-1">
-        <v-progress-linear
-          :value="getProgressValue()"
-          :color="getProgressColor()"
-          height="24"
-          rounded
-          class="progress-bar-enhanced"
-        >
-          <template v-slot:default>
-            <div class="d-flex justify-space-between align-center w-100 px-2">
-              <span class="text-caption white--text font-weight-bold">
-                {{ getProgressValue().toFixed(1) }}%
-              </span>
-              <span v-if="hasChildren" class="text-caption white--text">
-                {{ category.children.length }} sub
-              </span>
-            </div>
-          </template>
-        </v-progress-linear>
-        <div class="text-caption mt-1 text-center status-text">
-          {{ getStatusText() }}
-        </div>
-      </v-col>
     </v-row>
 
-    <!-- Subcategorias (quando expandido) -->
-    <v-expand-transition>
-      <div v-if="isExpanded && hasChildren" class="subcategories-container">
-        <div v-for="child in category.children" :key="child.id">
-          <CategoryCard
-            :category="child"
-            :level="level + 1"
-            @toggle-expand="$emit('toggle-expand', $event)"
-          />
-        </div>
-      </div>
-    </v-expand-transition>
-  </div>
+    <v-row>
+      <v-col>
+        <v-expand-transition>
+          <v-list v-if="isExpanded && hasChildren" class="subcategories-container pa-0">
+            <v-list-item v-for="child in category.children" :key="child.id" class="pa-0 pb-2">
+              <CategoryCard
+                :category="child"
+                :level="level + 1"
+                @toggle-expand="$emit('toggle-expand', $event)"
+              />
+            </v-list-item>
+          </v-list>
+        </v-expand-transition>
+      </v-col>
+    </v-row>
+  </v-card>
 </template>
 
 <script setup>
@@ -152,30 +126,26 @@ const getRemainingLabel = () => {
   return getRemainingAmount() >= 0 ? 'Disponível' : 'Excedido';
 };
 
-const getProgressValue = () => {
-  if (props.category.budget_amount === 0) {
-    return props.category.executed_amount > 0 ? 100 : 0;
-  }
-  return Math.min((props.category.executed_amount / props.category.budget_amount) * 100, 100);
+const noRemainingBudget = () => {
+  return getRemainingAmount() < 0;
 };
 
-const getProgressColor = () => {
-  const percentage = getProgressValue();
-  if (percentage <= 50) return 'success';
-  if (percentage <= 80) return 'warning';
-  if (percentage <= 100) return 'orange';
-  return 'error';
+const getExecutedPercentage = () => {
+  if (noRemainingBudget()) return 100;
+  return props.category.executed_percentage;
 };
 
-const getPercentageColor = percentage => {
-  if (percentage <= 50) return 'success';
-  if (percentage <= 80) return 'warning';
-  if (percentage <= 100) return 'orange';
+const getExecutedColor = () => {
+  if (noRemainingBudget()) return 'error';
+
+  const percentage = getExecutedPercentage();
+  if (percentage <= 80) return 'success';
+  if (percentage <= 100) return 'warning';
   return 'error';
 };
 
 const getExecutedAmountColor = () => {
-  const percentage = getProgressValue();
+  const percentage = getExecutedPercentage();
   if (percentage <= 80) return 'success--text';
   if (percentage <= 100) return 'warning--text';
   return 'error--text';
@@ -187,7 +157,7 @@ const getRemainingAmountColor = () => {
 };
 
 const getStatusText = () => {
-  const percentage = getProgressValue();
+  const percentage = getExecutedPercentage();
 
   if (props.category.budget_amount === 0) {
     return props.category.executed_amount > 0 ? 'Sem orçamento' : 'Sem movimentação';
@@ -283,12 +253,6 @@ const getCategoryColor = () => {
 }
 
 .subcategories-container {
-  border-left: 2px solid #e0e0e0;
-  margin-left: 20px;
-}
-
-.text-caption {
-  font-size: 0.75rem !important;
-  line-height: 1.2;
+  margin-left: 4px;
 }
 </style>

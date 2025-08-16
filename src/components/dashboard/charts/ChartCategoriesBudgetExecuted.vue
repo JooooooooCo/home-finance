@@ -1,39 +1,49 @@
 <template>
-  <v-card elevation="0" class="pb-2" v-if="results && results.length > 0">
+  <v-card elevation="0" class="pa-4">
     <v-row>
       <v-col cols="12" class="pb-0">
-        <h3>Despesas planejado X executado</h3>
+        <h3>Orçamento</h3>
       </v-col>
-      <v-divider class="mb-4" />
     </v-row>
 
-    <!-- Resumo geral -->
-    <v-row class="mb-4">
-      <v-col cols="12">
-        <v-card outlined class="pa-3">
+    <v-row v-if="results && results.length > 0">
+      <v-col cols="12" class="pt-0 pb-2">
+        <v-card variant="outlined" class="pa-3 border-thin">
           <v-row>
-            <v-col cols="4" class="text-center">
-              <div class="text-h6 primary--text">{{ userMonetaryValueFormatter(totalBudget) }}</div>
-              <div class="text-caption">Orçado Total</div>
+            <v-col cols="6" class="text-center">
+              <div class="text-caption">Previsto</div>
+              <div class="text-subtitle-1 font-weight-bold">
+                {{ userMonetaryValueFormatter(totalBudget) }}
+              </div>
             </v-col>
-            <v-col cols="4" class="text-center">
-              <div class="text-h6 success--text">
+            <v-col cols="6" class="text-center">
+              <div class="text-caption">Executado</div>
+              <div class="text-subtitle-1 font-weight-bold">
                 {{ userMonetaryValueFormatter(totalExecuted) }}
               </div>
-              <div class="text-caption">Executado Total</div>
             </v-col>
-            <v-col cols="4" class="text-center">
-              <div class="text-h6" :class="remainingAmount >= 0 ? 'success--text' : 'error--text'">
+          </v-row>
+          <v-row>
+            <v-col class="pt-0">
+              <v-divider />
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" class="text-center pt-0">
+              <div class="text-caption" :class="remainingAmount >= 0 ? '' : 'text-red'">
+                {{ remainingAmount >= 0 ? 'Disponível' : 'Excedido' }}
+              </div>
+              <div class="text-h6 font-weight-bold" :class="remainingAmount >= 0 ? '' : 'text-red'">
                 {{ userMonetaryValueFormatter(remainingAmount) }}
               </div>
-              <div class="text-caption">{{ remainingAmount >= 0 ? 'Disponível' : 'Excedido' }}</div>
             </v-col>
           </v-row>
           <v-progress-linear
-            :value="totalExecutedPercentage"
+            :model-value="totalExecutedPercentage"
             height="8"
             :color="totalExecutedPercentage > 100 ? 'error' : 'success'"
             class="mt-2"
+            rounded
           />
           <div class="text-center text-caption mt-1">
             {{ totalExecutedPercentage.toFixed(1) }}% executado
@@ -42,44 +52,17 @@
       </v-col>
     </v-row>
 
-    <!-- Cabeçalho da tabela -->
-    <v-row class="table-header py-2 px-3 mb-2" no-gutters>
-      <v-col cols="auto" class="pr-2">
-        <!-- Espaço para botão de expansão -->
-      </v-col>
-      <v-col cols="3" class="pa-1">
-        <span class="font-weight-bold text-body-2">Categoria</span>
-      </v-col>
-      <v-col cols="2" class="pa-1 text-center">
-        <span class="font-weight-bold text-body-2">Orçado</span>
-      </v-col>
-      <v-col cols="2" class="pa-1 text-center">
-        <span class="font-weight-bold text-body-2">Executado</span>
-      </v-col>
-      <v-col cols="2" class="pa-1 text-center">
-        <span class="font-weight-bold text-body-2">Saldo</span>
-      </v-col>
-      <v-col cols="3" class="pa-1 text-center">
-        <span class="font-weight-bold text-body-2">Progresso</span>
+    <v-row v-if="results && results.length > 0">
+      <v-col cols="12" class="pt-0 pb-2">
+        <v-list>
+          <v-list-item v-for="category in processedResults" :key="category.id" class="pa-0 pb-2">
+            <CategoryCard :category="category" :level="0" @toggle-expand="toggleExpand" />
+          </v-list-item>
+        </v-list>
       </v-col>
     </v-row>
-
-    <!-- Categorias principais -->
-    <div v-for="category in processedResults" :key="category.id">
-      <CategoryCard :category="category" :level="0" @toggle-expand="toggleExpand" />
-    </div>
   </v-card>
-
-  <v-card v-else-if="loading" class="pa-4 text-center">
-    <v-progress-circular indeterminate color="primary" />
-    <div class="mt-2">Carregando dados...</div>
-  </v-card>
-
-  <v-card v-else class="pa-4 text-center">
-    <v-icon size="48" color="grey">mdi-chart-bar</v-icon>
-    <div class="mt-2 text-subtitle-1">Nenhum dado encontrado</div>
-    <div class="text-caption">Selecione um período para visualizar os dados</div>
-  </v-card>
+  <!-- TODO implementar empty state -->
 </template>
 
 <script setup>
@@ -130,7 +113,7 @@ const processedResults = computed(() => {
   const processCategory = (category, level = 0) => {
     const processed = {
       ...category,
-      expanded: expandedCategories.value.has(category.id) || level === 0,
+      expanded: expandedCategories.value.has(category.id),
       children: category.children
         ? category.children.map(child => processCategory(child, level + 1))
         : [],

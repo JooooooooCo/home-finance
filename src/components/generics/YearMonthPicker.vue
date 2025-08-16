@@ -3,7 +3,7 @@
   <v-col cols="12" class="pt-0">
     <v-card elevation="0" class="pa-4">
       <v-row>
-        <v-col cols="7">
+        <v-col cols="7" class="pr-1">
           <NumberStepperInput v-model="selectedYear" @update:modelValue="emitUpdateModelValue" />
         </v-col>
 
@@ -17,7 +17,7 @@
           >
         </v-col>
 
-        <v-col v-else cols="5">
+        <v-col v-else cols="5" class="pl-1">
           <SelectPicker
             v-model="selectedMonth"
             :items="availableOptions"
