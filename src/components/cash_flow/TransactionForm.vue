@@ -45,7 +45,7 @@
           <v-col cols="12" md="4">
             <DatePicker
               inputLabel="Data da Compra"
-              :externalOpenDialog="openField.purchase_date"
+              :externalOpenDialog="openedField.purchase_date"
               v-model="form.purchase_date"
               @update:modelValue="nextField('purchase_date')"
             />
@@ -121,7 +121,7 @@
           <v-col cols="12" md="4">
             <PrimaryCategorySelector
               v-model="form.primary_category_id"
-              :externalOpenDialog="openField.primary_category"
+              :externalOpenDialog="openedField.primary_category"
               @update:modelValue="nextField('primary_category')"
             />
           </v-col>
@@ -130,7 +130,7 @@
             <SecondaryCategorySelector
               v-model="form.secondary_category_id"
               :transactionTypeId="form.transaction_type_id"
-              :externalOpenDialog="openField.secondary_category"
+              :externalOpenDialog="openedField.secondary_category"
               @update:modelValue="nextField('secondary_category')"
             />
           </v-col>
@@ -139,7 +139,7 @@
             <SpecificCategorySelector
               v-model="form.specific_category_id"
               :secondaryCategoryId="form.secondary_category_id"
-              :externalOpenDialog="openField.specific_category"
+              :externalOpenDialog="openedField.specific_category"
             />
           </v-col>
         </v-row>
@@ -294,7 +294,7 @@ const defaultEmptyForm = {
 };
 const form = ref(props.modelValue ? { ...props.modelValue } : { ...defaultEmptyForm });
 const showNotesFields = ref(false);
-const openField = ref({
+const openedField = ref({
   purchase_date: false,
   primary_category: false,
   secondary_category: false,
@@ -409,6 +409,12 @@ const editTransaction = async () => {
   return await axiosHelper.put(url, body);
 };
 
+const resetOpenedFields = () => {
+  Object.keys(openedField.value).forEach(key => {
+    openedField.value[key] = false;
+  });
+};
+
 const resetFormKeepingLastPurchaseDate = () => {
   form.value = { ...defaultEmptyForm, purchase_date: form.value.purchase_date };
   scrollTop();
@@ -416,9 +422,10 @@ const resetFormKeepingLastPurchaseDate = () => {
 
 const nextField = from => {
   if (form.value.payment_type_id != CASH_PAYMENT_TYPE_ID) return;
+  resetOpenedFields();
 
   if (from == 'payment_type') {
-    openField.value.purchase_date = true;
+    openedField.value.purchase_date = true;
     autoFill();
   }
 
@@ -427,15 +434,15 @@ const nextField = from => {
   }
 
   if (from == 'description') {
-    openField.value.primary_category = true;
+    openedField.value.primary_category = true;
   }
 
   if (from == 'primary_category') {
-    openField.value.secondary_category = true;
+    openedField.value.secondary_category = true;
   }
 
   if (from == 'secondary_category') {
-    openField.value.specific_category = true;
+    openedField.value.specific_category = true;
   }
 };
 
