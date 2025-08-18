@@ -259,6 +259,7 @@ import SpecificCategorySelector from '@/components/core/SpecificCategorySelector
 // TODO: refact to use consts or params from db config
 const CASH_PAYMENT_TYPE_ID = 1;
 const PAID_PAYMENT_STATUS_ID = 1;
+const PENDING_PAYMENT_STATUS_ID = 2;
 
 const props = defineProps({
   modelValue: Object,
@@ -421,7 +422,6 @@ const resetFormKeepingLastPurchaseDate = () => {
 };
 
 const nextField = from => {
-  if (form.value.payment_type_id != CASH_PAYMENT_TYPE_ID) return;
   resetOpenedFields();
 
   if (from == 'payment_type') {
@@ -447,9 +447,44 @@ const nextField = from => {
 };
 
 const autoFill = () => {
+  if (form.value.payment_type_id == CASH_PAYMENT_TYPE_ID) {
+    autoFillCashPayment();
+    return;
+  }
+  autoFillCreditPayment();
+};
+
+const autoFillCashPayment = () => {
   form.value.payment_status_id = PAID_PAYMENT_STATUS_ID;
   form.value.due_date = form.value.purchase_date;
   form.value.payment_date = form.value.purchase_date;
+};
+
+const autoFillCreditPayment = () => {
+  form.value.payment_status_id = PENDING_PAYMENT_STATUS_ID;
+  form.value.payment_date = null;
+  const purchase = form.value.purchase_date ? dayjs(form.value.purchase_date, 'YYYY-MM-DD') : null;
+
+  if (!purchase || !purchase.isValid()) {
+    form.value.due_date = null;
+    return;
+  }
+
+  const day = purchase.date();
+
+  if (day >= 1 && day <= 7) {
+    const due = purchase.date(15);
+    form.value.due_date = due.format('YYYY-MM-DD');
+    return;
+  }
+
+  if (day >= 8 && day <= 10) {
+    form.value.due_date = null;
+    return;
+  }
+
+  const dueNextMonth = purchase.add(1, 'month').date(15);
+  form.value.due_date = dueNextMonth.format('YYYY-MM-DD');
 };
 
 const close = () => emit('close');
