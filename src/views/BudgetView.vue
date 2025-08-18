@@ -3,36 +3,47 @@
     <v-row class="mt-0">
       <YearMonthPicker v-model="dueDateFilter" mobileView />
     </v-row>
-
     <v-row>
-      <v-col cols="6" class="d-flex flex-column justify-center"> <h3>Budget</h3> </v-col>
-      <v-col cols="6" class="d-flex flex-column">
-        <span class="d-flex flex-row-reverse">Receita Prevista</span>
-        <div class="d-flex flex-row-reverse">
-          <b>{{ userMonetaryValueFormatter(forecastRevenueAmount) }}</b>
-          <v-icon icon="mdi-arrow-up-circle-outline" class="mr-1" color="teal darken-2" />
-        </div>
-      </v-col>
-    </v-row>
-    <v-divider class="mb-4 mt-2" />
+      <v-col>
+        <v-card elevation="0" class="pa-4">
+          <v-row>
+            <v-col cols="6" class="d-flex flex-column justify-center"> <h3>Budget</h3> </v-col>
+            <v-col cols="6" class="d-flex flex-column">
+              <span class="d-flex flex-row-reverse">Receita Prevista</span>
+              <div class="d-flex flex-row-reverse">
+                <b>{{ userMonetaryValueFormatter(forecastRevenueAmount) }}</b>
+                <v-icon icon="mdi-arrow-up-circle-outline" class="mr-1" color="teal darken-2" />
+              </div>
+            </v-col>
+          </v-row>
 
-    <PrimaryCategoryBudget v-model="budget.categories" :totalBudget="forecastRevenueAmount" />
+          <v-row>
+            <v-col>
+              <PrimaryCategoryBudget
+                v-model="budget.categories"
+                :totalBudget="forecastRevenueAmount"
+              />
+            </v-col>
+          </v-row>
 
-    <v-row class="bg-white">
-      <v-divider />
-      <v-col cols="6">
-        <v-btn block color="grey" @click="clean">Limpar</v-btn>
-      </v-col>
-      <v-col cols="6">
-        <v-btn
-          block
-          color="teal darken-2"
-          @click="save"
-          type="submit"
-          variant="elevated"
-          :loading="loading"
-          >Salvar</v-btn
-        >
+          <v-row class="bg-white">
+            <v-divider />
+            <v-col cols="6">
+              <v-btn block color="grey" @click="clean">Limpar</v-btn>
+            </v-col>
+            <v-col cols="6">
+              <v-btn
+                block
+                color="teal darken-2"
+                @click="save"
+                type="submit"
+                variant="elevated"
+                :loading="loading"
+                >Salvar</v-btn
+              >
+            </v-col>
+          </v-row>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>

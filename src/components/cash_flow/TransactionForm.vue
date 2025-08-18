@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pt-4" variant="text">
+  <v-card elevation="0">
     <v-form @submit.prevent="saveTransaction">
       <v-card-text class="pb-16">
         <v-row dense>
@@ -68,7 +68,7 @@
               prefix="R$"
               prepend-inner-icon="mdi-currency-usd"
               type="number"
-              variant="solo-filled"
+              variant="outlined"
               flat
               rounded-sm
               required
@@ -110,7 +110,7 @@
               required
               rows="2"
               auto-grow
-              variant="solo-filled"
+              variant="outlined"
               flat
               rounded-sm
             />
@@ -164,7 +164,7 @@
               v-model="form.primary_note"
               @input="form.primary_note = form.primary_note.toUpperCase()"
               rows="2"
-              variant="solo-filled"
+              variant="outlined"
               flat
               rounded-sm
               :hideDetails="mdAndUp"
@@ -177,7 +177,7 @@
               v-model="form.secondary_note"
               @input="form.secondary_note = form.secondary_note.toUpperCase()"
               rows="2"
-              variant="solo-filled"
+              variant="outlined"
               flat
               rounded-sm
               :hideDetails="mdAndUp"
@@ -190,7 +190,7 @@
               v-model="form.spending_average"
               @input="form.spending_average = form.spending_average.toUpperCase()"
               rows="2"
-              variant="solo-filled"
+              variant="outlined"
               flat
               rounded-sm
               :hideDetails="mdAndUp"
@@ -224,12 +224,11 @@
       </v-card-text>
 
       <v-card-actions class="position-fixed bottom-0 left-0 w-100">
-        <v-row class="bg-white">
-          <v-divider />
-          <v-col cols="6">
+        <v-row class="pr-5 pl-5">
+          <v-col cols="6" class="bg-white">
             <v-btn block color="grey" @click="close">Cancelar</v-btn>
           </v-col>
-          <v-col cols="6">
+          <v-col cols="6" class="bg-white">
             <v-btn block color="teal darken-2" type="submit" variant="elevated">Salvar</v-btn>
           </v-col>
         </v-row>

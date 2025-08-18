@@ -7,7 +7,7 @@
     prepend-icon=""
     prepend-inner-icon="mdi-calendar"
     multiple="range"
-    variant="solo-filled"
+    variant="outlined"
     flat
     clearable
     show-adjacent-months

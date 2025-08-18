@@ -6,7 +6,7 @@
           <v-text-field
             v-model="item.name"
             label="Name"
-            variant="solo-filled"
+            variant="outlined"
             flat
             rounded-sm
             required

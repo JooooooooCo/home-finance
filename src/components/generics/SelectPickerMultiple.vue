@@ -4,7 +4,7 @@
       :label="label"
       :items="[]"
       :model-value="selectedLabel"
-      variant="solo-filled"
+      variant="outlined"
       flat
       rounded-sm
       required

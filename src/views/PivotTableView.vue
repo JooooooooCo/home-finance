@@ -7,7 +7,7 @@
             label="Selecione a Visualização"
             :items="pivotConfigOptions"
             v-model="selectedPivotConfig"
-            variant="solo-filled"
+            variant="outlined"
             flat
             rounded-sm
             :hide-details="true"

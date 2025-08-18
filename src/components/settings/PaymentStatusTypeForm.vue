@@ -7,7 +7,7 @@
             v-model="item.name"
             @input="item.name = item.name.toUpperCase()"
             label="Name"
-            variant="solo-filled"
+            variant="outlined"
             flat
             rounded-sm
             required

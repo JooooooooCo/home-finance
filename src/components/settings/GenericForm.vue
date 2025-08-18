@@ -1,6 +1,9 @@
 <template>
   <v-form @submit.prevent="emitSaveItem">
-    <v-container>
+    <!-- <v-container>
+      <v-row class="mt-0">
+        <v-col> -->
+    <v-card elevation="0" class="pa-4">
       <slot :item="item"></slot>
 
       <v-row>
@@ -11,7 +14,10 @@
           <v-btn block color="teal darken-2" type="submit">Save</v-btn>
         </v-col>
       </v-row>
-    </v-container>
+    </v-card>
+    <!-- </v-col>
+      </v-row>
+    </v-container> -->
   </v-form>
 </template>
 

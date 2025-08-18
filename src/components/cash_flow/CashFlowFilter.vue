@@ -50,7 +50,7 @@
               prefix="R$"
               prepend-inner-icon="mdi-currency-usd"
               type="number"
-              variant="solo-filled"
+              variant="outlined"
               flat
               rounded-sm
               required
@@ -64,7 +64,7 @@
               prefix="R$"
               prepend-inner-icon="mdi-currency-usd"
               type="number"
-              variant="solo-filled"
+              variant="outlined"
               flat
               rounded-sm
               required
@@ -81,7 +81,7 @@
               required
               rows="2"
               auto-grow
-              variant="solo-filled"
+              variant="outlined"
               flat
               rounded-sm
               hide-details

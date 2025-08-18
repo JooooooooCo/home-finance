@@ -58,7 +58,7 @@
                     <v-text-field
                       v-model="costCenterName"
                       label="Name"
-                      variant="solo-filled"
+                      variant="outlined"
                       flat
                       rounded-sm
                       required

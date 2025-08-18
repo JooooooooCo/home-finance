@@ -1,20 +1,11 @@
 <template>
   <div>
-    <v-card
-      elevation="0"
-      color="grey-lighten-2 pt-4"
-      class="pa-4 mb-4"
-      v-for="category in categories"
-      :key="category.id"
-    >
+    <v-card variant="outlined" class="pa-4 mb-4" v-for="category in categories" :key="category.id">
       <v-row>
         <v-col class="d-flex justify-space-between align-center">
-          <span>
+          <span class="text-caption font-weight-medium">
             {{ `${category.name}` }}
           </span>
-
-          <span>{{ getFormattedBudgetPercentageAmount(category.budget) }}</span>
-
           <v-btn
             variant="text"
             color="red"
@@ -22,6 +13,13 @@
             icon="mdi-close-circle-outline"
             @click="removeCategory(category.id)"
           />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col class="pt-0 pb-0">
+          <span class="text-caption font-weight-medium">{{
+            getFormattedBudgetPercentageAmount(category.budget)
+          }}</span>
         </v-col>
       </v-row>
       <v-row>
@@ -48,7 +46,6 @@
           v-model="selected"
           :secondaryCategoryId="secondaryCategoryId"
           :ignoreOptions="categories?.map(category => category.id)"
-          bgColor="grey-lighten-2"
           label="Adicionar Categoria Específica"
           @update:modelValue="addCategory"
         />

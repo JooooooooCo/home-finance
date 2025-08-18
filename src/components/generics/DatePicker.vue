@@ -9,7 +9,7 @@
         v-bind="props"
         prepend-inner-icon="mdi-calendar"
         clearable
-        variant="solo-filled"
+        variant="outlined"
         flat
         rounded-sm
         @click.stop.prevent="openDialog"

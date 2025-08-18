@@ -17,7 +17,7 @@
                     <v-text-field
                       v-model="user.email"
                       label="Email"
-                      variant="solo-filled"
+                      variant="outlined"
                       flat
                       rounded-sm
                       name="email"
@@ -33,7 +33,7 @@
                     <v-text-field
                       v-model="user.password"
                       label="Password"
-                      variant="solo-filled"
+                      variant="outlined"
                       flat
                       rounded-sm
                       name="password"
