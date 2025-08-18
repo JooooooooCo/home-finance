@@ -1,331 +1,350 @@
 <template>
   <v-container>
-    <v-row>
+    <v-row v-if="!showForm">
       <v-col cols="12" class="pt-0">
-        <v-list v-if="!showForm">
-          <v-card elevation="0">
-            <v-card-actions>
-              <v-row>
-                <v-col class="pt-0 d-flex justify-space-between">
-                  <v-btn
-                    v-if="mdAndUp"
-                    variant="text"
-                    :text="showSummaryTotals ? 'OCULTAR TOTAIS' : 'EXIBIR TOTAIS'"
-                    color="teal darken-2"
-                    :prepend-icon="showSummaryTotals ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
-                    rounded="xl"
-                    @click="showSummaryTotals = !showSummaryTotals"
-                  />
-                  <v-btn
-                    v-else
-                    size="large"
-                    color="teal darken-2"
-                    :icon="showSummaryTotals ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
-                    rounded="xl"
-                    @click="showSummaryTotals = !showSummaryTotals"
-                  />
-
-                  <v-btn
-                    v-if="mdAndUp"
-                    variant="text"
-                    text="EXPORTAR"
-                    color="teal darken-2"
-                    prepend-icon="mdi-download"
-                    rounded="xl"
-                    @click="exportList"
-                  />
-                  <v-btn
-                    v-else
-                    size="large"
-                    color="teal darken-2"
-                    icon="mdi-download"
-                    rounded="xl"
-                    @click="exportList"
-                  />
-
-                  <v-btn
-                    v-if="mdAndUp"
-                    variant="text"
-                    text="FILTROS"
-                    color="teal darken-2"
-                    prepend-icon="mdi-filter-menu-outline"
-                    rounded="xl"
-                    @click="showFilter = !showFilter"
-                  />
-                  <v-btn
-                    v-else
-                    size="large"
-                    color="teal darken-2"
-                    icon="mdi-filter-menu-outline"
-                    rounded="xl"
-                    @click="showFilter = !showFilter"
-                  />
-                </v-col>
-              </v-row>
-            </v-card-actions>
-          </v-card>
-
-          <v-card elevation="0" v-if="!loading && showSummaryTotals" class="pb-2">
-            <v-row>
-              <v-col cols="6" class="pt-0 pb-0">
-                <v-card elevation="0">
-                  <v-card-title class="text-subtitle-2 text-medium-emphasis font-weight-regular"
-                    >Saldo Inicial</v-card-title
-                  >
-                  <v-card-text
-                    class="text-h6 font-weight-bold"
-                    :class="summaryTotals.executed_history_balance_amount < 0 ? 'text-red' : ''"
-                  >
-                    {{ userMonetaryValueFormatter(summaryTotals.executed_history_balance_amount) }}
-                  </v-card-text>
-                </v-card>
-              </v-col>
-
-              <v-col cols="6" class="pt-0 pb-0">
-                <v-card elevation="0">
-                  <v-card-title class="text-subtitle-2 text-medium-emphasis font-weight-regular"
-                    >Saldo Atual</v-card-title
-                  >
-                  <v-card-text
-                    class="text-h6 font-weight-bold"
-                    :class="summaryTotals.executed_balance_amount < 0 ? 'text-red' : ''"
-                  >
-                    {{ userMonetaryValueFormatter(summaryTotals.executed_balance_amount) }}
-                  </v-card-text>
-                </v-card>
-              </v-col>
-
-              <v-col cols="6" class="pt-0 pb-0">
-                <v-card elevation="0">
-                  <v-card-title class="text-subtitle-2 text-medium-emphasis font-weight-regular"
-                    >Saldo Final</v-card-title
-                  >
-                  <v-card-text
-                    class="text-h6 font-weight-bold"
-                    :class="summaryTotals.forecast_balance_amount < 0 ? 'text-red' : ''"
-                  >
-                    {{ userMonetaryValueFormatter(summaryTotals.forecast_balance_amount) }}
-                  </v-card-text>
-                </v-card>
-              </v-col>
-
-              <v-col cols="6" class="pt-0 pb-0">
+        <v-row class="mt-0">
+          <v-col>
+            <v-card elevation="0">
+              <v-card-actions>
                 <v-row>
-                  <v-col>
-                    <v-card elevation="0">
-                      <v-card-text class="pt-0 pb-0">
-                        <v-row class="mt-0">
-                          <v-col cols="12">
-                            <v-icon
-                              icon="mdi-arrow-up-circle-outline"
-                              class="mr-1"
-                              color="teal darken-2"
-                            />
-                            {{ userMonetaryValueFormatter(summaryTotals.forecast_revenue_amount) }}
-                          </v-col>
-                        </v-row>
-                        <v-row class="mt-0">
-                          <v-col>
-                            <v-icon icon="mdi-arrow-down-circle-outline" class="mr-1" color="red" />
-                            {{ userMonetaryValueFormatter(summaryTotals.forecast_expense_amount) }}
-                          </v-col>
-                        </v-row>
-                      </v-card-text>
-                    </v-card>
+                  <v-col class="d-flex justify-space-between">
+                    <v-btn
+                      v-if="mdAndUp"
+                      variant="text"
+                      :text="showSummaryTotals ? 'OCULTAR TOTAIS' : 'EXIBIR TOTAIS'"
+                      color="teal darken-2"
+                      :prepend-icon="showSummaryTotals ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
+                      rounded="xl"
+                      @click="showSummaryTotals = !showSummaryTotals"
+                    />
+                    <v-btn
+                      v-else
+                      size="large"
+                      color="teal darken-2"
+                      :icon="showSummaryTotals ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
+                      rounded="xl"
+                      @click="showSummaryTotals = !showSummaryTotals"
+                    />
+
+                    <v-btn
+                      v-if="mdAndUp"
+                      variant="text"
+                      text="EXPORTAR"
+                      color="teal darken-2"
+                      prepend-icon="mdi-download"
+                      rounded="xl"
+                      @click="exportList"
+                    />
+                    <v-btn
+                      v-else
+                      size="large"
+                      color="teal darken-2"
+                      icon="mdi-download"
+                      rounded="xl"
+                      @click="exportList"
+                    />
+
+                    <v-btn
+                      v-if="mdAndUp"
+                      variant="text"
+                      text="FILTROS"
+                      color="teal darken-2"
+                      prepend-icon="mdi-filter-menu-outline"
+                      rounded="xl"
+                      @click="showFilter = !showFilter"
+                    />
+                    <v-btn
+                      v-else
+                      size="large"
+                      color="teal darken-2"
+                      icon="mdi-filter-menu-outline"
+                      rounded="xl"
+                      @click="showFilter = !showFilter"
+                    />
                   </v-col>
                 </v-row>
-              </v-col>
-            </v-row>
-            <v-divider class="mt-4" />
-          </v-card>
-
-          <v-card
-            v-for="transaction in transactions"
-            :key="transaction.id"
-            elevation="0"
-            class="mb-4"
-          >
-            <template v-slot:prepend>
-              <v-chip
-                v-if="transaction.payment_status.id == paidStatus.id"
-                color="teal darken-2"
-                class="mr-1"
-              >
-                <v-icon icon="mdi-check" class="mr-1" color="teal-lighten-2" />
-                <b>{{ transaction.payment_status.name }}</b>
-              </v-chip>
-              <v-chip v-else @click="markAsPaid(transaction.id)" color="orange" class="mr-1">
-                <v-icon icon="mdi-alert" class="mr-1" color="orange" />
-                <b>{{ transaction.payment_status.name }}</b>
-                <LoaderCircular v-if="loadingMarkAsPaid[transaction.id]" class="ml-1" />
-              </v-chip>
-              <v-chip
-                v-if="transaction.is_reconciled"
-                @click="toogleReconciled(transaction.id)"
-                color="teal darken-2"
-                class="mr-1"
-              >
-                <v-icon icon="mdi-check" class="mr-1" color="teal-lighten-2" />
-                <b>CONCILIADO</b>
-                <LoaderCircular v-if="loadingToogleReconciled[transaction.id]" class="ml-1" />
-              </v-chip>
-              <v-chip v-else @click="toogleReconciled(transaction.id)" color="orange" class="mr-1">
-                <v-icon icon="mdi-alert" class="mr-1" color="orange" />
-                <b>NÃO CONCILIADO</b>
-                <LoaderCircular v-if="loadingToogleReconciled[transaction.id]" class="ml-1" />
-              </v-chip>
-            </template>
-
-            <v-card-title class="text-subtitle-1">
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-row>
+        <v-row class="mt-0">
+          <v-col>
+            <v-card elevation="0" class="pa-4" v-if="!loading && showSummaryTotals">
               <v-row>
-                <v-col class="text-wrap text-black">
-                  <v-icon
-                    :icon="
-                      transaction.transaction_type_id == 1
-                        ? 'mdi-arrow-down-circle-outline'
-                        : 'mdi-arrow-up-circle-outline'
-                    "
-                    class="mr-1"
-                    :color="transaction.transaction_type_id == 1 ? 'red' : 'teal darken-2'"
-                  />
-                  <b>{{ transaction.description }}</b>
-                </v-col>
-              </v-row>
-            </v-card-title>
-
-            <v-card-subtitle>
-              <v-row class="mt-2">
-                <v-col class="pb-0 pt-0" cols="8">
-                  <v-icon icon="mdi-wallet-bifold-outline" class="mr-1" />
-                  {{ transaction.payment_type.name }}
-                </v-col>
-                <v-col class="pb-0 pt-0 text-right" cols="4">
-                  <b>{{ userMonetaryValueFormatter(transaction.amount) }}</b>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col cols="8">
-                  <v-icon icon="mdi-calendar-alert" class="mr-1" />
-                  VENCIMENTO EM
-                </v-col>
-                <v-col class="text-right" cols="4">
-                  <b>{{ userDateFormatter(transaction.due_date) }}</b>
-                </v-col>
-              </v-row>
-            </v-card-subtitle>
-
-            <v-card-actions>
-              <v-btn variant="text" color="red" @click.stop="openDeleteConfirmation(transaction.id)"
-                >Excluir</v-btn
-              >
-              <v-btn variant="text" @click.stop="showEditForm(transaction)">Editar</v-btn>
-              <v-spacer />
-              <v-btn
-                :icon="showCardsDetail[transaction.id] ? 'mdi-chevron-up' : 'mdi-chevron-down'"
-                @click="showCardsDetail[transaction.id] = !showCardsDetail[transaction.id]"
-              />
-            </v-card-actions>
-
-            <v-expand-transition>
-              <div v-show="showCardsDetail[transaction.id]">
-                <v-divider />
-
-                <v-card-subtitle class="mb-2 mt-4">
-                  <v-row class="mt-0">
-                    <v-col cols="8">
-                      <v-icon icon="mdi-information-outline" class="mr-1" />
-                      PARCELA {{ transaction.current_installment }}/{{
-                        transaction.total_installments
+                <v-col cols="6" class="pt-2 pb-2 pr-1">
+                  <v-card variant="outlined" class="border-thin">
+                    <v-card-title class="text-caption text-medium-emphasis font-weight-regular"
+                      >Saldo Inicial</v-card-title
+                    >
+                    <v-card-text
+                      class="text-subtitle-1 font-weight-bold"
+                      :class="summaryTotals.executed_history_balance_amount < 0 ? 'text-red' : ''"
+                    >
+                      {{
+                        userMonetaryValueFormatter(summaryTotals.executed_history_balance_amount)
                       }}
-                    </v-col>
-                    <v-col class="text-right" cols="4">
-                      <v-icon icon="mdi-key-outline" class="mr-1" />
-                      <b>{{ transaction.id }}</b>
-                    </v-col>
-                  </v-row>
-                  <v-row class="mt-0">
-                    <v-col cols="8">
-                      <v-icon icon="mdi-calendar-blank-outline" class="mr-1" />
-                      COMPRA EM
-                    </v-col>
-                    <v-col class="text-right" cols="4">
-                      {{ userDateFormatter(transaction.purchase_date) }}
-                    </v-col>
-                  </v-row>
-                  <v-row class="mt-0 mb-1">
-                    <v-col cols="8">
-                      <v-icon icon="mdi-calendar-blank-outline" class="mr-1" />
-                      PAGAMENTO EM
-                    </v-col>
-                    <v-col class="text-right" cols="4">
-                      {{ userDateFormatter(transaction.payment_date) }}
-                    </v-col>
-                  </v-row>
+                    </v-card-text>
+                  </v-card>
+                </v-col>
 
-                  <v-divider />
+                <v-col cols="6" class="pt-2 pb-2 pl-1">
+                  <v-card variant="outlined" class="border-thin">
+                    <v-card-title class="text-caption text-medium-emphasis font-weight-regular"
+                      >Saldo Atual</v-card-title
+                    >
+                    <v-card-text
+                      class="text-subtitle-1 font-weight-bold"
+                      :class="summaryTotals.executed_balance_amount < 0 ? 'text-red' : ''"
+                    >
+                      {{ userMonetaryValueFormatter(summaryTotals.executed_balance_amount) }}
+                    </v-card-text>
+                  </v-card>
+                </v-col>
 
-                  <v-row class="mt-0">
-                    <v-col class="text-wrap" cols="8">
-                      <v-chip class="mr-1">
-                        <b>{{ transaction.primary_category.name }}</b>
-                      </v-chip>
-                    </v-col>
-                    <v-col class="text-right" cols="4">
-                      <v-chip class="mr-1">
-                        <b>{{ transaction.is_real ? 'REAL' : 'FAKE' }}</b>
-                      </v-chip>
-                    </v-col>
-                  </v-row>
-                  <v-row class="mt-0">
-                    <v-col class="text-wrap">
-                      <v-chip class="mr-1">
-                        <b>{{ transaction.secondary_category.name }}</b>
-                      </v-chip>
-                    </v-col>
-                  </v-row>
-                  <v-row class="mt-0 mb-1">
-                    <v-col class="text-wrap">
-                      <v-chip class="mr-1">
-                        <b>{{ transaction.specific_category.name }}</b>
-                      </v-chip>
-                    </v-col>
-                  </v-row>
+                <v-col cols="6" class="pt-0 pb-2 pr-1">
+                  <v-card variant="outlined" class="border-thin">
+                    <v-card-title class="text-caption text-medium-emphasis font-weight-regular"
+                      >Saldo Final</v-card-title
+                    >
+                    <v-card-text
+                      class="text-subtitle-1 font-weight-bold"
+                      :class="summaryTotals.forecast_balance_amount < 0 ? 'text-red' : ''"
+                    >
+                      {{ userMonetaryValueFormatter(summaryTotals.forecast_balance_amount) }}
+                    </v-card-text>
+                  </v-card>
+                </v-col>
 
-                  <div
-                    v-if="
-                      transaction.primary_note ||
-                      transaction.secondary_note ||
-                      transaction.spending_average
-                    "
-                  >
+                <v-col cols="6" class="pt-0 pb-2 pl-1">
+                  <v-row>
+                    <v-col>
+                      <v-card variant="outlined" class="border-thin">
+                        <v-card-text class="pt-0 pb-0">
+                          <v-row class="mt-0">
+                            <v-col cols="12">
+                              <v-icon
+                                icon="mdi-arrow-up-circle-outline"
+                                class="mr-1"
+                                color="teal darken-2"
+                              />
+                              {{
+                                userMonetaryValueFormatter(summaryTotals.forecast_revenue_amount)
+                              }}
+                            </v-col>
+                          </v-row>
+                          <v-row class="mt-0">
+                            <v-col>
+                              <v-icon
+                                icon="mdi-arrow-down-circle-outline"
+                                class="mr-1"
+                                color="red"
+                              />
+                              {{
+                                userMonetaryValueFormatter(summaryTotals.forecast_expense_amount)
+                              }}
+                            </v-col>
+                          </v-row>
+                        </v-card-text>
+                      </v-card>
+                    </v-col>
+                  </v-row>
+                </v-col>
+              </v-row>
+            </v-card>
+          </v-col>
+        </v-row>
+
+        <v-row v-for="transaction in transactions" :key="transaction.id" class="mt-0">
+          <v-col>
+            <v-card elevation="0">
+              <template v-slot:prepend>
+                <v-chip
+                  v-if="transaction.payment_status.id == paidStatus.id"
+                  color="teal darken-2"
+                  class="mr-1"
+                >
+                  <v-icon icon="mdi-check" class="mr-1" color="teal-lighten-2" />
+                  <b>{{ transaction.payment_status.name }}</b>
+                </v-chip>
+                <v-chip v-else @click="markAsPaid(transaction.id)" color="orange" class="mr-1">
+                  <v-icon icon="mdi-alert" class="mr-1" color="orange" />
+                  <b>{{ transaction.payment_status.name }}</b>
+                  <LoaderCircular v-if="loadingMarkAsPaid[transaction.id]" class="ml-1" />
+                </v-chip>
+                <v-chip
+                  v-if="transaction.is_reconciled"
+                  @click="toogleReconciled(transaction.id)"
+                  color="teal darken-2"
+                  class="mr-1"
+                >
+                  <v-icon icon="mdi-check" class="mr-1" color="teal-lighten-2" />
+                  <b>CONCILIADO</b>
+                  <LoaderCircular v-if="loadingToogleReconciled[transaction.id]" class="ml-1" />
+                </v-chip>
+                <v-chip
+                  v-else
+                  @click="toogleReconciled(transaction.id)"
+                  color="orange"
+                  class="mr-1"
+                >
+                  <v-icon icon="mdi-alert" class="mr-1" color="orange" />
+                  <b>NÃO CONCILIADO</b>
+                  <LoaderCircular v-if="loadingToogleReconciled[transaction.id]" class="ml-1" />
+                </v-chip>
+              </template>
+
+              <v-card-title class="text-subtitle-1">
+                <v-row>
+                  <v-col class="text-wrap text-black">
+                    <v-icon
+                      :icon="
+                        transaction.transaction_type_id == 1
+                          ? 'mdi-arrow-down-circle-outline'
+                          : 'mdi-arrow-up-circle-outline'
+                      "
+                      class="mr-1"
+                      :color="transaction.transaction_type_id == 1 ? 'red' : 'teal darken-2'"
+                    />
+                    <b>{{ transaction.description }}</b>
+                  </v-col>
+                </v-row>
+              </v-card-title>
+
+              <v-card-subtitle>
+                <v-row class="mt-2">
+                  <v-col class="pb-0 pt-0" cols="8">
+                    <v-icon icon="mdi-wallet-bifold-outline" class="mr-1" />
+                    {{ transaction.payment_type.name }}
+                  </v-col>
+                  <v-col class="pb-0 pt-0 text-right" cols="4">
+                    <b>{{ userMonetaryValueFormatter(transaction.amount) }}</b>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="8">
+                    <v-icon icon="mdi-calendar-alert" class="mr-1" />
+                    VENCIMENTO EM
+                  </v-col>
+                  <v-col class="text-right" cols="4">
+                    <b>{{ userDateFormatter(transaction.due_date) }}</b>
+                  </v-col>
+                </v-row>
+              </v-card-subtitle>
+
+              <v-card-actions>
+                <v-btn
+                  variant="text"
+                  color="red"
+                  @click.stop="openDeleteConfirmation(transaction.id)"
+                  >Excluir</v-btn
+                >
+                <v-btn variant="text" @click.stop="showEditForm(transaction)">Editar</v-btn>
+                <v-spacer />
+                <v-btn
+                  :icon="showCardsDetail[transaction.id] ? 'mdi-chevron-up' : 'mdi-chevron-down'"
+                  @click="showCardsDetail[transaction.id] = !showCardsDetail[transaction.id]"
+                />
+              </v-card-actions>
+
+              <v-expand-transition>
+                <div v-show="showCardsDetail[transaction.id]">
+                  <v-card-subtitle class="mb-2 mt-4">
+                    <v-row class="mt-0">
+                      <v-col cols="8">
+                        <v-icon icon="mdi-information-outline" class="mr-1" />
+                        PARCELA {{ transaction.current_installment }}/{{
+                          transaction.total_installments
+                        }}
+                      </v-col>
+                      <v-col class="text-right" cols="4">
+                        <v-icon icon="mdi-key-outline" class="mr-1" />
+                        <b>{{ transaction.id }}</b>
+                      </v-col>
+                    </v-row>
+                    <v-row class="mt-0">
+                      <v-col cols="8">
+                        <v-icon icon="mdi-calendar-blank-outline" class="mr-1" />
+                        COMPRA EM
+                      </v-col>
+                      <v-col class="text-right" cols="4">
+                        {{ userDateFormatter(transaction.purchase_date) }}
+                      </v-col>
+                    </v-row>
+                    <v-row class="mt-0 mb-1">
+                      <v-col cols="8">
+                        <v-icon icon="mdi-calendar-blank-outline" class="mr-1" />
+                        PAGAMENTO EM
+                      </v-col>
+                      <v-col class="text-right" cols="4">
+                        {{ userDateFormatter(transaction.payment_date) }}
+                      </v-col>
+                    </v-row>
+
                     <v-divider />
 
-                    <v-row class="mt-0" v-if="transaction.primary_note">
-                      <v-col class="text-wrap">
-                        <v-icon icon="mdi-note-edit-outline" class="mr-1" />
-                        {{ transaction.primary_note }}
+                    <v-row class="mt-0">
+                      <v-col class="text-wrap" cols="8">
+                        <v-chip class="mr-1">
+                          <b>{{ transaction.primary_category.name }}</b>
+                        </v-chip>
+                      </v-col>
+                      <v-col class="text-right" cols="4">
+                        <v-chip class="mr-1">
+                          <b>{{ transaction.is_real ? 'REAL' : 'FAKE' }}</b>
+                        </v-chip>
                       </v-col>
                     </v-row>
-                    <v-row class="mt-0" v-if="transaction.secondary_note">
+                    <v-row class="mt-0">
                       <v-col class="text-wrap">
-                        <v-icon icon="mdi-note-edit-outline" class="mr-1" />
-                        {{ transaction.secondary_note }}
+                        <v-chip class="mr-1">
+                          <b>{{ transaction.secondary_category.name }}</b>
+                        </v-chip>
                       </v-col>
                     </v-row>
-                    <v-row class="mt-0" v-if="transaction.spending_average">
+                    <v-row class="mt-0 mb-1">
                       <v-col class="text-wrap">
-                        <v-icon icon="mdi-note-edit-outline" class="mr-1" />
-                        {{ transaction.spending_average }}
+                        <v-chip class="mr-1">
+                          <b>{{ transaction.specific_category.name }}</b>
+                        </v-chip>
                       </v-col>
                     </v-row>
-                  </div>
-                </v-card-subtitle>
-              </div>
-            </v-expand-transition>
 
-            <v-divider />
-          </v-card>
-        </v-list>
+                    <div
+                      v-if="
+                        transaction.primary_note ||
+                        transaction.secondary_note ||
+                        transaction.spending_average
+                      "
+                    >
+                      <v-divider />
+
+                      <v-row class="mt-0" v-if="transaction.primary_note">
+                        <v-col class="text-wrap">
+                          <v-icon icon="mdi-note-edit-outline" class="mr-1" />
+                          {{ transaction.primary_note }}
+                        </v-col>
+                      </v-row>
+                      <v-row class="mt-0" v-if="transaction.secondary_note">
+                        <v-col class="text-wrap">
+                          <v-icon icon="mdi-note-edit-outline" class="mr-1" />
+                          {{ transaction.secondary_note }}
+                        </v-col>
+                      </v-row>
+                      <v-row class="mt-0" v-if="transaction.spending_average">
+                        <v-col class="text-wrap">
+                          <v-icon icon="mdi-note-edit-outline" class="mr-1" />
+                          {{ transaction.spending_average }}
+                        </v-col>
+                      </v-row>
+                    </div>
+                  </v-card-subtitle>
+                </div>
+              </v-expand-transition>
+
+              <v-divider />
+            </v-card>
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
 

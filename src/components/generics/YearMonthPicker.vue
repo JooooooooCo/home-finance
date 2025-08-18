@@ -1,5 +1,4 @@
 <template>
-  <!-- <v-row> -->
   <v-col cols="12" class="pt-0">
     <v-card elevation="0" class="pa-4">
       <v-row>
@@ -29,7 +28,6 @@
       </v-row>
     </v-card>
   </v-col>
-  <!-- </v-row> -->
 </template>
 
 <script setup>
