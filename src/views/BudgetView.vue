@@ -146,7 +146,7 @@ const save = async () => {
 
   const isEdit = budget.value?.id;
   loading.value = true;
-  const res = isEdit ? await editTransaction() : await createTransaction();
+  const res = isEdit ? await editBudget() : await createBudget();
   loading.value = false;
 
   if (res.error) {
@@ -158,7 +158,7 @@ const save = async () => {
   snackbarStore.showSnackbar(res.message, true);
 };
 
-const createTransaction = async () => {
+const createBudget = async () => {
   const url = '/budget';
   const body = {
     year: dueDateFilter.value.year,
@@ -168,7 +168,7 @@ const createTransaction = async () => {
   return await axiosHelper.post(url, body);
 };
 
-const editTransaction = async () => {
+const editBudget = async () => {
   const url = `/budget/${budget.value.id}/categories`;
   const body = budget.value;
   return await axiosHelper.put(url, body);
