@@ -5,9 +5,7 @@
         <v-btn v-if="hasChildren" icon size="x-small" variant="text" @click="toggleExpansion">
           <v-icon>{{ isExpanded ? 'mdi-chevron-down' : 'mdi-chevron-right' }}</v-icon>
         </v-btn>
-        <v-btn v-else icon size="x-small" variant="text">
-          <v-icon>mdi-circle-outline</v-icon>
-        </v-btn>
+        <v-icon v-else size="x-small" class="pa-4">mdi-circle</v-icon>
         <div class="d-flex align-center">
           <span
             class="text-caption font-weight-medium category-name"
@@ -20,7 +18,7 @@
           </span>
           <v-chip
             v-if="category.budget_amount > 0"
-            x-small
+            size="small"
             :color="getExecutedColor()"
             class="ml-2"
             text-color="white"
@@ -45,7 +43,7 @@
     <v-row>
       <v-col cols="4" class="pa-1 text-center">
         <div class="text-caption">
-          <div class="font-weight-medium">Orçado</div>
+          <div class="font-weight-medium">Previsto</div>
           <div class="primary--text">{{ userMonetaryValueFormatter(category.budget_amount) }}</div>
         </div>
       </v-col>
