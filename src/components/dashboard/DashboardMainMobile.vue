@@ -39,8 +39,8 @@ const { getMonthInitialEndDate, apiDateFormatter } = useDateHandler();
 
 const dueDateFilter = ref({
   year: dayjs().format('YYYY'),
-  // month: dayjs().format('MM'),
-  month: 1,
+  month: dayjs().format('MM'),
+  // month: 1,
 });
 
 const dueDateRangeFilter = computed(() =>
