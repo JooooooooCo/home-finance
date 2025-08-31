@@ -8,8 +8,8 @@
     </v-col>
   </v-row>
   <v-row class="mt-0">
-    <v-col>
-      <GeneralBalanceChart />
+    <v-col class="pb-0">
+      <GeneralBalanceChart :dueDateRangeFilter="dueDateRangeFilter" />
     </v-col>
   </v-row>
   <v-row class="mt-0">

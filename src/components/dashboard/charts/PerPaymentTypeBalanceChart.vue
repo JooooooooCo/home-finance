@@ -1,5 +1,5 @@
 <template>
-  <v-card class="pa-4">
+  <v-card elevation="0" class="pa-4 mb-4">
     <v-card-title class="pa-0">Saldo por Modo de Pagamento</v-card-title>
     <v-row>
       <v-col cols="12">
@@ -47,6 +47,9 @@ const option = ref({
     axisLine: {
       show: false,
     },
+    axisLabel: {
+      show: false,
+    },
   },
   series: [
     {
@@ -66,7 +69,7 @@ const option = ref({
           }
           const abs = Math.abs(params.value);
           const value = abs > 1000 ? (abs / 1000).toFixed(1) + 'k' : abs.toFixed(0);
-          return `-${value}`;
+          return params.value < 0 ? `-${value}` : `${value}`;
         },
         color: 'red',
         fontWeight: 'bold',
