@@ -6,14 +6,12 @@
     <v-row>
       <v-col>
         <v-card elevation="0" class="pa-4">
+          <v-card-title class="pa-0">Budget</v-card-title>
           <v-row>
-            <v-col cols="6" class="d-flex flex-column justify-center"> <h3>Budget</h3> </v-col>
-            <v-col cols="6" class="d-flex flex-column">
-              <span class="d-flex flex-row-reverse">Receita Prevista</span>
-              <div class="d-flex flex-row-reverse">
-                <b>{{ userMonetaryValueFormatter(forecastRevenueAmount) }}</b>
-                <v-icon icon="mdi-arrow-up-circle-outline" class="mr-1" color="teal darken-2" />
-              </div>
+            <v-col cols="12">
+              <span>Receita Prevista </span>
+              <b>{{ userMonetaryValueFormatter(forecastRevenueAmount) }}</b>
+              <v-icon icon="mdi-arrow-up-circle-outline" class="mr-1" color="teal darken-2" />
             </v-col>
           </v-row>
 
