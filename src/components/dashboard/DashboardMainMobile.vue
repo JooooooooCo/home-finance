@@ -9,6 +9,16 @@
   </v-row>
   <v-row class="mt-0">
     <v-col>
+      <GeneralBalanceChart />
+    </v-col>
+  </v-row>
+  <v-row class="mt-0">
+    <v-col>
+      <PerPaymentTypeBalanceChart />
+    </v-col>
+  </v-row>
+  <v-row class="mt-0">
+    <v-col>
       <ChartCategoriesBudgetExecuted :dueDateFilter="dueDateFilter" />
     </v-col>
   </v-row>
@@ -21,6 +31,8 @@ import YearMonthPicker from '@/components/generics/YearMonthPicker.vue';
 import DashboardTotalSummary from '@/components/dashboard/total-summary/DashboardTotalSummary.vue';
 import ChartCategoriesForecastExecuted from '@/components/dashboard/charts/ChartCategoriesForecastExecuted.vue';
 import ChartCategoriesBudgetExecuted from '@/components/dashboard/charts/ChartCategoriesBudgetExecuted.vue';
+import PerPaymentTypeBalanceChart from '@/components/dashboard/charts/PerPaymentTypeBalanceChart.vue';
+import GeneralBalanceChart from '@/components/dashboard/charts/GeneralBalanceChart.vue';
 import dayjs from 'dayjs';
 
 const { getMonthInitialEndDate, apiDateFormatter } = useDateHandler();
