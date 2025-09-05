@@ -48,11 +48,6 @@
           </v-card>
         </v-col>
       </v-row>
-      <v-row class="mt-0">
-        <v-col cols="12">
-          <MonthBalanceChart :totalSummary="totalSummary" />
-        </v-col>
-      </v-row>
     </v-card>
 
     <v-card elevation="0" class="pa-4">
@@ -123,7 +118,6 @@ import { useMonetaryValueHandler } from '@/composables/useMonetaryValueHandler';
 import { axiosHelper } from '@/helper/axios.helper';
 import { useSnackbarStore } from '@/store/snackbar.store';
 import RevenueExpensePieChart from '@/components/dashboard/charts/RevenueExpensePieChart.vue';
-import MonthBalanceChart from '@/components/dashboard/charts/MonthBalanceChart.vue';
 
 const { userMonetaryValueFormatter } = useMonetaryValueHandler();
 const snackbarStore = useSnackbarStore();
