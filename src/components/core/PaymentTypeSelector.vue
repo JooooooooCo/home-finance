@@ -21,6 +21,10 @@ const props = defineProps({
     type: Number,
     default: null,
   },
+  autoSelectFirst: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const label = 'Modo de Pagamento';
@@ -42,6 +46,11 @@ const getAllOptions = async () => {
   }
 
   availableOptions.value = res.data;
+
+  if (props.autoSelectFirst && availableOptions.value.length > 0) {
+    selectedItem.value = availableOptions.value[0].id;
+    emit('update:modelValue', selectedItem.value);
+  }
 };
 
 watch(

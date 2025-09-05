@@ -3,7 +3,7 @@
     <v-card-title class="pa-0">Saldo por Modo de Pagamento</v-card-title>
     <v-row>
       <v-col cols="12">
-        <PaymentTypeSelector v-model="selectedPaymentType" />
+        <PaymentTypeSelector v-model="selectedPaymentType" autoSelectFirst />
       </v-col>
     </v-row>
 
@@ -18,8 +18,19 @@ import 'echarts';
 import dayjs from 'dayjs';
 import 'dayjs/locale/pt-br';
 import PaymentTypeSelector from '@/components/core/PaymentTypeSelector.vue';
+import { axiosHelper } from '@/helper/axios.helper';
+import { useSnackbarStore } from '@/store/snackbar.store';
 
 dayjs.locale('pt-br');
+
+const snackbarStore = useSnackbarStore();
+
+const props = defineProps({
+  dueDateRangeFilter: {
+    type: Array,
+    required: true,
+  },
+});
 
 const selectedPaymentType = ref(null);
 
@@ -57,9 +68,6 @@ const option = ref({
       type: 'line',
       data: Array.from({ length: defaultMonths.length }, () => 0),
       smooth: true,
-      itemStyle: {
-        color: 'green',
-      },
       label: {
         show: true,
         position: 'top',
@@ -71,13 +79,12 @@ const option = ref({
           const value = abs > 1000 ? (abs / 1000).toFixed(1) + 'k' : abs.toFixed(0);
           return params.value < 0 ? `-${value}` : `${value}`;
         },
-        color: 'red',
         fontWeight: 'bold',
       },
       markLine: {
         data: [{ yAxis: 0 }],
         lineStyle: {
-          color: 'transparent',
+          color: '#9E9E9E',
         },
       },
     },
@@ -92,75 +99,52 @@ const option = ref({
 });
 
 const normalizeResponseToChart = data => {
-  // Accept multiple possible shapes from backend:
-  // 1) { labels: [...], values: [...] }
-  // 2) [{ label: 'Jan', value: -100 }, ...]
-  // 3) [ -100, -200, ... ] -> use default months
-  if (!data)
+  if (!data || !data.data || data.data.length === 0) {
     return { labels: defaultMonths, values: Array.from({ length: defaultMonths.length }, () => 0) };
-
-  if (Array.isArray(data)) {
-    if (data.length === 0) {
-      return {
-        labels: defaultMonths,
-        values: Array.from({ length: defaultMonths.length }, () => 0),
-      };
-    }
-    if (typeof data[0] === 'number') {
-      return { labels: defaultMonths.slice(0, data.length), values: data };
-    }
-    if (typeof data[0] === 'object' && data[0] !== null) {
-      const labels = data.map(d => (d.label ?? d.name ?? '').toString());
-      const values = data.map(d => Number(d.value ?? d.amount ?? 0));
-      return { labels, values };
-    }
   }
 
-  if (typeof data === 'object') {
-    if (Array.isArray(data.labels) && Array.isArray(data.values)) {
-      return { labels: data.labels, values: data.values };
-    }
-  }
-
-  // Fallback
-  return { labels: defaultMonths, values: Array.from({ length: defaultMonths.length }, () => 0) };
+  const labels = data.data.map(d => dayjs(d.year_month + '-01').format('MMM'));
+  const values = data.data.map(d => Number(d.balance ?? 0));
+  return { labels, values };
 };
 
 const fetchChartData = async paymentTypeId => {
-  // Using mocked data for now (no network requests).
-  const mock = {
-    null: {
-      labels: defaultMonths,
-      values: [-1264.39, -1210.15, -559.67, -257.83, -109.9, -300, -450],
-    },
-    1: {
-      labels: defaultMonths,
-      values: [-500, -600, -700, -200, -100, -50, -80],
-    },
-    2: {
-      labels: defaultMonths,
-      values: [-1200, -1100, -900, -400, -300, -200, -150],
-    },
-    3: {
-      labels: defaultMonths,
-      values: [0, -100, -50, -20, -10, -5, -1],
-    },
+  if (!paymentTypeId || !props.dueDateRangeFilter || props.dueDateRangeFilter.length === 0) {
+    option.value.xAxis.data = defaultMonths;
+    option.value.series[0].data = Array.from({ length: defaultMonths.length }, () => 0);
+    return;
+  }
+
+  const filters = {
+    dueDateRange: props.dueDateRangeFilter,
+    paymentTypeId: paymentTypeId,
   };
+  const url = '/cashflow/transaction/per-payment-type-balance';
+  const res = await axiosHelper.get(url, filters);
 
-  const key =
-    paymentTypeId === null || paymentTypeId === undefined ? 'null' : String(paymentTypeId);
-  const payload = mock[key] ?? mock['null'];
+  if (res.error) {
+    snackbarStore.showSnackbar(res.message);
+    return;
+  }
 
-  option.value.xAxis.data = payload.labels;
-  option.value.series[0].data = payload.values;
+  const normalized = normalizeResponseToChart(res);
+  option.value.xAxis.data = normalized.labels;
+  option.value.series[0].data = normalized.values;
 };
 
 watch(selectedPaymentType, val => {
   fetchChartData(val);
 });
 
+watch(
+  () => props.dueDateRangeFilter,
+  () => {
+    fetchChartData(selectedPaymentType.value);
+  },
+  { deep: true }
+);
+
 onMounted(() => {
-  // initial load without filter
   fetchChartData(selectedPaymentType.value);
 });
 </script>

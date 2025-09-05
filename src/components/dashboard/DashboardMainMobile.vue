@@ -14,7 +14,7 @@
   </v-row>
   <v-row class="mt-0">
     <v-col>
-      <PerPaymentTypeBalanceChart />
+      <PerPaymentTypeBalanceChart :dueDateRangeFilter="dueDateRangeFilter" />
     </v-col>
   </v-row>
   <v-row class="mt-0">
