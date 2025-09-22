@@ -432,15 +432,15 @@ const nextField = from => {
     autoFill();
   }
 
-  if (from == 'description') {
+  if (from == 'description' && !form.value.primary_category_id) {
     openedField.value.primary_category = true;
   }
 
-  if (from == 'primary_category') {
+  if (from == 'primary_category' && !form.value.secondary_category_id) {
     openedField.value.secondary_category = true;
   }
 
-  if (from == 'secondary_category') {
+  if (from == 'secondary_category' && !form.value.specific_category_id) {
     openedField.value.specific_category = true;
   }
 };
