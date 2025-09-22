@@ -256,7 +256,7 @@ import SecondaryCategorySelector from '@/components/core/SecondaryCategorySelect
 import SpecificCategorySelector from '@/components/core/SpecificCategorySelector.vue';
 
 // TODO: refact to use consts or params from db config
-const CASH_PAYMENT_TYPE_ID = 1;
+const CASH_PAYMENT_TYPE_IDS = [1, 5, 6, 7, 8];
 const PAID_PAYMENT_STATUS_ID = 1;
 const PENDING_PAYMENT_STATUS_ID = 2;
 
@@ -446,7 +446,7 @@ const nextField = from => {
 };
 
 const autoFill = () => {
-  if (form.value.payment_type_id == CASH_PAYMENT_TYPE_ID) {
+  if (CASH_PAYMENT_TYPE_IDS.includes(form.value.payment_type_id)) {
     autoFillCashPayment();
     return;
   }
