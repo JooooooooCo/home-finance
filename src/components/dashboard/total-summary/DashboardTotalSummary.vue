@@ -73,7 +73,7 @@
               Receitas Totais
             </v-card-title>
             <v-card-text class="text-subtitle-1 font-weight-bold pb-2">
-              {{ userMonetaryValueFormatter(totalSummary.forecast_revenue_amount) }}
+              {{ userMonetaryValueFormatter(totalSummary.forecast_income_amount) }}
             </v-card-text>
           </v-card>
         </v-col>
@@ -98,14 +98,14 @@
               A Receber
             </v-card-title>
             <v-card-text class="text-subtitle-1 font-weight-bold pb-2">
-              {{ userMonetaryValueFormatter(totalSummary.pending_revenue_amount) }}
+              {{ userMonetaryValueFormatter(totalSummary.pending_income_amount) }}
             </v-card-text>
           </v-card>
         </v-col>
       </v-row>
       <v-row class="mt-0">
         <v-col cols="12">
-          <RevenueExpensePieChart :totalSummary="totalSummary" />
+          <IncomeExpensePieChart :totalSummary="totalSummary" />
         </v-col>
       </v-row>
     </v-card>
@@ -117,7 +117,7 @@ import { ref, watch } from 'vue';
 import { useMonetaryValueHandler } from '@/composables/useMonetaryValueHandler';
 import { axiosHelper } from '@/helper/axios.helper';
 import { useSnackbarStore } from '@/store/snackbar.store';
-import RevenueExpensePieChart from '@/components/dashboard/charts/RevenueExpensePieChart.vue';
+import IncomeExpensePieChart from '@/components/dashboard/charts/IncomeExpensePieChart.vue';
 
 const { userMonetaryValueFormatter } = useMonetaryValueHandler();
 const snackbarStore = useSnackbarStore();

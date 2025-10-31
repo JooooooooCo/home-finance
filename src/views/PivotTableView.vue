@@ -52,9 +52,9 @@ const pivotConfigOptions = [
       slice: {
         reportFilters: [
           {
-            uniqueName: 'transaction_type_name',
+            uniqueName: 'type_name',
             filter: {
-              members: ['transaction_type_name.DESPESA'],
+              members: ['type_name.expense'],
             },
           },
         ],
@@ -108,7 +108,7 @@ const pivotConfigOptions = [
       slice: {
         rows: [
           {
-            uniqueName: 'transaction_type_name',
+            uniqueName: 'type_name',
           },
           {
             uniqueName: 'payment_type_name',

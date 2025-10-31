@@ -4,7 +4,7 @@
       <v-col cols="12" class="pt-16">
         <v-row class="pt-4">
           <v-col cols="12" class="d-flex justify-center">
-            <TransactionTypeSelector :multiple="true" v-model="filters.transactionTypeIds" />
+            <TransactionTypeSelector :multiple="true" v-model="filters.type" />
           </v-col>
         </v-row>
 
@@ -167,6 +167,7 @@ import PaymentStatusTypeSelectorMultiple from '@/components/core/PaymentStatusTy
 import PrimaryCategorySelector from '@/components/core/PrimaryCategorySelector.vue';
 import SecondaryCategorySelector from '@/components/core/SecondaryCategorySelector.vue';
 import SpecificCategorySelector from '@/components/core/SpecificCategorySelector.vue';
+import { TRANSACTION_TYPE } from '@/enums/transaction_type';
 const props = defineProps({
   modelValue: {
     type: Boolean,
@@ -174,7 +175,7 @@ const props = defineProps({
   },
 });
 const emptyFilterObject = {
-  transactionTypeIds: [1, 2],
+  type: [TRANSACTION_TYPE.EXPENSE, TRANSACTION_TYPE.INCOME],
   paymentTypeIds: [],
   paymentStatusIds: [],
   dueDateRange: [],

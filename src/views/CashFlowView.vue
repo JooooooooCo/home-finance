@@ -127,9 +127,7 @@
                                 class="mr-1"
                                 color="teal darken-2"
                               />
-                              {{
-                                userMonetaryValueFormatter(summaryTotals.forecast_revenue_amount)
-                              }}
+                              {{ userMonetaryValueFormatter(summaryTotals.forecast_income_amount) }}
                             </v-col>
                           </v-row>
                           <v-row class="mt-0">
@@ -198,12 +196,14 @@
                   <v-col class="text-wrap text-black">
                     <v-icon
                       :icon="
-                        transaction.transaction_type_id == 1
+                        transaction.type == TRANSACTION_TYPE.EXPENSE
                           ? 'mdi-arrow-down-circle-outline'
                           : 'mdi-arrow-up-circle-outline'
                       "
                       class="mr-1"
-                      :color="transaction.transaction_type_id == 1 ? 'red' : 'teal darken-2'"
+                      :color="
+                        transaction.type == TRANSACTION_TYPE.EXPENSE ? 'red' : 'teal darken-2'
+                      "
                     />
                     <b>{{ transaction.description }}</b>
                   </v-col>
@@ -386,6 +386,7 @@ import LoaderCircular from '@/components/generics/LoaderCircular.vue';
 import ConfirmationDialog from '@/components/generics/ConfirmationDialog.vue';
 import CashFlowFilter from '@/components/cash_flow/CashFlowFilter.vue';
 import TransactionForm from '@/components/cash_flow/TransactionForm.vue';
+import { TRANSACTION_TYPE } from '@/enums/transaction_type';
 
 const paidStatus = { id: 1, name: 'PAGO' };
 const { userDateFormatter, apiDateFormatter } = useDateHandler();

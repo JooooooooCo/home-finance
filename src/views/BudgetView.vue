@@ -10,7 +10,7 @@
           <v-row>
             <v-col cols="12">
               <span>Receita Prevista </span>
-              <b>{{ userMonetaryValueFormatter(forecastRevenueAmount) }}</b>
+              <b>{{ userMonetaryValueFormatter(forecastIncomeAmount) }}</b>
               <v-icon icon="mdi-arrow-up-circle-outline" class="mr-1" color="teal darken-2" />
             </v-col>
           </v-row>
@@ -19,7 +19,7 @@
             <v-col>
               <PrimaryCategoryBudget
                 v-model="budget.categories"
-                :totalBudget="forecastRevenueAmount"
+                :totalBudget="forecastIncomeAmount"
               />
             </v-col>
           </v-row>
@@ -64,7 +64,7 @@ const { getMonthInitialEndDate, apiDateFormatter } = useDateHandler();
 const budget = ref({
   categories: [],
 });
-const forecastRevenueAmount = ref(0);
+const forecastIncomeAmount = ref(0);
 const loading = ref(false);
 const dueDateFilter = ref({
   year: dayjs().format('YYYY'),
@@ -113,7 +113,7 @@ const getTotalSummary = async () => {
     return;
   }
 
-  forecastRevenueAmount.value = res.data.totals.forecast_revenue_amount;
+  forecastIncomeAmount.value = res.data.totals.forecast_income_amount;
 };
 
 const hasCategoryBudgetOverPercentageLimit = categories => {

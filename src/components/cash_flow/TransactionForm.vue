@@ -4,7 +4,7 @@
       <v-card-text class="pb-16">
         <v-row dense>
           <v-col cols="12" class="d-flex justify-center mb-3">
-            <TransactionTypeSelector v-model="form.transaction_type_id" />
+            <TransactionTypeSelector v-model="form.type" />
           </v-col>
         </v-row>
 
@@ -129,7 +129,7 @@
           <v-col cols="12" md="4">
             <SecondaryCategorySelector
               v-model="form.secondary_category_id"
-              :transactionTypeId="form.transaction_type_id"
+              :type="form.type"
               :externalOpenDialog="openedField.secondary_category"
               @update:modelValue="nextField('secondary_category')"
             />
@@ -254,6 +254,7 @@ import PaymentStatusTypeSelector from '@/components/core/PaymentStatusTypeSelect
 import PrimaryCategorySelector from '@/components/core/PrimaryCategorySelector.vue';
 import SecondaryCategorySelector from '@/components/core/SecondaryCategorySelector.vue';
 import SpecificCategorySelector from '@/components/core/SpecificCategorySelector.vue';
+import { TRANSACTION_TYPE } from '@/enums/transaction_type';
 
 // TODO: refact to use consts or params from db config
 const CASH_PAYMENT_TYPE_IDS = [1, 5, 6, 7, 8];
@@ -273,7 +274,7 @@ const { mdAndUp } = useDisplay();
 
 const currentDate = dayjs();
 const defaultEmptyForm = {
-  transaction_type_id: 1,
+  type: TRANSACTION_TYPE.EXPENSE,
   payment_type_id: null,
   payment_status_id: null,
   purchase_date: currentDate.format('YYYY-MM-DD'),
@@ -309,7 +310,7 @@ watch(
 );
 
 const validateForm = () => {
-  if (!form.value.transaction_type_id)
+  if (!form.value.type)
     return snackbarStore.showSnackbar('Informe o tipo de transação (receita ou despesa)');
   if (!form.value.payment_type_id) return snackbarStore.showSnackbar('Informe o modo de pagamento');
   if (!form.value.payment_status_id)

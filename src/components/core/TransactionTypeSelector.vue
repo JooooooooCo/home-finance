@@ -6,18 +6,23 @@
     :mandatory="!multipleChoice"
     :group="!multipleChoice"
   >
-    <v-btn :value="1" color="red" prepend-icon="mdi-arrow-down"> Despesa </v-btn>
+    <v-btn :value="TRANSACTION_TYPE.EXPENSE" color="red" prepend-icon="mdi-arrow-down">
+      Despesa
+    </v-btn>
 
-    <v-btn :value="2" color="teal darken-2" append-icon="mdi-arrow-up"> Receita </v-btn>
+    <v-btn :value="TRANSACTION_TYPE.INCOME" color="teal darken-2" append-icon="mdi-arrow-up">
+      Receita
+    </v-btn>
   </v-btn-toggle>
 </template>
 
 <script setup>
+import { TRANSACTION_TYPE } from '@/enums/transaction_type';
 import { ref, watch } from 'vue';
 
 const props = defineProps({
   modelValue: {
-    type: [Number, Array],
+    type: [String, Array],
     required: true,
   },
   multipleChoice: {

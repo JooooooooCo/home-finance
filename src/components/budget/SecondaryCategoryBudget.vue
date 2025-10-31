@@ -65,7 +65,7 @@
       <v-col cols="12" md="4">
         <SecondaryCategorySelector
           v-model="selected"
-          :transactionTypeId="TRANSACTION_TYPE_ID_EXPENSE"
+          :type="TRANSACTION_TYPE.EXPENSE"
           :ignoreOptions="categories?.map(category => category.id)"
           label="Adicionar Categoria Secundária"
           @update:modelValue="addCategory"
@@ -80,10 +80,9 @@ import { ref, computed, watch } from 'vue';
 import { useMonetaryValueHandler } from '@/composables/useMonetaryValueHandler';
 import SecondaryCategorySelector from '@/components/core/SecondaryCategorySelector.vue';
 import SpecificCategoryBudget from './SpecificCategoryBudget.vue';
+import { TRANSACTION_TYPE } from '@/enums/transaction_type';
 
 const { userMonetaryValueFormatter } = useMonetaryValueHandler();
-
-const TRANSACTION_TYPE_ID_EXPENSE = 1;
 
 const props = defineProps({
   modelValue: {

@@ -5,9 +5,7 @@
     :externalOpenDialog="externalOpenDialog"
     @update:modelValue="changeSelection"
     :label="label"
-    :disabled="
-      (!transactionTypeId && requireTransactionType) || loading || availableOptions.length == 0
-    "
+    :disabled="(!type && requireTransactionType) || loading || availableOptions.length == 0"
     :hideDetails="hideDetails"
     :bgColor="bgColor"
   />
@@ -26,8 +24,8 @@ const props = defineProps({
     type: Number,
     default: null,
   },
-  transactionTypeId: {
-    type: Number,
+  type: {
+    type: String,
     default: null,
   },
   requireTransactionType: {
@@ -77,7 +75,7 @@ const getAllOptions = async () => {
   loading.value = true;
 
   const params = {
-    'transaction-type-id': props.transactionTypeId,
+    type: props.type,
   };
   const url = '/settings/secondary-category';
   const res = await axiosHelper.get(url, params);
@@ -92,7 +90,7 @@ const getAllOptions = async () => {
 };
 
 watch(
-  () => props.transactionTypeId,
+  () => props.type,
   val => getAllOptions()
 );
 

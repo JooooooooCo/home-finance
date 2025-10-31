@@ -76,7 +76,7 @@ Observação: os componentes abertos ajudam a entender responsabilidades e inter
 - Visão: orçamento por categorias para mês/ano específico, com receita prevista.
 - Entidades:
   - Budget: categorias com orçamentos, hierarquias de categorias.
-  - Forecast/revenue: receita prevista derivada de totais de transações.
+  - Forecast/income: receita prevista derivada de totais de transações.
 - Fluxos:
   - Busca pelo mês/ano via /budget.
   - Salvamento com /budget (criar) ou /budget/{id}/categories (editar).
@@ -161,7 +161,7 @@ Cria uma nova transação.
   "primary_category_id": "uuid-primary-category",
   "secondary_category_id": "uuid-secondary-category",
   "specific_category_id": null,
-  "transaction_type": "EXPENSE",
+  "type": "EXPENSE",
   "payment_type_id": "uuid-payment-type",
   "payment_status_type": "PENDING",
   "notes": "Pagamento do aluguel de agosto",
@@ -184,7 +184,7 @@ Cria uma nova transação.
   "primary_category": { "id": "uuid-primary-category", "name": "Moradia" },
   "secondary_category": { "id": "uuid-secondary-category", "name": "Aluguel" },
   "specific_category": null,
-  "transaction_type": "EXPENSE",
+  "type": "EXPENSE",
   "payment_type": { "id": "uuid-payment-type", "name": "Débito Automático" },
   "payment_status_type": "PENDING",
   "notes": "Pagamento do aluguel de agosto",
