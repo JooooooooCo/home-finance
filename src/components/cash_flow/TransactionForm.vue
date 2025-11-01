@@ -99,27 +99,27 @@
 
         <v-row dense>
           <v-col cols="12" md="4">
-            <PrimaryCategorySelector
-              v-model="form.primary_category_id"
-              :externalOpenDialog="openedField.primary_category"
-              @update:modelValue="nextField('primary_category')"
+            <ClassificationSelector
+              v-model="form.classification_id"
+              :externalOpenDialog="openedField.classification"
+              @update:modelValue="nextField('classification')"
             />
           </v-col>
 
           <v-col cols="12" md="4">
-            <SecondaryCategorySelector
-              v-model="form.secondary_category_id"
+            <CategorySelector
+              v-model="form.category_id"
               :type="form.type"
-              :externalOpenDialog="openedField.secondary_category"
-              @update:modelValue="nextField('secondary_category')"
+              :externalOpenDialog="openedField.category"
+              @update:modelValue="nextField('category')"
             />
           </v-col>
 
           <v-col cols="12" md="4">
-            <SpecificCategorySelector
-              v-model="form.specific_category_id"
-              :secondaryCategoryId="form.secondary_category_id"
-              :externalOpenDialog="openedField.specific_category"
+            <SubCategorySelector
+              v-model="form.sub_category_id"
+              :categoryId="form.category_id"
+              :externalOpenDialog="openedField.sub_category"
             />
           </v-col>
         </v-row>
@@ -231,9 +231,9 @@ import NumberStepperInput from '@/components/generics/NumberStepperInput.vue';
 import TransactionTypeSelector from '@/components/core/TransactionTypeSelector.vue';
 import PaymentTypeSelector from '@/components/core/PaymentTypeSelector.vue';
 import PaymentStatusSelector from '@/components/core/PaymentStatusSelector.vue';
-import PrimaryCategorySelector from '@/components/core/PrimaryCategorySelector.vue';
-import SecondaryCategorySelector from '@/components/core/SecondaryCategorySelector.vue';
-import SpecificCategorySelector from '@/components/core/SpecificCategorySelector.vue';
+import ClassificationSelector from '@/components/core/ClassificationSelector.vue';
+import CategorySelector from '@/components/core/CategorySelector.vue';
+import SubCategorySelector from '@/components/core/SubCategorySelector.vue';
 import { TRANSACTION_TYPE } from '@/enums/transaction_type';
 import { PAYMENT_STATUS } from '@/enums/payment_status';
 
@@ -263,9 +263,9 @@ const defaultEmptyForm = {
   current_installment: 1,
   total_installments: 1,
   description: '',
-  primary_category_id: null,
-  secondary_category_id: null,
-  specific_category_id: null,
+  classification_id: null,
+  category_id: null,
+  sub_category_id: null,
   primary_note: '',
   secondary_note: '',
   spending_average: '',
@@ -276,9 +276,9 @@ const form = ref(props.modelValue ? { ...props.modelValue } : { ...defaultEmptyF
 const showNotesFields = ref(false);
 const openedField = ref({
   purchase_date: false,
-  primary_category: false,
-  secondary_category: false,
-  specific_category: false,
+  classification: false,
+  category: false,
+  sub_category: false,
 });
 
 watch(
@@ -303,12 +303,9 @@ const validateForm = () => {
   if (!form.value.current_installment) return snackbarStore.showSnackbar('Informe a parcela atual');
   if (!form.value.total_installments)
     return snackbarStore.showSnackbar('Informe o total de parcelas');
-  if (!form.value.primary_category_id)
-    return snackbarStore.showSnackbar('Informe a categoria principal');
-  if (!form.value.secondary_category_id)
-    return snackbarStore.showSnackbar('Informe a categoria secundária');
-  if (!form.value.specific_category_id)
-    return snackbarStore.showSnackbar('Informe a categoria específica');
+  if (!form.value.classification_id) return snackbarStore.showSnackbar('Informe a classificação');
+  if (!form.value.category_id) return snackbarStore.showSnackbar('Informe a categoria');
+  if (!form.value.sub_category_id) return snackbarStore.showSnackbar('Informe a subcategoria');
   return true;
 };
 
@@ -411,16 +408,16 @@ const nextField = from => {
     autoFill();
   }
 
-  if (from == 'description' && !form.value.primary_category_id) {
-    openedField.value.primary_category = true;
+  if (from == 'description' && !form.value.classification_id) {
+    openedField.value.classification = true;
   }
 
-  if (from == 'primary_category' && !form.value.secondary_category_id) {
-    openedField.value.secondary_category = true;
+  if (from == 'classification' && !form.value.category_id) {
+    openedField.value.category = true;
   }
 
-  if (from == 'secondary_category' && !form.value.specific_category_id) {
-    openedField.value.specific_category = true;
+  if (from == 'category' && !form.value.sub_category_id) {
+    openedField.value.sub_category = true;
   }
 };
 

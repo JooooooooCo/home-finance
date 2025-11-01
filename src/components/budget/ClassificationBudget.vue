@@ -2,7 +2,7 @@
   <div>
     <v-card variant="outlined" class="pa-4 mb-4" v-for="category in categories" :key="category.id">
       <v-row>
-        <v-col class="d-flex justify-space-between align-center">
+        <v-col class="d-flex justify-space-between align-center pb-0">
           <span class="text-caption font-weight-medium">
             {{ `${category.name}` }}
           </span>
@@ -10,6 +10,7 @@
             variant="text"
             color="red"
             rounded="xl"
+            size="small"
             icon="mdi-close-circle-outline"
             @click="removeCategory(category.id)"
           />
@@ -17,9 +18,9 @@
       </v-row>
       <v-row>
         <v-col class="pt-0 pb-0">
-          <span class="text-caption font-weight-medium">
-            {{ getFormattedBudgetPercentageAmount(category.budget) }}
-          </span>
+          <span class="text-caption font-weight-medium">{{
+            getFormattedBudgetPercentageAmount(category.budget)
+          }}</span>
         </v-col>
       </v-row>
       <v-row>
@@ -52,9 +53,8 @@
       </v-row>
       <v-row v-if="openedRow[category.id]">
         <v-col>
-          <SpecificCategoryBudget
+          <CategoryBudget
             v-model="category.children"
-            :secondaryCategoryId="category.id"
             :totalBudget="getBudgetPercentageAmount(category.budget)"
           />
         </v-col>
@@ -63,11 +63,10 @@
 
     <v-row>
       <v-col cols="12" md="4">
-        <SecondaryCategorySelector
+        <ClassificationSelector
           v-model="selected"
-          :type="TRANSACTION_TYPE.EXPENSE"
           :ignoreOptions="categories?.map(category => category.id)"
-          label="Adicionar Categoria Secundária"
+          label="Adicionar Classificação"
           @update:modelValue="addCategory"
         />
       </v-col>
@@ -78,9 +77,8 @@
 <script setup>
 import { ref, computed, watch } from 'vue';
 import { useMonetaryValueHandler } from '@/composables/useMonetaryValueHandler';
-import SecondaryCategorySelector from '@/components/core/SecondaryCategorySelector.vue';
-import SpecificCategoryBudget from './SpecificCategoryBudget.vue';
-import { TRANSACTION_TYPE } from '@/enums/transaction_type';
+import ClassificationSelector from '@/components/core/ClassificationSelector.vue';
+import CategoryBudget from './CategoryBudget.vue';
 
 const { userMonetaryValueFormatter } = useMonetaryValueHandler();
 
@@ -129,9 +127,9 @@ const getBudgetPercentageAmount = percentage =>
   !percentage ? 0 : (percentage / 100) * props.totalBudget;
 
 watch(
-  () => categories.value,
+  () => props.modelValue,
   value => {
-    emit('update:modelValue', value);
+    categories.value = value;
   },
   { deep: true }
 );

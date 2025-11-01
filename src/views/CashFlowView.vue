@@ -290,7 +290,7 @@
                     <v-row class="mt-0">
                       <v-col class="text-wrap" cols="8">
                         <v-chip class="mr-1">
-                          <b>{{ transaction.primary_category.name }}</b>
+                          <b>{{ transaction.classification.name }}</b>
                         </v-chip>
                       </v-col>
                       <v-col class="text-right" cols="4">
@@ -302,14 +302,14 @@
                     <v-row class="mt-0">
                       <v-col class="text-wrap">
                         <v-chip class="mr-1">
-                          <b>{{ transaction.secondary_category.name }}</b>
+                          <b>{{ transaction.category.name }}</b>
                         </v-chip>
                       </v-col>
                     </v-row>
                     <v-row class="mt-0 mb-1">
                       <v-col class="text-wrap">
                         <v-chip class="mr-1">
-                          <b>{{ transaction.specific_category.name }}</b>
+                          <b>{{ transaction.sub_category.name }}</b>
                         </v-chip>
                       </v-col>
                     </v-row>
@@ -350,7 +350,7 @@
             </v-card>
           </v-col>
         </v-row>
-        <v-row class="mt-0">
+        <v-row v-else class="mt-0">
           <v-col>
             <v-card elevation="0" height="100%" class="pt-16 pb-16">
               <v-row>

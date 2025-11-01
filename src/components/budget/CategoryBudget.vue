@@ -17,13 +17,13 @@
       </v-row>
       <v-row>
         <v-col class="pt-0 pb-0">
-          <span class="text-caption font-weight-medium">{{
-            getFormattedBudgetPercentageAmount(category.budget)
-          }}</span>
+          <span class="text-caption font-weight-medium">
+            {{ getFormattedBudgetPercentageAmount(category.budget) }}
+          </span>
         </v-col>
       </v-row>
       <v-row>
-        <v-col>
+        <v-col class="pb-0">
           <v-slider
             v-model="category.budget"
             :thumb-size="16"
@@ -38,15 +38,36 @@
           </v-slider>
         </v-col>
       </v-row>
+
+      <v-row>
+        <v-col class="d-flex justify-end align-center pt-0 pb-0">
+          <v-btn
+            size="small"
+            variant="text"
+            rounded="xl"
+            :icon="openedRow[category.id] ? 'mdi-chevron-up' : 'mdi-chevron-down'"
+            @click="openedRow[category.id] = !openedRow[category.id]"
+          />
+        </v-col>
+      </v-row>
+      <v-row v-if="openedRow[category.id]">
+        <v-col>
+          <SubCategoryBudget
+            v-model="category.children"
+            :categoryId="category.id"
+            :totalBudget="getBudgetPercentageAmount(category.budget)"
+          />
+        </v-col>
+      </v-row>
     </v-card>
 
     <v-row>
       <v-col cols="12" md="4">
-        <SpecificCategorySelector
+        <CategorySelector
           v-model="selected"
-          :secondaryCategoryId="secondaryCategoryId"
+          :type="TRANSACTION_TYPE.EXPENSE"
           :ignoreOptions="categories?.map(category => category.id)"
-          label="Adicionar Categoria Específica"
+          label="Adicionar Categoria"
           @update:modelValue="addCategory"
         />
       </v-col>
@@ -57,7 +78,9 @@
 <script setup>
 import { ref, computed, watch } from 'vue';
 import { useMonetaryValueHandler } from '@/composables/useMonetaryValueHandler';
-import SpecificCategorySelector from '@/components/core/SpecificCategorySelector.vue';
+import CategorySelector from '@/components/core/CategorySelector.vue';
+import SubCategoryBudget from './SubCategoryBudget.vue';
+import { TRANSACTION_TYPE } from '@/enums/transaction_type';
 
 const { userMonetaryValueFormatter } = useMonetaryValueHandler();
 
@@ -70,16 +93,13 @@ const props = defineProps({
     type: Number,
     required: true,
   },
-  secondaryCategoryId: {
-    type: Number,
-    default: null,
-  },
 });
 
 const emit = defineEmits(['update:modelValue']);
 
 const categories = ref(props.modelValue);
 const selected = ref(null);
+const openedRow = ref({});
 
 const addCategory = (id, category) => {
   category.budget = 0;

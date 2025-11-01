@@ -60,10 +60,10 @@ const pivotConfigOptions = [
         ],
         rows: [
           {
-            uniqueName: 'secondary_category_name',
+            uniqueName: 'category_name',
           },
           {
-            uniqueName: 'specific_category_name',
+            uniqueName: 'sub_category_name',
           },
         ],
         columns: [

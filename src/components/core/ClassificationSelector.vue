@@ -5,9 +5,8 @@
     :externalOpenDialog="externalOpenDialog"
     @update:modelValue="changeSelection"
     :label="label"
-    :disabled="(!type && requireTransactionType) || loading || availableOptions.length == 0"
     :hideDetails="hideDetails"
-    :bgColor="bgColor"
+    :disabled="availableOptions.length == 0"
   />
 </template>
 
@@ -24,14 +23,6 @@ const props = defineProps({
     type: Number,
     default: null,
   },
-  type: {
-    type: String,
-    default: null,
-  },
-  requireTransactionType: {
-    type: Boolean,
-    default: true,
-  },
   hideDetails: {
     type: Boolean,
     default: false,
@@ -44,20 +35,15 @@ const props = defineProps({
     type: Array,
     default: [],
   },
-  bgColor: {
-    type: String,
-    default: null,
-  },
   label: {
     type: String,
-    default: 'Categoria Secundária',
+    default: 'Classificação',
   },
 });
 
 const emit = defineEmits(['update:modelValue']);
 
 const selectedItem = ref(props.modelValue);
-const loading = ref(false);
 const allOptions = ref([]);
 
 const availableOptions = computed(() =>
@@ -72,13 +58,8 @@ const changeSelection = value => {
 const getSelectedOptionObject = id => allOptions.value.find(option => option.id === id);
 
 const getAllOptions = async () => {
-  loading.value = true;
-
-  const params = {
-    type: props.type,
-  };
-  const url = '/settings/secondary-category';
-  const res = await axiosHelper.get(url, params);
+  const url = '/settings/classification';
+  const res = await axiosHelper.get(url);
 
   if (res.error) {
     snackbarStore.showSnackbar(res.message);
@@ -86,13 +67,7 @@ const getAllOptions = async () => {
   }
 
   allOptions.value = res.data;
-  loading.value = false;
 };
-
-watch(
-  () => props.type,
-  val => getAllOptions()
-);
 
 watch(
   () => props.modelValue,

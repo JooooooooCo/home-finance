@@ -45,7 +45,7 @@ Principais diretórios relevantes:
   - DashboardView.vue, CashFlowView.vue, BudgetView.vue, CostCenterView.vue, etc.
 - src/components
   - cash_flow: TransactionForm.vue, CashFlowFilter.vue
-  - budget: PrimaryCategoryBudget.vue, SecondaryCategoryBudget.vue, SpecificCategoryBudget.vue
+  - budget: ClassificationBudget.vue, CategoryBudget.vue, SubCategoryBudget.vue
   - generics: DatePicker.vue, DateRangePicker.vue, LoaderDialog.vue, etc.
   - dashboard: DashboardMain.vue, DashboardMainMobile.vue, charts, etc.
   - core: seletores e componentes de UI reutilizáveis
@@ -62,7 +62,7 @@ Observação: os componentes abertos ajudam a entender responsabilidades e inter
 
 - Visão: lista de transações com filtros, exportação e edição.
 - Entidades:
-  - Transaction: descrição, valor, datas (compra, vencimento, pagamento), parcelas, categorias ( principal, secundária, específica ), tipo de transação, modalidade de pagamento, status de pagamento, notas, flags is_real e is_reconciled.
+  - Transaction: descrição, valor, datas (compra, vencimento, pagamento), parcelas, categorias ( classificação, categoria, subcategoria ), tipo de transação, modalidade de pagamento, status de pagamento, notas, flags is_real e is_reconciled.
 - Operações:
   - Criação/edição via TransactionForm.vue, enviando para API em /cashflow/transaction ou /cashflow/transaction/{id}.
   - Suporte a batching de parcelas, com datas de vencimento ajustadas.
@@ -82,7 +82,7 @@ Observação: os componentes abertos ajudam a entender responsabilidades e inter
   - Salvamento com /budget (criar) ou /budget/{id}/categories (editar).
   - Validação para evitar exceder limites (100% entre categorias destacadas).
 - Vistas:
-  - BudgetView.vue exibe totais e componentes de orçamento (PrimaryCategoryBudget, etc.).
+  - BudgetView.vue exibe totais e componentes de orçamento (ClassificationBudget, etc.).
 
 ### Dashboard
 
@@ -103,7 +103,7 @@ Observação: os componentes abertos ajudam a entender responsabilidades e inter
   - Permite selecionar tipos, pagamentos, status, datas, valores e categorias
   - Emite filtros formatados para a API
 
-- PrimaryCategorySelector.vue, SecondaryCategorySelector.vue, SpecificCategorySelector.vue
+- ClassificationSelector.vue, CategorySelector.vue, SubCategorySelector.vue
 
   - Seletor de categorias com dependências entre si
 
@@ -111,7 +111,7 @@ Observação: os componentes abertos ajudam a entender responsabilidades e inter
 
   - Campos de seleção de datas com comportamento responsivo
 
-- PrimaryCategoryBudget.vue, SecondaryCategoryBudget.vue, SpecificCategoryBudget.vue
+- ClassificationBudget.vue, CategoryBudget.vue, SubCategoryBudget.vue
 
   - Componentes de orçamento por categoria
 
@@ -158,9 +158,9 @@ Cria uma nova transação.
   "due_date": "2025-08-01",
   "payment_date": null,
   "installments": 1,
-  "primary_category_id": "uuid-primary-category",
-  "secondary_category_id": "uuid-secondary-category",
-  "specific_category_id": null,
+  "classification_id": "uuid-classification",
+  "category_id": "uuid-category",
+  "sub_category_id": null,
   "type": "EXPENSE",
   "payment_type_id": "uuid-payment-type",
   "payment_status_type": "PENDING",
@@ -181,9 +181,9 @@ Cria uma nova transação.
   "due_date": "2025-08-01",
   "payment_date": null,
   "installments": 1,
-  "primary_category": { "id": "uuid-primary-category", "name": "Moradia" },
-  "secondary_category": { "id": "uuid-secondary-category", "name": "Aluguel" },
-  "specific_category": null,
+  "classification": { "id": "uuid-classification", "name": "Moradia" },
+  "category": { "id": "uuid-category", "name": "Aluguel" },
+  "sub_category": null,
   "type": "EXPENSE",
   "payment_type": { "id": "uuid-payment-type", "name": "Débito Automático" },
   "payment_status_type": "PENDING",

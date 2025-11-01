@@ -5,8 +5,8 @@
     :externalOpenDialog="externalOpenDialog"
     @update:modelValue="changeSelection"
     :label="label"
+    :disabled="!categoryId || loading || availableOptions.length == 0"
     :hideDetails="hideDetails"
-    :disabled="availableOptions.length == 0"
   />
 </template>
 
@@ -20,6 +20,10 @@ const snackbarStore = useSnackbarStore();
 
 const props = defineProps({
   modelValue: {
+    type: Number,
+    default: null,
+  },
+  categoryId: {
     type: Number,
     default: null,
   },
@@ -37,13 +41,14 @@ const props = defineProps({
   },
   label: {
     type: String,
-    default: 'Categoria Principal',
+    default: 'Subcategoria',
   },
 });
 
 const emit = defineEmits(['update:modelValue']);
 
 const selectedItem = ref(props.modelValue);
+const loading = ref(false);
 const allOptions = ref([]);
 
 const availableOptions = computed(() =>
@@ -58,8 +63,14 @@ const changeSelection = value => {
 const getSelectedOptionObject = id => allOptions.value.find(option => option.id === id);
 
 const getAllOptions = async () => {
-  const url = '/settings/primary-category';
-  const res = await axiosHelper.get(url);
+  if (!props.categoryId) return;
+  loading.value = true;
+
+  const body = {
+    'category-id': props.categoryId,
+  };
+  const url = '/settings/sub-category';
+  const res = await axiosHelper.get(url, body);
 
   if (res.error) {
     snackbarStore.showSnackbar(res.message);
@@ -67,7 +78,13 @@ const getAllOptions = async () => {
   }
 
   allOptions.value = res.data;
+  loading.value = false;
 };
+
+watch(
+  () => props.categoryId,
+  val => getAllOptions()
+);
 
 watch(
   () => props.modelValue,

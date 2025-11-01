@@ -91,14 +91,14 @@
 
         <v-row>
           <v-col cols="12">
-            <PrimaryCategorySelector v-model="filters.primaryCategoryId" hideDetails />
+            <ClassificationSelector v-model="filters.classificationId" hideDetails />
           </v-col>
         </v-row>
 
         <v-row>
           <v-col cols="12">
-            <SecondaryCategorySelector
-              v-model="filters.secondaryCategoryId"
+            <CategorySelector
+              v-model="filters.categoryId"
               :requireTransactionType="false"
               hideDetails
             />
@@ -107,9 +107,9 @@
 
         <v-row>
           <v-col cols="12">
-            <SpecificCategorySelector
-              v-model="filters.specificCategoryId"
-              :secondaryCategoryId="filters.secondaryCategoryId"
+            <SubCategorySelector
+              v-model="filters.subCategoryId"
+              :categoryId="filters.categoryId"
               hideDetails
             />
           </v-col>
@@ -162,9 +162,9 @@ import TransactionTypeSelector from '@/components/core/TransactionTypeSelector.v
 import DateRangePicker from '@/components/generics/DateRangePicker.vue';
 import PaymentTypeSelectorMultiple from '@/components/core/PaymentTypeSelectorMultiple.vue';
 import PaymentStatusSelector from '@/components/core/PaymentStatusSelector.vue';
-import PrimaryCategorySelector from '@/components/core/PrimaryCategorySelector.vue';
-import SecondaryCategorySelector from '@/components/core/SecondaryCategorySelector.vue';
-import SpecificCategorySelector from '@/components/core/SpecificCategorySelector.vue';
+import ClassificationSelector from '@/components/core/ClassificationSelector.vue';
+import CategorySelector from '@/components/core/CategorySelector.vue';
+import SubCategorySelector from '@/components/core/SubCategorySelector.vue';
 
 const props = defineProps({
   modelValue: {
@@ -181,9 +181,9 @@ const emptyFilterObject = {
   purchaseDateRange: [],
   amountMin: '',
   amountMax: '',
-  primaryCategoryId: null,
-  secondaryCategoryId: null,
-  specificCategoryId: null,
+  classificationId: null,
+  categoryId: null,
+  subCategoryId: null,
   description: '',
   reconciled: 1,
   notReconciled: 1,

@@ -2,7 +2,7 @@
   <div>
     <v-card variant="outlined" class="pa-4 mb-4" v-for="category in categories" :key="category.id">
       <v-row>
-        <v-col class="d-flex justify-space-between align-center pb-0">
+        <v-col class="d-flex justify-space-between align-center">
           <span class="text-caption font-weight-medium">
             {{ `${category.name}` }}
           </span>
@@ -10,7 +10,6 @@
             variant="text"
             color="red"
             rounded="xl"
-            size="small"
             icon="mdi-close-circle-outline"
             @click="removeCategory(category.id)"
           />
@@ -24,7 +23,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col class="pb-0">
+        <v-col>
           <v-slider
             v-model="category.budget"
             :thumb-size="16"
@@ -39,34 +38,15 @@
           </v-slider>
         </v-col>
       </v-row>
-
-      <v-row>
-        <v-col class="d-flex justify-end align-center pt-0 pb-0">
-          <v-btn
-            size="small"
-            variant="text"
-            rounded="xl"
-            :icon="openedRow[category.id] ? 'mdi-chevron-up' : 'mdi-chevron-down'"
-            @click="openedRow[category.id] = !openedRow[category.id]"
-          />
-        </v-col>
-      </v-row>
-      <v-row v-if="openedRow[category.id]">
-        <v-col>
-          <SecondaryCategoryBudget
-            v-model="category.children"
-            :totalBudget="getBudgetPercentageAmount(category.budget)"
-          />
-        </v-col>
-      </v-row>
     </v-card>
 
     <v-row>
       <v-col cols="12" md="4">
-        <PrimaryCategorySelector
+        <SubCategorySelector
           v-model="selected"
+          :categoryId="categoryId"
           :ignoreOptions="categories?.map(category => category.id)"
-          label="Adicionar Categoria Principal"
+          label="Adicionar Subcategoria"
           @update:modelValue="addCategory"
         />
       </v-col>
@@ -77,8 +57,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue';
 import { useMonetaryValueHandler } from '@/composables/useMonetaryValueHandler';
-import PrimaryCategorySelector from '@/components/core/PrimaryCategorySelector.vue';
-import SecondaryCategoryBudget from './SecondaryCategoryBudget.vue';
+import SubCategorySelector from '@/components/core/SubCategorySelector.vue';
 
 const { userMonetaryValueFormatter } = useMonetaryValueHandler();
 
@@ -91,13 +70,16 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  categoryId: {
+    type: Number,
+    default: null,
+  },
 });
 
 const emit = defineEmits(['update:modelValue']);
 
 const categories = ref(props.modelValue);
 const selected = ref(null);
-const openedRow = ref({});
 
 const addCategory = (id, category) => {
   category.budget = 0;
@@ -127,9 +109,9 @@ const getBudgetPercentageAmount = percentage =>
   !percentage ? 0 : (percentage / 100) * props.totalBudget;
 
 watch(
-  () => props.modelValue,
+  () => categories.value,
   value => {
-    categories.value = value;
+    emit('update:modelValue', value);
   },
   { deep: true }
 );

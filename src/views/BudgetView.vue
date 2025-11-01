@@ -17,7 +17,7 @@
 
           <v-row>
             <v-col>
-              <PrimaryCategoryBudget
+              <ClassificationBudget
                 v-model="budget.categories"
                 :totalBudget="forecastIncomeAmount"
               />
@@ -54,7 +54,7 @@ import { axiosHelper } from '@/helper/axios.helper';
 import { useSnackbarStore } from '@/store/snackbar.store';
 import { useDateHandler } from '@/composables/useDateHandler';
 import YearMonthPicker from '@/components/generics/YearMonthPicker.vue';
-import PrimaryCategoryBudget from '@/components/budget/PrimaryCategoryBudget.vue';
+import ClassificationBudget from '@/components/budget/ClassificationBudget.vue';
 import dayjs from 'dayjs';
 
 const { userMonetaryValueFormatter } = useMonetaryValueHandler();
