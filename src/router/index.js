@@ -71,19 +71,19 @@ router.beforeEach((to, from, next) => {
   const authStore = useAuthStore();
   const costCenterStore = useCostCenterStore();
   const isPublicRoute = to.meta.isPublic || publicRoutes.includes(to.path);
-  const requiresAuth = to.meta.requiresAuth || !isPublicRoute;
-  const requiresCostCenter = to.meta.requiresCostCenter;
 
-  if (isPublicRoute) {
-    return next();
+  if (to.name === 'login' && authStore.isLoggedIn) {
+    return next({ name: 'dashboard' });
   }
 
-  if (requiresAuth && !authStore.isLoggedIn) {
+  if (isPublicRoute) return next();
+
+  if (!authStore.isLoggedIn) {
     authStore.returnUrl = to.path;
     return next({ name: 'login' });
   }
 
-  if (requiresCostCenter && !costCenterStore.isCostCenterSelected) {
+  if (to.meta.requiresCostCenter && !costCenterStore.isCostCenterSelected) {
     authStore.returnUrl = to.path;
     return next({ name: 'cost-center-selection' });
   }
