@@ -39,6 +39,11 @@ const routes = [
         component: () => import('@/views/CashFlowView.vue'),
       },
       {
+        path: '/transaction-form/:id?',
+        name: 'transaction-form',
+        component: () => import('@/views/TransactionFormView.vue'),
+      },
+      {
         path: '/pivot-table',
         name: 'pivot-table',
         component: () => import('@/views/PivotTableView.vue'),

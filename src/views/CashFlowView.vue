@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row v-if="!showForm">
+    <v-row>
       <v-col cols="12" class="pt-0">
         <v-row class="mt-0">
           <v-col>
@@ -369,8 +369,6 @@
       </v-col>
     </v-row>
 
-    <TransactionForm v-if="showForm" :model-value="selectedTransaction" @close="hideForm" />
-
     <CashFlowFilter :model-value="showFilter" @applyFilters="applyFilters" @cancel="resetFilters" />
 
     <LoaderDialog :model-value="loading" />
@@ -383,7 +381,6 @@
     />
 
     <v-btn
-      v-if="!showForm"
       @click.prevent="showAddForm()"
       position="fixed"
       location="bottom right"
@@ -398,6 +395,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useDisplay } from 'vuetify';
+import { useRouter } from 'vue-router';
 import { axiosHelper } from '@/helper/axios.helper';
 import { useDateHandler } from '@/composables/useDateHandler';
 import { useMonetaryValueHandler } from '@/composables/useMonetaryValueHandler';
@@ -406,7 +404,6 @@ import LoaderDialog from '@/components/generics/LoaderDialog.vue';
 import LoaderCircular from '@/components/generics/LoaderCircular.vue';
 import ConfirmationDialog from '@/components/generics/ConfirmationDialog.vue';
 import CashFlowFilter from '@/components/cash_flow/CashFlowFilter.vue';
-import TransactionForm from '@/components/cash_flow/TransactionForm.vue';
 import { TRANSACTION_TYPE } from '@/enums/transaction_type';
 import { PAYMENT_STATUS } from '@/enums/payment_status';
 
@@ -414,17 +411,16 @@ const { userDateFormatter, apiDateFormatter } = useDateHandler();
 const { userMonetaryValueFormatter } = useMonetaryValueHandler();
 const snackbarStore = useSnackbarStore();
 const { mdAndUp } = useDisplay();
+const router = useRouter();
 const transactions = ref([]);
 const summaryTotals = ref({});
 const filters = ref(null);
-const showForm = ref(false);
 const showFilter = ref(false);
 const showSummaryTotals = ref(true);
 const loading = ref(false);
 const loadingToogleReconciled = ref([]);
 const loadingMarkAsPaid = ref([]);
 const showCardsDetail = ref([]);
-const selectedTransaction = ref(null);
 const showConfirmation = ref(false);
 const deletedTransactionId = ref(null);
 
@@ -557,17 +553,10 @@ const markAsPaid = async id => {
 
 // TODO UNIFICAR METODOS
 const showAddForm = () => {
-  selectedTransaction.value = null;
-  showForm.value = true;
+  router.push({ name: 'transaction-form' });
 };
 
 const showEditForm = item => {
-  selectedTransaction.value = item;
-  showForm.value = true;
-};
-
-const hideForm = () => {
-  showForm.value = false;
-  getAllTransactions();
+  router.push({ name: 'transaction-form', params: { id: item.id } });
 };
 </script>

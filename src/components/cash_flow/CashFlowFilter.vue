@@ -158,6 +158,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useDateHandler } from '@/composables/useDateHandler';
+import { useCashFlowFilterStore } from '@/store/cash_flow_filter.store';
 import TransactionTypeSelector from '@/components/core/TransactionTypeSelector.vue';
 import DateRangePicker from '@/components/generics/DateRangePicker.vue';
 import PaymentTypeSelectorMultiple from '@/components/core/PaymentTypeSelectorMultiple.vue';
@@ -172,27 +173,17 @@ const props = defineProps({
     required: true,
   },
 });
-const emptyFilterObject = {
-  type: [],
-  paymentTypeIds: [],
-  paymentStatuses: [],
-  dueDateRange: [],
-  paymentDateRange: [],
-  purchaseDateRange: [],
-  amountMin: '',
-  amountMax: '',
-  classificationId: null,
-  categoryId: null,
-  subCategoryId: null,
-  description: '',
-  reconciled: 1,
-  notReconciled: 1,
-};
-const filters = ref(emptyFilterObject);
+
+const cashFlowFilterStore = useCashFlowFilterStore();
 
 const emit = defineEmits(['update:modelValue', 'applyFilters', 'cancel']);
 
 const { apiDateFormatter, getMonthInitialEndDate } = useDateHandler();
+
+const filters = computed({
+  get: () => cashFlowFilterStore.getFilters,
+  set: value => cashFlowFilterStore.setFilters(value),
+});
 
 const isOpen = computed({
   get: () => props.modelValue,
@@ -200,7 +191,9 @@ const isOpen = computed({
 });
 
 const applyFilters = () => {
-  emit('applyFilters', prepareFiltersBeforeApply());
+  const preparedFilters = prepareFiltersBeforeApply();
+  cashFlowFilterStore.setFilters(filters.value);
+  emit('applyFilters', preparedFilters);
   isOpen.value = false;
 };
 
@@ -227,7 +220,9 @@ const cancel = () => {
 };
 
 onMounted(() => {
-  filters.value.dueDateRange = getMonthInitialEndDate(new Date());
+  if (!cashFlowFilterStore.hasStoredFilters) {
+    cashFlowFilterStore.updateFilter('dueDateRange', getMonthInitialEndDate(new Date()));
+  }
   applyFilters();
 });
 </script>
