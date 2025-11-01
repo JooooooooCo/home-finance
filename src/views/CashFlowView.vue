@@ -152,7 +152,12 @@
           </v-col>
         </v-row>
 
-        <v-row v-for="transaction in transactions" :key="transaction.id" class="mt-0">
+        <v-row
+          v-if="transactions.length > 0"
+          v-for="transaction in transactions"
+          :key="transaction.id"
+          class="mt-0"
+        >
           <v-col>
             <v-card elevation="0">
               <template v-slot:prepend>
@@ -345,6 +350,22 @@
             </v-card>
           </v-col>
         </v-row>
+        <v-row class="mt-0">
+          <v-col>
+            <v-card elevation="0" height="100%" class="pt-16 pb-16">
+              <v-row>
+                <v-col class="d-flex justify-center">
+                  <v-icon size="128" color="orange-darken-2">mdi-text-box-search-outline</v-icon>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col class="d-flex justify-center">
+                  <span> Nenhum resultado </span>
+                </v-col>
+              </v-row>
+            </v-card>
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
 
@@ -427,6 +448,8 @@ const getAllTransactions = async () => {
   if (res.error) {
     snackbarStore.showSnackbar(res.message);
     showSummaryTotals.value = false;
+    transactions.value = [];
+    summaryTotals.value = {};
     return;
   }
 
