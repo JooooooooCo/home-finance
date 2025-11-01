@@ -56,11 +56,6 @@
             prepend-icon="mdi-cog"
             title="Payment Types"
           ></v-list-item>
-          <v-list-item
-            :to="{ name: 'settings-payment-status-type' }"
-            prepend-icon="mdi-cog"
-            title="Payment Status Types"
-          ></v-list-item>
         </v-list-group>
         <v-list-item
           :to="{ name: 'cost-center' }"

@@ -3,20 +3,18 @@
     <v-card>
       <v-col cols="12" class="pt-16">
         <v-row class="pt-4">
-          <v-col cols="12" class="d-flex justify-center">
-            <TransactionTypeSelector :multiple="true" v-model="filters.type" />
+          <v-col cols="12" sm="6" class="d-flex justify-center">
+            <TransactionTypeSelector :multipleChoice="true" v-model="filters.type" />
+          </v-col>
+
+          <v-col cols="12" sm="6" class="d-flex justify-center">
+            <PaymentStatusSelector :multipleChoice="true" v-model="filters.paymentStatuses" />
           </v-col>
         </v-row>
 
         <v-row>
           <v-col cols="12">
             <PaymentTypeSelectorMultiple v-model="filters.paymentTypeIds" />
-          </v-col>
-        </v-row>
-
-        <v-row>
-          <v-col cols="12">
-            <PaymentStatusTypeSelectorMultiple v-model="filters.paymentStatusIds" />
           </v-col>
         </v-row>
 
@@ -163,11 +161,11 @@ import { useDateHandler } from '@/composables/useDateHandler';
 import TransactionTypeSelector from '@/components/core/TransactionTypeSelector.vue';
 import DateRangePicker from '@/components/generics/DateRangePicker.vue';
 import PaymentTypeSelectorMultiple from '@/components/core/PaymentTypeSelectorMultiple.vue';
-import PaymentStatusTypeSelectorMultiple from '@/components/core/PaymentStatusTypeSelectorMultiple.vue';
+import PaymentStatusSelector from '@/components/core/PaymentStatusSelector.vue';
 import PrimaryCategorySelector from '@/components/core/PrimaryCategorySelector.vue';
 import SecondaryCategorySelector from '@/components/core/SecondaryCategorySelector.vue';
 import SpecificCategorySelector from '@/components/core/SpecificCategorySelector.vue';
-import { TRANSACTION_TYPE } from '@/enums/transaction_type';
+
 const props = defineProps({
   modelValue: {
     type: Boolean,
@@ -175,9 +173,9 @@ const props = defineProps({
   },
 });
 const emptyFilterObject = {
-  type: [TRANSACTION_TYPE.EXPENSE, TRANSACTION_TYPE.INCOME],
+  type: [],
   paymentTypeIds: [],
-  paymentStatusIds: [],
+  paymentStatuses: [],
   dueDateRange: [],
   paymentDateRange: [],
   purchaseDateRange: [],

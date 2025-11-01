@@ -8,19 +8,19 @@
     border
     divided
   >
-    <v-btn :value="TRANSACTION_TYPE.EXPENSE" color="red" prepend-icon="mdi-arrow-down">
-      Despesa
+    <v-btn :value="PAYMENT_STATUS.PENDING" color="orange-darken-2" prepend-icon="mdi-alert">
+      PENDENTE
     </v-btn>
 
-    <v-btn :value="TRANSACTION_TYPE.INCOME" color="teal darken-2" append-icon="mdi-arrow-up">
-      Receita
+    <v-btn :value="PAYMENT_STATUS.PAID" color="teal darken-2" prepend-icon="mdi-check">
+      PAGO
     </v-btn>
   </v-btn-toggle>
 </template>
 
 <script setup>
-import { TRANSACTION_TYPE } from '@/enums/transaction_type';
 import { ref, watch } from 'vue';
+import { PAYMENT_STATUS } from '@/enums/payment_status';
 
 const props = defineProps({
   modelValue: {

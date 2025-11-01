@@ -9,35 +9,15 @@
         </v-row>
 
         <v-row dense>
-          <v-col :cols="mdAndUp ? 4 : 12">
+          <v-col cols="12" md="4">
             <PaymentTypeSelector
               v-model="form.payment_type_id"
               @update:modelValue="nextField('payment_type')"
             />
           </v-col>
 
-          <v-col :cols="mdAndUp ? 3 : 12">
-            <PaymentStatusTypeSelector v-model="form.payment_status_id" />
-          </v-col>
-
-          <v-col v-if="mdAndUp" cols="2" offset="1">
-            <v-switch
-              label="Real"
-              color="teal darken-2"
-              :true-value="1"
-              :false-value="0"
-              v-model="form.is_real"
-            />
-          </v-col>
-
-          <v-col v-if="mdAndUp" cols="2">
-            <v-switch
-              label="Conciliado"
-              color="teal darken-2"
-              :true-value="1"
-              :false-value="0"
-              v-model="form.is_reconciled"
-            />
+          <v-col cols="12" md="4" class="d-flex justify-center mb-3">
+            <PaymentStatusSelector v-model="form.status" />
           </v-col>
         </v-row>
 
@@ -198,7 +178,7 @@
           </v-col>
         </v-row>
 
-        <v-row dense v-if="!mdAndUp">
+        <v-row dense>
           <v-col cols="6">
             <v-switch
               label="Real"
@@ -250,16 +230,15 @@ import LoaderDialog from '@/components/generics/LoaderDialog.vue';
 import NumberStepperInput from '@/components/generics/NumberStepperInput.vue';
 import TransactionTypeSelector from '@/components/core/TransactionTypeSelector.vue';
 import PaymentTypeSelector from '@/components/core/PaymentTypeSelector.vue';
-import PaymentStatusTypeSelector from '@/components/core/PaymentStatusTypeSelector.vue';
+import PaymentStatusSelector from '@/components/core/PaymentStatusSelector.vue';
 import PrimaryCategorySelector from '@/components/core/PrimaryCategorySelector.vue';
 import SecondaryCategorySelector from '@/components/core/SecondaryCategorySelector.vue';
 import SpecificCategorySelector from '@/components/core/SpecificCategorySelector.vue';
 import { TRANSACTION_TYPE } from '@/enums/transaction_type';
+import { PAYMENT_STATUS } from '@/enums/payment_status';
 
 // TODO: refact to use consts or params from db config
 const CASH_PAYMENT_TYPE_IDS = [1, 5, 6, 7, 8];
-const PAID_PAYMENT_STATUS_ID = 1;
-const PENDING_PAYMENT_STATUS_ID = 2;
 
 const props = defineProps({
   modelValue: Object,
@@ -276,7 +255,7 @@ const currentDate = dayjs();
 const defaultEmptyForm = {
   type: TRANSACTION_TYPE.EXPENSE,
   payment_type_id: null,
-  payment_status_id: null,
+  status: PAYMENT_STATUS.PENDING,
   purchase_date: currentDate.format('YYYY-MM-DD'),
   due_date: '',
   payment_date: '',
@@ -313,11 +292,10 @@ const validateForm = () => {
   if (!form.value.type)
     return snackbarStore.showSnackbar('Informe o tipo de transação (receita ou despesa)');
   if (!form.value.payment_type_id) return snackbarStore.showSnackbar('Informe o modo de pagamento');
-  if (!form.value.payment_status_id)
-    return snackbarStore.showSnackbar('Informe a situação de pagamento');
+  if (!form.value.status) return snackbarStore.showSnackbar('Informe a situação de pagamento');
   if (!form.value.purchase_date) return snackbarStore.showSnackbar('Informe a data de compra');
   if (!form.value.due_date) return snackbarStore.showSnackbar('Informe a data de vencimento');
-  if (!form.value.payment_date && form.value.payment_status_id == 1)
+  if (!form.value.payment_date && form.value.status == PAYMENT_STATUS.PAID)
     return snackbarStore.showSnackbar('Informe a data de pagamento');
   if (!form.value.description) return snackbarStore.showSnackbar('Informe a descrição');
   if (!form.value.amount && form.value.amount != 0)
@@ -455,13 +433,13 @@ const autoFill = () => {
 };
 
 const autoFillCashPayment = () => {
-  form.value.payment_status_id = PAID_PAYMENT_STATUS_ID;
+  form.value.status = PAYMENT_STATUS.PAID;
   form.value.due_date = form.value.purchase_date;
   form.value.payment_date = form.value.purchase_date;
 };
 
 const autoFillCreditPayment = () => {
-  form.value.payment_status_id = PENDING_PAYMENT_STATUS_ID;
+  form.value.status = PAYMENT_STATUS.PENDING;
   form.value.payment_date = null;
   const purchase = form.value.purchase_date ? dayjs(form.value.purchase_date, 'YYYY-MM-DD') : null;
 
