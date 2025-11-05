@@ -381,7 +381,7 @@
     />
 
     <v-btn
-      @click.prevent="showAddForm()"
+      @click.prevent="showAddFormAI()"
       position="fixed"
       location="bottom right"
       class="ma-4"
@@ -552,8 +552,8 @@ const markAsPaid = async id => {
 };
 
 // TODO UNIFICAR METODOS
-const showAddForm = () => {
-  router.push({ name: 'transaction-form' });
+const showAddFormAI = () => {
+  router.push({ name: 'transaction-form-ai' });
 };
 
 const showEditForm = item => {

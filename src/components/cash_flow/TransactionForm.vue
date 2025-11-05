@@ -1,5 +1,16 @@
 <template>
   <v-card elevation="0">
+    <v-card-title v-if="isFromAI">
+      <v-btn
+        icon="mdi-arrow-left"
+        variant="text"
+        color="teal darken-2"
+        @click="goBackToAI"
+        class="mr-2"
+      />
+      <v-icon icon="mdi-robot-happy-outline" class="mr-2" />
+      Revisar Transação Sugerida pela IA
+    </v-card-title>
     <v-form @submit.prevent="saveTransaction">
       <v-card-text class="pb-16">
         <v-row dense>
@@ -222,6 +233,7 @@
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue';
 import { useDisplay } from 'vuetify';
+import { useRouter } from 'vue-router';
 import dayjs from 'dayjs';
 import { axiosHelper } from '@/helper/axios.helper';
 import { useSnackbarStore } from '@/store/snackbar.store';
@@ -246,10 +258,12 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'submit', 'close']);
 
+const router = useRouter();
 const loading = ref(false);
 const generateBatchTransactionsConfirmation = ref(false);
 const snackbarStore = useSnackbarStore();
 const { mdAndUp } = useDisplay();
+const isFromAI = ref(false);
 
 const currentDate = dayjs();
 const defaultEmptyForm = {
@@ -285,6 +299,11 @@ watch(
   () => props.modelValue,
   val => {
     form.value = { ...val };
+    autoFill();
+    isFromAI.value = !!localStorage.getItem('suggestedTransaction');
+    if (isFromAI.value && form.value.total_installments > 1) {
+      generateBatchTransactionsConfirmation.value = true;
+    }
   }
 );
 
@@ -463,6 +482,10 @@ const autoFillCreditPayment = () => {
 };
 
 const close = () => emit('close');
+
+const goBackToAI = () => {
+  router.push({ name: 'transaction-form-ai' });
+};
 
 const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 

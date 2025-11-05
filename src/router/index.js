@@ -44,6 +44,11 @@ const routes = [
         component: () => import('@/views/TransactionFormView.vue'),
       },
       {
+        path: '/transaction-form-ai',
+        name: 'transaction-form-ai',
+        component: () => import('@/views/TransactionFormAIView.vue'),
+      },
+      {
         path: '/pivot-table',
         name: 'pivot-table',
         component: () => import('@/views/PivotTableView.vue'),

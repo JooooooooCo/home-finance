@@ -20,6 +20,12 @@ onMounted(async () => {
   const id = route.params.id;
   if (id) {
     await fetchTransaction(id);
+  } else {
+    const suggestedTransaction = localStorage.getItem('suggestedTransaction');
+    if (suggestedTransaction) {
+      const parsedTransaction = JSON.parse(suggestedTransaction);
+      transaction.value = parsedTransaction;
+    }
   }
 });
 
@@ -37,10 +43,17 @@ const fetchTransaction = async id => {
 };
 
 const onSubmit = () => {
+  cleanStoredIaSuggestions();
   router.push({ name: 'cash-flow' });
 };
 
 const onClose = () => {
+  cleanStoredIaSuggestions();
   router.push({ name: 'cash-flow' });
+};
+
+const cleanStoredIaSuggestions = () => {
+  localStorage.removeItem('suggestedTransaction');
+  localStorage.removeItem('aiDescription');
 };
 </script>
