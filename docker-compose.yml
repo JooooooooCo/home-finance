@@ -3,6 +3,7 @@ version: "3.9"
 services:
   home_finance:
     container_name: home_finance
+    mem_limit: 256m
     build:
       context: ./
       dockerfile: ./Dockerfile
