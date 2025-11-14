@@ -44,7 +44,7 @@ const fetchTransaction = async id => {
 
 const onSubmit = () => {
   cleanStoredIaSuggestions();
-  router.push({ name: 'cash-flow' });
+  router.push({ name: 'transaction-form-ai' });
 };
 
 const onClose = () => {

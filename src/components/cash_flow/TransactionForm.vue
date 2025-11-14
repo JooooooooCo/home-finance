@@ -11,6 +11,9 @@
       <v-icon icon="mdi-robot-happy-outline" class="mr-2" />
       Revisar Transação Sugerida pela IA
     </v-card-title>
+    <v-card-title v-else-if="isEdit"> Editar Transação </v-card-title>
+    <v-card-title v-else> Adicionar Transação </v-card-title>
+
     <v-form @submit.prevent="saveTransaction">
       <v-card-text class="pb-16">
         <v-row dense>
@@ -381,9 +384,14 @@ const saveTransaction = async () => {
   snackbarStore.showSnackbar(res.message, true);
   if (isEdit) {
     close();
-  } else {
-    resetFormKeepingLastPurchaseDate();
+    return;
   }
+
+  if (isFromAI) {
+    submit();
+  }
+
+  resetFormKeepingLastPurchaseDate();
 };
 
 const createTransaction = async () => {
@@ -482,6 +490,8 @@ const autoFillCreditPayment = () => {
 };
 
 const close = () => emit('close');
+
+const submit = () => emit('submit');
 
 const goBackToAI = () => {
   router.push({ name: 'transaction-form-ai' });
