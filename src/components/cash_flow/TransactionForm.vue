@@ -302,10 +302,13 @@ watch(
   () => props.modelValue,
   val => {
     form.value = { ...val };
-    autoFill();
     isFromAI.value = !!localStorage.getItem('suggestedTransaction');
-    if (isFromAI.value && form.value.total_installments > 1) {
-      generateBatchTransactionsConfirmation.value = true;
+    if (isFromAI.value) {
+      autoFill();
+
+      if (form.value.total_installments > 1) {
+        generateBatchTransactionsConfirmation.value = true;
+      }
     }
   }
 );
