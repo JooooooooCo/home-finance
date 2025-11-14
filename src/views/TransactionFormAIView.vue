@@ -106,6 +106,8 @@ const processTransactionWithAI = async () => {
   }
 
   suggestedTransaction.value = res.data;
+  suggestedTransaction.value.type = transactionType.value;
+
   localStorage.setItem('suggestedTransaction', JSON.stringify(suggestedTransaction.value));
   localStorage.setItem('aiDescription', description.value);
   router.push({ name: 'transaction-form' });
