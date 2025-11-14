@@ -10,6 +10,11 @@
           <v-card-text>
             <v-row dense>
               <v-col cols="12">
+                <TransactionTypeSelector v-model="transactionType" />
+              </v-col>
+            </v-row>
+            <v-row dense>
+              <v-col cols="12">
                 <v-textarea
                   label="Descreva a transação"
                   v-model="description"
@@ -69,6 +74,8 @@ import { useRouter } from 'vue-router';
 import { axiosHelper } from '@/helper/axios.helper';
 import { useSnackbarStore } from '@/store/snackbar.store';
 import LoaderDialog from '@/components/generics/LoaderDialog.vue';
+import TransactionTypeSelector from '@/components/core/TransactionTypeSelector.vue';
+import { TRANSACTION_TYPE } from '@/enums/transaction_type';
 
 const router = useRouter();
 const snackbarStore = useSnackbarStore();
@@ -76,6 +83,7 @@ const snackbarStore = useSnackbarStore();
 const description = ref('');
 const loading = ref(false);
 const suggestedTransaction = ref(null);
+const transactionType = ref(TRANSACTION_TYPE.EXPENSE);
 
 const savedDescription = localStorage.getItem('aiDescription');
 if (savedDescription) {
@@ -87,7 +95,7 @@ const processTransactionWithAI = async () => {
 
   loading.value = true;
   const url = '/cashflow/transaction/ai-suggest';
-  const body = { description: description.value };
+  const body = { description: description.value, transactionType: transactionType.value };
 
   const res = await axiosHelper.post(url, body);
   loading.value = false;
