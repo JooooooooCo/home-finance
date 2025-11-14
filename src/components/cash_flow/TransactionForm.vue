@@ -369,11 +369,14 @@ const generateBatchTransactions = () => {
   return installments;
 };
 
+const isEdit = computed(() => {
+  return form.value.id ? true : false;
+});
+
 const saveTransaction = async () => {
   if (!validateForm()) return;
-  const isEdit = form.value.id;
   loading.value = true;
-  const res = isEdit ? await editTransaction() : await createTransaction();
+  const res = isEdit.value ? await editTransaction() : await createTransaction();
   loading.value = false;
 
   if (res.error) {
@@ -382,7 +385,7 @@ const saveTransaction = async () => {
   }
 
   snackbarStore.showSnackbar(res.message, true);
-  if (isEdit) {
+  if (isEdit.value) {
     close();
     return;
   }
