@@ -480,14 +480,9 @@ const autoFillCreditPayment = () => {
 
   const day = purchase.date();
 
-  if (day >= 1 && day <= 7) {
+  if (day <= 9) {
     const due = purchase.date(15);
     form.value.due_date = due.format('YYYY-MM-DD');
-    return;
-  }
-
-  if (day >= 8 && day <= 10) {
-    form.value.due_date = null;
     return;
   }
 
