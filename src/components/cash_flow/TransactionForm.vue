@@ -474,7 +474,7 @@ const autoFillCreditPayment = () => {
   const purchase = form.value.purchase_date ? dayjs(form.value.purchase_date, 'YYYY-MM-DD') : null;
 
   if (!purchase || !purchase.isValid()) {
-    form.value.due_date = null;
+    form.value.due_date = '';
     return;
   }
 
