@@ -8,8 +8,8 @@
         @click="goBackToAI"
         class="mr-2"
       />
-      <v-icon icon="mdi-robot-happy-outline" class="mr-2" />
-      Revisar Transação Sugerida pela IA
+      <v-icon icon="mdi-text-box-search-outline" class="mr-2" />
+      Revisar Transação
     </v-card-title>
     <v-card-title v-else-if="isEdit"> Editar Transação </v-card-title>
     <v-card-title v-else> Adicionar Transação </v-card-title>
