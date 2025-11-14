@@ -26,7 +26,6 @@
                 <v-textarea
                   label="Descreva a transação"
                   v-model="description"
-                  placeholder="O que foi? Quanto? Quando? Modo de pagamento? Ex: Paguei R$ 50,00 no cartão de crédito pela compra de um café na padaria."
                   rows="4"
                   variant="outlined"
                   flat
@@ -80,7 +79,7 @@ const router = useRouter();
 const snackbarStore = useSnackbarStore();
 const currentDate = dayjs();
 
-const description = ref('');
+const description = ref('O que?\nQuanto?\nFoi parcelado?\n');
 const loading = ref(false);
 const suggestedTransaction = ref(null);
 const transactionType = ref(TRANSACTION_TYPE.EXPENSE);
