@@ -3,10 +3,7 @@
     <v-row>
       <v-col cols="12" class="pb-0">
         <v-card elevation="0">
-          <v-card-title>
-            <v-icon icon="mdi-plus" class="mr-2" />
-            Cadastrar Transação
-          </v-card-title>
+          <v-card-title>Cadastrar Transação</v-card-title>
           <v-card-text>
             <v-row dense>
               <v-col cols="12" class="d-flex justify-center mb-3">

@@ -1,18 +1,17 @@
 <template>
   <v-card elevation="0">
-    <v-card-title v-if="isFromAI">
+    <v-card-title v-if="isEdit"> Editar Transação </v-card-title>
+    <v-card-title v-else>
       <v-btn
+        v-if="isFromAI"
         icon="mdi-arrow-left"
         variant="text"
         color="teal darken-2"
         @click="goBackToAI"
         class="mr-2"
       />
-      <v-icon icon="mdi-text-box-search-outline" class="mr-2" />
       Revisar Transação
     </v-card-title>
-    <v-card-title v-else-if="isEdit"> Editar Transação </v-card-title>
-    <v-card-title v-else> Adicionar Transação </v-card-title>
 
     <v-form @submit.prevent="saveTransaction">
       <v-card-text class="pb-16">
