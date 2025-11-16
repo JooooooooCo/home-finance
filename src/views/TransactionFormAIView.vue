@@ -116,10 +116,6 @@ const processTransactionWithAI = async () => {
   router.push({ name: 'transaction-form' });
 };
 
-const goToManualForm = () => {
-  router.push({ name: 'transaction-form' });
-};
-
 const cancel = () => {
   cleanStoredIaSuggestions();
   router.push({ name: 'cash-flow' });
