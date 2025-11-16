@@ -61,7 +61,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import dayjs from 'dayjs';
 import { axiosHelper } from '@/helper/axios.helper';
@@ -113,6 +113,8 @@ const processTransactionWithAI = async () => {
 
   localStorage.setItem('suggestedTransaction', JSON.stringify(suggestedTransaction.value));
   localStorage.setItem('aiDescription', description.value);
+  const ONE_MINUTE = 60000;
+  setLocalStoreWithExpiry('lastPurchaseDate', purchaseDate.value, ONE_MINUTE);
   router.push({ name: 'transaction-form' });
 };
 
@@ -125,4 +127,39 @@ const cleanStoredIaSuggestions = () => {
   localStorage.removeItem('suggestedTransaction');
   localStorage.removeItem('aiDescription');
 };
+
+const setLocalStoreWithExpiry = (key, value, ttl) => {
+  const expiryTime = dayjs().add(ttl, 'millisecond').valueOf();
+
+  const item = {
+    value: value,
+    expiry: expiryTime,
+  };
+
+  localStorage.setItem(key, JSON.stringify(item));
+};
+
+function getLocalStoreWithExpiry(key) {
+  const itemStr = localStorage.getItem(key);
+
+  if (!itemStr) {
+    return null;
+  }
+
+  const item = JSON.parse(itemStr);
+
+  if (dayjs().isAfter(item.expiry)) {
+    localStorage.removeItem(key);
+    return null;
+  }
+
+  return item.value;
+}
+
+onMounted(() => {
+  const lastPurchaseDate = getLocalStoreWithExpiry('lastPurchaseDate');
+  if (lastPurchaseDate) {
+    purchaseDate.value = lastPurchaseDate;
+  }
+});
 </script>
