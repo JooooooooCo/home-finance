@@ -103,6 +103,8 @@ const processTransactionWithAI = async () => {
 
   if (res.error) {
     snackbarStore.showSnackbar(res.message);
+    cleanStoredIaSuggestions();
+    router.push({ name: 'transaction-form' });
     return;
   }
 
@@ -120,11 +122,15 @@ const processTransactionWithAI = async () => {
 
 const cancel = () => {
   cleanStoredIaSuggestions();
+  cleanStoredUserDescription();
   router.push({ name: 'cash-flow' });
 };
 
 const cleanStoredIaSuggestions = () => {
   localStorage.removeItem('suggestedTransaction');
+};
+
+const cleanStoredUserDescription = () => {
   localStorage.removeItem('aiDescription');
 };
 
